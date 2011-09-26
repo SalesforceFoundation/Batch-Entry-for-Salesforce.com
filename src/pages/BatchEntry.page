@@ -1,0 +1,230 @@
+<!-- 
+Copyright (c) 2011, salesforce.com foundation, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice, 
+    this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+    * Neither the name of the salesforce.com foundation. nor the names of its contributors 
+    may be used to endorse or promote products derived from this software 
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+OF THE POSSIBILITY OF SUCH DAMAGE.
+
+Batch Entry Visualforce page 
+by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and 
+-->
+<apex:page standardController="Batch__c" extensions="CTRL_BatchEntry">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" />
+    <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/ui-lightness/jquery-ui.css" rel="Stylesheet" />  
+    	
+    <script type="text/javascript" >
+    
+        var j$ = jQuery.noConflict();
+        
+        function getSetUp() {
+            var formId = "{!$Component.recInfo}";
+            var nextIndex;
+
+//          j$(".btnSave").focus( function(event) {j$(".fadeMe").fadeIn();});
+            j$(".formClass").fadeTo('fast', 1);
+            
+            j$(".editLink, .delLink").click( function(event) {
+                j$(".formClass").fadeTo('fast', .2);
+            });
+            
+            j$(".batchName, .batchStatus").change( function(event) {
+                j$(".formClass").fadeTo('fast', .2);
+            });
+
+            j$(".btnSave").click( function(event) {
+                j$(".formClass").fadeTo('fast', .2);
+                saveDefaults();
+            }); 
+            
+            // Turn checkboxes into 'pushpin' buttons
+            j$(".defaultCheckbox").button();
+            
+            // Tab Index
+            j$(".sticky input, .sticky select").each(function(i, theInput) {
+                if (theInput.className.indexOf('defaultCheckbox') == -1) { 
+                    theInput.setAttribute('tabIndex', i+1);
+                    nextIndex = i+2;
+                    if (i==0) theInput.focus();
+                }
+            });
+            j$(".btnSave").attr('tabIndex', nextIndex);
+
+            // Adjust 'pushpin' placement to accomodate required field divs
+            j$("div.requiredInput").each(function(i, requiredInputDiv) {
+                var theInput = j$(this).next("input");
+                if (j$(this).children(".errorMsg").length > 0) {
+                    theInput.insertBefore(j$(this).children(".errorMsg")); 
+                } else {
+                    theInput.appendTo(j$(this));
+                }
+                /*    theInput.insertAfter(j$(this).children("input")); 
+                } else if (j$(this).children("input").length > 0) {
+                    theInput.insertAfter(j$(this).children("input"));             
+                } else if (j$(this).children("span").length > 0) {
+                   theInput.insertAfter(j$(this).children("span"));             
+                } else if (j$(this).children("select").length > 0) {
+                   theInput.insertAfter(j$(this).children("select"));             
+                }*/
+                var theLabel = j$(this).next("label");
+                theLabel.insertAfter(theInput);
+                theLabel.css( {"left":"3px"} ); // fine-tuning
+            });
+            
+/*          j$(window).unload(function(){
+				// save the batch
+				saveBatch();
+			});                        
+          
+            j$(function() {
+                function log( message ) {
+                    j$( "<div/>" ).text( message ).prependTo( "#log" );
+                    j$( "#log" ).attr( "scrollTop", 0 );
+                }
+        
+                j$( "#birds" ).autocomplete({
+                    source: "search.php",
+                    minLength: 2,
+                    select: function( event, ui ) {
+                        log( ui.item ?
+                            "Selected: " + ui.item.value + " aka " + ui.item.id :
+                            "Nothing selected, input was " + this.value );
+                    }
+                });
+            });
+    */  
+        }
+        
+        j$(document).ready(function(){
+            getSetUp();
+        });
+        
+        var defaultValues = new Object;
+        function saveDefaults() {
+            j$(".defaultCheckbox").each( function(i, theCheckbox) {
+                fieldClass = theCheckbox.id;
+                j$("."+fieldClass).each( function(i, theInput) {
+                    if (!theCheckbox.checked || !theInput.value || theInput.value=='') {
+                        delete defaultValues[fieldClass];
+                    } else {
+                        defaultValues[fieldClass] = theInput.value;
+                    }
+                });
+                }
+            );  
+        }
+        
+
+        function resetDefaults() {
+            j$(".defaultCheckbox").each( function(i, theCheckbox) {
+                fieldClass = theCheckbox.id;
+                j$("."+fieldClass).each( function(i, theInput) {
+                    if (defaultValues[fieldClass]) {
+                        theInput.value = defaultValues[fieldClass];
+                        theCheckbox.checked = true;
+                    }
+                });
+                }
+            );  
+            getSetUp();         
+        }       
+    
+    </script>
+    <style>
+        .ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
+    </style>
+    
+    <apex:sectionHeader title="Batch Data Entry" subtitle="{!pageSubtitle}" />
+    <apex:messages />
+    
+    <apex:form >
+    	<apex:pageBlock rendered="{!displaySettingsSection}">
+    		<apex:outputText value="Select the object that you want to batch enter: "/>    		
+    		<apex:selectList id="objectSelect" value="{!objName}" size="1">
+            	<apex:selectOptions value="{!objectSettingsList}"/>
+        	</apex:selectList>
+        	&nbsp;
+        	<apex:commandButton value="Go" action="{!openBatchEnterPage}"/>   
+        	&nbsp;
+        	<apex:commandButton value="Edit Setting" action="{!editBatchSetting}"/>
+        	<br/><br/>
+        	<apex:outputText value="Can't find the setting for the object you want in the list above?"/>    	
+        	&nbsp;
+        	<apex:commandButton value="Create New Setting" action="{!createBatchSetting}"/><br/>
+        	<apex:pageBlockSection title="Help & FAQ" columns="1">
+        		<apex:outputText value="Help and FAQ goes here"/>
+        	</apex:pageBlockSection>
+    	</apex:pageBlock>
+    </apex:form>
+         
+    <apex:form styleClass="formClass" >	    
+	    <apex:pageBlock mode="edit" rendered="{!displayBatchSection}" >    
+	    <apex:actionFunction name="saveBatch" action="{!saveBatch}" />      
+	        <apex:pageBlockSection columns="2" title="Batch Summary" >
+	            <apex:inputField value="{!batch.Name}" style="width:200px;" styleClass="batchName" onChange="saveBatch();"/>             
+	            <apex:inputField value="{!batch.Batch_Status__c}" styleClass="batchStatus" onChange="saveBatch();"/>
+	        </apex:pageBlockSection>
+	    </apex:pageBlock>      
+	</apex:form>  
+	    
+	<apex:form styleClass="formClass" >        
+        <apex:pageBlock mode="edit" rendered="{!displayRecInfoSection}">
+            <apex:pageMessages />
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton value="Save" action="{!save}" styleclass="btnSave" rerender="recInfo,recList,itemCount" oncomplete="resetDefaults();" />
+                <apex:commandButton value="Clear" action="{!clear}" immediate="true" rerender="recInfo" />
+            </apex:pageBlockButtons>            
+            <apex:pageBlockSection title="Record Information" id="recInfo" columns="2" >
+                <apex:repeat var="field" value="{!entryFieldList}" >
+                <apex:pageblocksectionitem >
+                    <apex:outputLabel value="{!field.fieldLabel}" style="line-height:25px;" /> 
+                    <apex:outputPanel layout="block" styleclass="sticky" >
+                        <apex:inputField value="{!currentItem.sobj[field.fieldName]}" styleClass="sticky-{!field.fieldName}" />
+                        <input type="checkbox" id="sticky-{!field.fieldName}" class="defaultCheckbox" style="display:none;" />
+                        <label for="sticky-{!field.fieldName}" class="ui-icon ui-icon-pin-s" style="position:relative;top:6px;">Toggle</label>                                                
+                    </apex:outputPanel>
+                    </apex:pageblocksectionitem> 
+                </apex:repeat>
+            </apex:pageBlockSection>            
+        </apex:pageBlock>
+        
+        <apex:outputPanel id="recList">
+        <apex:pageBlock mode="detail" rendered="{!itemCount>0}" >
+            <apex:pageBlockSection columns="1" title="List ({!itemCount} records)">
+                <apex:pageBlockTable var="item" value="{!itemList}" width="90%" >                   
+                    <apex:column >
+                        <apex:facet name="header">Action</apex:facet>
+                        <apex:commandLink value="edit" action="{!item.editItem}" styleclass="editLink" 
+                        immediate="true" rerender="recInfo"  oncomplete="resetDefaults();" />&nbsp;|&nbsp;<apex:commandLink styleclass="delLink" value="del" action="{!item.deleteItem}" 
+                        immediate="true" rerender="recList,itemCount"  oncomplete="resetDefaults();" />
+                    </apex:column>
+                    <apex:repeat var="fieldname" value="{!listFieldList}" > 
+                        <apex:column value="{!item.sobj[fieldname]}" styleClass="{!fieldname}" />
+                    </apex:repeat>
+                </apex:pageBlockTable> 
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
+     
+</apex:page>

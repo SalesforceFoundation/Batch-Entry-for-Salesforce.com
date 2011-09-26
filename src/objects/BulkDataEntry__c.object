@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <description>Custom Setting to use with the Bulk Data Entry project</description>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Object_Default_Field_Set__c</fullName>
+        <externalId>false</externalId>
+        <label>Object Default Field Set</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object_Entry_Field_Set__c</fullName>
+        <description>What field set are you using for the data entry section of the page.</description>
+        <externalId>false</externalId>
+        <label>Object Entry Field Set</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object_List_Field_Set__c</fullName>
+        <description>The field set you are using for the list on the page.</description>
+        <externalId>false</externalId>
+        <label>Object List Field Set</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Save_Batch__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>As a batch do you want to save this batch.</description>
+        <externalId>false</externalId>
+        <label>Save Batch</label>
+        <type>Checkbox</type>
+    </fields>
+    <label>BulkDataEntry</label>
+</CustomObject>
