@@ -26,11 +26,10 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISE
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-
-/*
- * controller for the batch entry page.
- * authors: Team Kick Ass; Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore
- * date 04/27/2011
+/**
+* @author Team Kick Ass; Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore
+* @date 04/27/2011
+* @description controller for the batch entry page.
 */
 
 public with sharing class CTRL_BatchEntry {
