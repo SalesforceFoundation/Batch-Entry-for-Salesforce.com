@@ -11,6 +11,10 @@
         <name>ApexPage</name>
     </types>
     <types>
+        <members>*</members>
+        <name>CustomLabels</name>
+    </types>
+    <types>
         <members>Batch__c</members>
         <members>BulkDataEntry__c</members>
         <name>CustomObject</name>
