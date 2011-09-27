@@ -62,58 +62,69 @@ public with sharing class CTRL_BatchEntry {
 
                 objname = (batch.id != null) ? 
                         batch.object_name__c :
-                        ApexPages.currentPage().getParameters().get('obj');
-
-                BulkDataEntry bde = new BulkDataEntry(objname);                
+                        ApexPages.currentPage().getParameters().get('obj');            
+        }
+        
+        public void initializeBatchEntry(){
+        	
+            BulkDataEntry bde = new BulkDataEntry(objname);                
                 
-                if (!bde.getStatusMessage().contains(bde.getFailureMessage())){        		
-	            		objname = bde.getObjectName();
-	                	if(objname!=null) {
-	                        batchLookupField = bde.getBatchLookupFieldname();
-	                        displayBatchSection = bde.getSaveBatch();                       
-	                        displayRecInfoSection = true;
-	                        
-	                        String pluralName = DescribeHelper.getObjectDescribe(objname).getLabelPlural();
-	                        pageSubtitle = pluralName;
-	                                                
-	                        entryFieldList = new list<EntryField>();
-	                        for (string fn : bde.getEntryFieldList())
-	                                entryFieldList.add(new EntryField(objname, fn));
-	                        listFieldList = bde.getListFieldList();                   
-	                                        
-	                        itemList = new list<BatchItem>();
-	                
-	                        if (displayBatchSection) {
-	                                // create the batch if it is new
-	                                if (batch.id == null) {                                        
-	                                        batch.name = pluralName + ' ' + system.today().format();
-	                                        batch.object_name__c = objName;
-	                                        // we will insert this in the load event
-	                                } else {
-	                                        string q = bde.getQueryString();
-	                                        q += ' where ' + batchLookupField + ' = \'' + batch.id + '\'';
-	                                        for (sObject existing : database.query(q)) {
-	                                                itemList.add(new BatchItem(this, existing));
-	                                        }       
-	                                }
-	                        }
-	                        currentItem = new BatchItem(this);
-                        } else {
-                        	objectSettingsList = new List<SelectOption>();
-                        	for(BulkDataEntry__c b : bde.getBulkCustomSettingsList()) {
-                        		objectSettingsList.add(new SelectOption(b.Name, DescribeHelper.getObjectDescribe(b.Name).getLabel()));
-                        	}
-                        	pageSubtitle = 'Batch Data Entry Home';
-                        	displaySettingsSection = true;
-                        	displayBatchSection = false;
-                        	displayRecInfoSection = false;                        	
-                        }                       
-                } else {             
-                        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.Error, bde.getStatusMessage()));
-                        displaySettingsSection = false;
-                        displayBatchSection = false;
-                        displayRecInfoSection = false;
-                }                
+            if (!bde.getStatusMessage().contains(bde.getFailureMessage())){             
+                objname = bde.getObjectName();
+                    
+                if(objname!=null) {
+                    batchLookupField = bde.getBatchLookupFieldname();
+                    displayBatchSection = bde.getSaveBatch();                       
+                    displayRecInfoSection = true;
+                            
+                    String pluralName = DescribeHelper.getObjectDescribe(objname).getLabelPlural();
+                    pageSubtitle = pluralName;
+                                                    
+                    entryFieldList = new list<EntryField>();
+                    
+                    for (string fn : bde.getEntryFieldList())
+                        entryFieldList.add(new EntryField(objname, fn));
+                    
+                    listFieldList = bde.getListFieldList();                   
+                    itemList = new list<BatchItem>();
+                    
+                    if (displayBatchSection) {
+                        // create the batch if it is new
+                        if (batch.id == null) {                                        
+                            batch.name = pluralName + ' ' + system.today().format();
+                            batch.object_name__c = objName;
+                            // we will insert this in the load event
+                        } 
+                        else {
+                            string q = bde.getQueryString();
+                            q += ' where ' + batchLookupField + ' = \'' + batch.id + '\'';
+                            for (sObject existing : database.query(q)) {
+                                itemList.add(new BatchItem(this, existing));
+                            }       
+                        }
+                    }
+                    
+                    currentItem = new BatchItem(this);
+                } 
+                else{
+                    objectSettingsList = new List<SelectOption>();
+                    
+                    for(BulkDataEntry__c b : bde.getBulkCustomSettingsList()) {
+                        objectSettingsList.add(new SelectOption(b.Name, DescribeHelper.getObjectDescribe(b.Name).getLabel()));
+                    }
+                    
+                    pageSubtitle = 'Batch Data Entry Home';
+                    displaySettingsSection = true;
+                    displayBatchSection = false;
+                    displayRecInfoSection = false;                          
+                }                       
+            } 
+            else{             
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.Error, bde.getStatusMessage()));
+                displaySettingsSection = false;
+                displayBatchSection = false;
+                displayRecInfoSection = false;
+            }
         }
 
       	public class EntryField {
