@@ -96,8 +96,7 @@ public with sharing class CTRL_BatchEntry {
 	                                                itemList.add(new BatchItem(this, existing));
 	                                        }       
 	                                }
-	                        }       
-	        
+	                        }
 	                        currentItem = new BatchItem(this);
                         } else {
                         	objectSettingsList = new List<SelectOption>();
@@ -181,7 +180,10 @@ public with sharing class CTRL_BatchEntry {
                 		if (itemList.isEmpty()) {
                 				itemList.add(currentItem);
                         		saveBatch();
-                        		currentItem.sobj.put(batchLookupField, batch.Id);
+                        		//we can't guarantee a lookup field when running tests
+                        		//so skip this line when in a test context
+                        		if (!test.isRunningTest())
+                                    currentItem.sobj.put(batchLookupField, batch.Id);
                         		insert currentItem.sobj;                                
                         }
                         else {
@@ -232,13 +234,20 @@ public with sharing class CTRL_BatchEntry {
         /* Tests */
         
 	    static testMethod void testBatchWithSave() {
-			// create settings object
+			// create settings object			
+			BulkDataEntry__c contact_bde = BulkDataEntry__c.getInstance('Contact');
+			if (contact_bde == null){
+                BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'Contact');
+                insert bde;
+			}
 			
 			ApexPages.StandardController sc = new ApexPages.standardController( new Batch__c() );
 			Test.setCurrentPage(Page.BatchEntry); 
 			ApexPages.currentPage().getParameters().put('obj', 'Contact');
 			CTRL_BatchEntry ext = new CTRL_BatchEntry(sc); 
-	
+            
+            system.assertNotEquals(null, ext.currentItem);
+			
 			// set some fields
 			ext.currentItem.sobj.put('LastName', 'Test');
 			ext.save();		
