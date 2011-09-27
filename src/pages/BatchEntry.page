@@ -28,7 +28,7 @@ OF THE POSSIBILITY OF SUCH DAMAGE.
 Batch Entry Visualforce page 
 by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and 
 -->
-<apex:page standardController="Batch__c" extensions="CTRL_BatchEntry">
+<apex:page standardController="Batch__c" extensions="CTRL_BatchEntry" action="{!initializeBatchEntry}">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" />
     <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/ui-lightness/jquery-ui.css" rel="Stylesheet" />  
