@@ -26,11 +26,10 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISE
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-
-/*
- * base class for the bulk data entry, supports all the custom settings you might have.
- * authors: Team Kick Ass; Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore
- * date 04/27/2011
+/**
+* @author Team Kick Ass; Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore
+* @date 04/27/2011
+* @description base class for the bulk data entry, supports all the custom settings you might have.
 */
 
 public class BulkDataEntry {
