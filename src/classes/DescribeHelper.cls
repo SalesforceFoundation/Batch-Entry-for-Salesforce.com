@@ -1,4 +1,3 @@
-global class  DescribeHelper {
 /*
 Copyright (c) 2011, salesforce.com foundation, Inc.
 All rights reserved.
@@ -27,7 +26,12 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISE
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-	
+/**
+* @author Team Kick Ass; Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore
+* @date 04/27/2011
+* @description helper class for apex describe calls used in batch entry
+*/
+global class  DescribeHelper {	
 	// throw custom exceptions when a bogus object or field is provided. 
 	public class SchemaDescribeException extends Exception {}
 	
