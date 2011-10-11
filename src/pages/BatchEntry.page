@@ -162,7 +162,8 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
             );  
             getSetUp();         
         }
-        
+ 
+ /*       
         //add the lookupvalue to the default values on 
         //input exit to make sure we grab the value
         var test = '';
@@ -176,7 +177,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
                     test = 'NOTWHATEVER';
                 }                
         }       
-    
+*/    
     </script>
     <style>
         .ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
