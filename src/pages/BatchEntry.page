@@ -32,7 +32,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" />
     <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/ui-lightness/jquery-ui.css" rel="Stylesheet" />  
-    	
+        
     <script type="text/javascript" >
     
         var j$ = jQuery.noConflict();
@@ -92,9 +92,9 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
             });
             
 /*          j$(window).unload(function(){
-				// save the batch
-				saveBatch();
-			});                        
+                // save the batch
+                saveBatch();
+            });                        
           
             j$(function() {
                 function log( message ) {
@@ -120,33 +120,61 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
         });
         
         var defaultValues = new Object;
+        var defaultValuesLookupIds = new Object;
         function saveDefaults() {
             j$(".defaultCheckbox").each( function(i, theCheckbox) {
                 fieldClass = theCheckbox.id;
                 j$("."+fieldClass).each( function(i, theInput) {
+                    var myvalue = theInput.value;
                     if (!theCheckbox.checked || !theInput.value || theInput.value=='') {
-                        delete defaultValues[fieldClass];
+                        if(theInput.id.indexOf('_lkwgt') == -1)
+                            delete defaultValues[fieldClass];                                            
                     } else {
-                        defaultValues[fieldClass] = theInput.value;
+                        defaultValues[fieldClass] = theInput.value;                        
+                        // if the input field was a lookup store the Id of the referenced record as well                        
+                        var theInputLookup = document.getElementById(theInput.id + '_lkid');
+                        if(theInputLookup!=null) {
+                            defaultValuesLookupIds[fieldClass] = theInputLookup.value;                            
+                        }
                     }
                 });
                 }
             );  
-        }
-        
+        }        
 
         function resetDefaults() {
             j$(".defaultCheckbox").each( function(i, theCheckbox) {
-                fieldClass = theCheckbox.id;
+                fieldClass = theCheckbox.id;                
                 j$("."+fieldClass).each( function(i, theInput) {
-                    if (defaultValues[fieldClass]) {
+                    if (defaultValues[fieldClass] != null) {
                         theInput.value = defaultValues[fieldClass];
+                        // Set the lookup Id element if the input field is a lookup
+                        if(defaultValuesLookupIds[fieldClass] != null) {                      
+                            var theInputLookup = document.getElementById(theInput.id + '_lkid');
+                            if(theInputLookup!=null) {
+                                theInputLookup.value = defaultValuesLookupIds[fieldClass];
+                            }
+                        }
                         theCheckbox.checked = true;
                     }
                 });
                 }
             );  
             getSetUp();         
+        }
+        
+        //add the lookupvalue to the default values on 
+        //input exit to make sure we grab the value
+        var test = '';
+        function storeLookupValue(elid){
+                var elclassname = '.sticky-' + elid;
+                var par = j$(elclassname).parent().attr('class');
+                if (par == 'lookupInput'){
+                    test = 'whatever';
+                }
+                else{
+                    test = 'NOTWHATEVER';
+                }                
         }       
     
     </script>
@@ -158,36 +186,36 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
     <apex:messages />
     
     <apex:form >
-    	<apex:pageBlock rendered="{!displaySettingsSection}">
-    		<apex:outputText value="Select the object that you want to batch enter: "/>    		
-    		<apex:selectList id="objectSelect" value="{!objName}" size="1">
-            	<apex:selectOptions value="{!objectSettingsList}"/>
-        	</apex:selectList>
-        	&nbsp;
-        	<apex:commandButton value="Go" action="{!openBatchEnterPage}"/>   
-        	&nbsp;
-        	<apex:commandButton value="Edit Setting" action="{!editBatchSetting}"/>
-        	<br/><br/>
-        	<apex:outputText value="Can't find the setting for the object you want in the list above?"/>    	
-        	&nbsp;
-        	<apex:commandButton value="Create New Setting" action="{!createBatchSetting}"/><br/>
-        	<apex:pageBlockSection title="Help & FAQ" columns="1">
-        		<apex:outputText value="Help and FAQ goes here"/>
-        	</apex:pageBlockSection>
-    	</apex:pageBlock>
+        <apex:pageBlock rendered="{!displaySettingsSection}">
+            <apex:outputText value="Select the object that you want to batch enter: "/>         
+            <apex:selectList id="objectSelect" value="{!objName}" size="1">
+                <apex:selectOptions value="{!objectSettingsList}"/>
+            </apex:selectList>
+            &nbsp;
+            <apex:commandButton value="Go" action="{!openBatchEnterPage}"/>   
+            &nbsp;
+            <apex:commandButton value="Edit Setting" action="{!editBatchSetting}"/>
+            <br/><br/>
+            <apex:outputText value="Can't find the setting for the object you want in the list above?"/>        
+            &nbsp;
+            <apex:commandButton value="Create New Setting" action="{!createBatchSetting}"/><br/>
+            <apex:pageBlockSection title="Help & FAQ" columns="1">
+                <apex:outputText value="Help and FAQ goes here"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
     </apex:form>
          
-    <apex:form styleClass="formClass" >	    
-	    <apex:pageBlock mode="edit" rendered="{!displayBatchSection}" >    
-	    <apex:actionFunction name="saveBatch" action="{!saveBatch}" />      
-	        <apex:pageBlockSection columns="2" title="Batch Summary" >
-	            <apex:inputField value="{!batch.Name}" style="width:200px;" styleClass="batchName" onChange="saveBatch();"/>             
-	            <apex:inputField value="{!batch.Batch_Status__c}" styleClass="batchStatus" onChange="saveBatch();"/>
-	        </apex:pageBlockSection>
-	    </apex:pageBlock>      
-	</apex:form>  
-	    
-	<apex:form styleClass="formClass" >        
+    <apex:form styleClass="formClass" >     
+        <apex:pageBlock mode="edit" rendered="{!displayBatchSection}" >    
+        <apex:actionFunction name="saveBatch" action="{!saveBatch}" />      
+            <apex:pageBlockSection columns="2" title="Batch Summary" >
+                <apex:inputField value="{!batch.Name}" style="width:200px;" styleClass="batchName" onChange="saveBatch();"/>             
+                <apex:inputField value="{!batch.Batch_Status__c}" styleClass="batchStatus" onChange="saveBatch();"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>      
+    </apex:form>  
+        
+    <apex:form styleClass="formClass" >        
         <apex:pageBlock mode="edit" rendered="{!displayRecInfoSection}">
             <apex:pageMessages />
             <apex:pageBlockButtons location="bottom" >
@@ -199,7 +227,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
                 <apex:pageblocksectionitem >
                     <apex:outputLabel value="{!field.fieldLabel}" style="line-height:25px;" /> 
                     <apex:outputPanel layout="block" styleclass="sticky" >
-                        <apex:inputField value="{!currentItem.sobj[field.fieldName]}" styleClass="sticky-{!field.fieldName}" />
+                        <apex:inputField value="{!currentItem.sobj[field.fieldName]}" styleClass="sticky-{!field.fieldName}"/> <!-- onblur="storeLookupValue('{!field.fieldname}');" /> -->
                         <input type="checkbox" id="sticky-{!field.fieldName}" class="defaultCheckbox" style="display:none;" />
                         <label for="sticky-{!field.fieldName}" class="ui-icon ui-icon-pin-s" style="position:relative;top:6px;">Toggle</label>                                                
                     </apex:outputPanel>
