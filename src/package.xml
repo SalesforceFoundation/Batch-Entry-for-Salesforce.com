@@ -3,11 +3,13 @@
     <types>
         <members>BulkDataEntry</members>
         <members>CTRL_BatchEntry</members>
+        <members>CTRL_BatchEntrySettings</members>
         <members>DescribeHelper</members>
         <name>ApexClass</name>
     </types>
     <types>
         <members>BatchEntry</members>
+        <members>BatchEntrySettings</members>
         <name>ApexPage</name>
     </types>
     <types>
