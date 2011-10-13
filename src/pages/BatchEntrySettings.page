@@ -1,3 +1,61 @@
 <apex:page id="BatchEntrySettings" controller="CTRL_BatchEntrySettings">
+<apex:PageBlock >
+  
+    <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration" />
+    <apex:messages />
+   
+    <apex:form >
+    <apex:outputPanel id="existingSettingsList">  
+        <apex:PageBlockSection columns="1" title="Existing Settings" collapsible="false">
+            <apex:pageBlockTable var="besetting" value="{!bulkEntrySettings}" width="90%" >                   
+                <apex:column >
+                    <apex:facet name="header">Action</apex:facet>
+                    <apex:commandLink value="edit" action="{!besetting.editItem}" styleclass="editLink" 
+                        immediate="true" />&nbsp;|&nbsp;<apex:commandLink styleclass="delLink" value="del" action="{!besetting.deleteItem}" 
+                        immediate="true" />
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Object</apex:facet>
+                        {!besetting.mysetting.Name}
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">Entry Fields</apex:facet>
+                        {!besetting.mysetting.Object_Entry_Field_Set__c}
+                    </apex:column>
+                    <apex:column >
+                        <apex:facet name="header">List Fields</apex:facet>
+                        {!besetting.mysetting.Object_List_Field_Set__c}
+                    </apex:column>
+              </apex:pageBlockTable>
+        </apex:PageBlockSection>
+    </apex:outputPanel>  
+    </apex:form>
+    <apex:form >
+        <apex:PageBlockSection columns="2" title="New Settings" collapsible="false" rendered="{!settingLoaded}" >
+            <apex:PageBlockSectionItem >
+                <apex:outputLabel value="Fields for Data Entry" />
+                <apex:selectList value="{!savelist}" multiselect="true">
+                        <apex:selectOptions value="{!availableDEFields}" />
+                </apex:selectList>
+            </apex:PageBlockSectionItem>
+            
+            <apex:PageBlockSectionItem >
+            
+                <apex:outputLabel value="Fields for Save List" />
+                <apex:selectList value="{!entrylist}" multiselect="true">
+                        <apex:selectOptions value="{!availableListFields}" />
+                </apex:selectList>
+            
+            </apex:PageBlockSectionItem>
+            
+        </apex:PageBlockSection>
+    
+    
+    </apex:form>
+    
+    
+</apex:PageBlock> 
+
+
 
 </apex:page>
