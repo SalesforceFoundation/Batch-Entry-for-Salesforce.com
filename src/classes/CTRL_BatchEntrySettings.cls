@@ -37,25 +37,9 @@ public with sharing class CTRL_BatchEntrySettings {
     public list<BatchEntrySetting> bulkEntrySettings {get; private set;}
     public BatchEntrySetting activeSetting {get; set;}
     public boolean settingLoaded {get { return (activeSetting != null) ? true : false;}}
-       
     
-    public list<string> saveList {get;set;}
-    public list<string> entryList {get;set;}
-    public list<SelectOption> availableDEFields;
-    public list<SelectOption> availablelistfields;
-    
-    public list<SelectOption> getavailableDEFields(){
-    	list<SelectOption> fieldlist = new list<SelectOption>();
-    	
-    	return fieldlist;
-    }
-    
-    public list<SelectOption> getavailableListFields(){
-    	list<SelectOption> fieldlist = new list<SelectOption>();
-    	
-    	return fieldlist;
-    }
-            
+    public set<string> existingSettingsName = new set<string>();
+
     //constructor
     public CTRL_BatchEntrySettings(){
     	
@@ -64,14 +48,11 @@ public with sharing class CTRL_BatchEntrySettings {
      	bulkEntrySettings = new list<BatchEntrySetting>();
      	if (existingSettings != null){     		
      		for (BulkDataEntry__c bde : existingSettings){
-                bulkEntrySettings.add(new BatchEntrySetting(bde, this));     			
+                bulkEntrySettings.add(new BatchEntrySetting(bde, this));    
+                existingSettingsName.add(bde.Name);                 			
      		}     		
      	}
     }
-    
-    
-    
-    
     
     
     public void deleteItem(BatchEntrySetting bes) {
@@ -84,9 +65,63 @@ public with sharing class CTRL_BatchEntrySettings {
         }
     }
     
+    public pageReference createNew(){
+    	
+    	BatchEntrySetting bes = new BatchEntrySetting(new BulkDataEntry__c(), this);
+    	activeSetting = bes;
+    	return null;
+    }
+    
+    
     
     //handles settings in the list, and working with settings as the object
     public class BatchEntrySetting{
+        
+        public list<SelectOption> objectlist {get; set;}
+        public string objectname {get; set;}            
+    
+        //selected fields              
+        public list<string> saveList {get;set;}
+        public list<string> entryList {get;set;}
+    
+        public integer SettingsListSize{get {return objectlist.size();}}
+    
+        public list<SelectOption> availableDEFields;            	
+    	public list<SelectOption> getavailableDEFields(){
+            list<SelectOption> fieldlist = new list<SelectOption>();
+            if (entrylist == null)
+                entrylist = new list<string>();
+            
+            for (string s : DescribeHelper.getAllFieldsDescribe(objectName).keySet()){
+                if (DescribeHelper.getAllFieldsDescribe(objectName).get(s).isUpdateable() &&
+                DescribeHelper.getAllFieldsDescribe(objectName).get(s).isAccessible())
+                        fieldlist.add(new SelectOption(s, DescribeHelper.getAllFieldsDescribe(objectName).get(s).getLabel() + ' (' + s + ')') );
+            
+                if (!DescribeHelper.getAllFieldsDescribe(objectName).get(s).isNillable() && 
+                    !DescribeHelper.getAllFieldsDescribe(objectName).get(s).isDefaultedOnCreate())
+                        entrylist.add(s);
+                
+            }
+            
+            return fieldlist;
+        }
+        public list<SelectOption> availablelistfields;    
+        public list<SelectOption> getavailableListFields(){
+            
+            list<SelectOption> fieldlist = new list<SelectOption>();
+            
+            if (savelist == null)
+                savelist = new list<string>();
+            
+            for (string s : DescribeHelper.getAllFieldsDescribe(objectName).keySet()){
+                if (DescribeHelper.getAllFieldsDescribe(objectName).get(s).isUpdateable() &&
+                DescribeHelper.getAllFieldsDescribe(objectName).get(s).isAccessible())
+                    fieldlist.add(new SelectOption(s, DescribeHelper.getAllFieldsDescribe(objectName).get(s).getLabel() + ' (' + s + ')') );
+            
+            }        
+            return fieldlist;
+        }
+    	
     	
     	public BulkDataEntry__c mysetting{get; set;}
     	CTRL_BatchEntrySettings mydad;
@@ -94,6 +129,40 @@ public with sharing class CTRL_BatchEntrySettings {
     	public BatchEntrySetting(BulkDataEntry__c bdeSetting, CTRL_BatchEntrySettings parent){
     		mysetting = bdesetting;
     		mydad = parent;
+    		objectname = bdesetting.Name;
+    		
+    		//setup the object list when we load a setting
+    		objectlist= new list<SelectOption>();
+    		//if we're loading an existing setting, add the object
+    		//name to the list, and lock the list
+    		if (objectname != null && objectname != ''){
+    			objectlist.add(new SelectOption(bdesetting.Name, bdesetting.Name));    		
+    			
+    			//and we need to add the existing selection to the savelist and entrylist
+    			for (string s : bdesetting.Object_Entry_Field_Set__c.split(',')){
+    				entrylist.add(s);
+    			}
+    			
+    			for (string s : bdesetting.Object_List_Field_Set__c.split(',')){
+                    savelist.add(s);
+                }	
+    		}
+    		
+    		//else, its a new setting
+    		//and we need to load the list of possible objects
+    		else{
+    			objectlist.add(new SelectOption('', '- None -'));
+    			map<string, Schema.Sobjecttype> objectmap = Schema.getGlobalDescribe();
+    			for (string s : objectmap.keySet()){
+    				Schema.DescribeSObjectResult dsr = objectmap.get(s).getDescribe();
+    				//if we don't have a setting for the object, list it as an option
+    				//if its also creatable/accessible/updateable
+    				if (!mydad.existingSettingsName.contains(s) &&
+    				dsr.isUpdateable() && dsr.isCreateable() && dsr.isAccessible()){
+    				    objectlist.add(new SelectOption(s, objectmap.get(s).getDescribe().getLabel()));
+    				}
+    			}     			
+    		}
     	}
     	
     	public pageReference editItem(){    		

@@ -40,7 +40,7 @@ public with sharing class CTRL_BatchEntry {
         public boolean displaySettingsSection { get; private set; }     // could be transient?
         
         public List<SelectOption> objectSettingsList { get; private set; }
-
+        
         public BatchItem currentItem { get; set; }   // could be transient - already getting it on edit, otherwise should be clear (what about errors?)
         public list<BatchItem> itemList { get; private set; }	// could be transient - would need list of ids instead
 

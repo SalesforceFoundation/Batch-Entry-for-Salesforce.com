@@ -3,6 +3,7 @@
   
     <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration" />
     <apex:messages />
+    
    
     <apex:form >
     <apex:outputPanel id="existingSettingsList">  
@@ -29,28 +30,46 @@
               </apex:pageBlockTable>
         </apex:PageBlockSection>
     </apex:outputPanel>  
+    
+    <apex:PageBlockSection columns="1">
+        <apex:commandButton value="Create New Setting" action="{!createNew}" /> 
+    </apex:PageBlockSection>        
     </apex:form>
     <apex:form >
-        <apex:PageBlockSection columns="2" title="New Settings" collapsible="false" rendered="{!settingLoaded}" >
+        <apex:actionFunction name="updateFieldLists" rerender="fieldlists, pbs1, pbs2" status="myStatus"/>
+        <apex:PageBlockSection id="pbs1" title="{!if(activesetting.objectname == null, 'Create New Settings', IF(activesetting.SettingsListSize > 1, 'Create ' + activesetting.objectname + ' Settings', 'Edit ' + activesetting.objectname + ' Settings'))}" columns="1" collapsible="false" rendered="{!settingLoaded}" >
+            <apex:actionStatus startText="Loading Fields..." id="myStatus" />
+            <apex:PageBlockSectionItem >            
+            <apex:outputLabel value="Object" />
+            <apex:selectlist onchange="updateFieldLists();" size="1" multiselect="false" value="{!activesetting.objectname}">
+                <apex:selectOptions value="{!activesetting.objectlist}"/>                 
+            </apex:selectlist>
+            </apex:PageBlockSectionItem>
+        </apex:PageBlockSection>
+                    
+        <apex:outputPanel id="fieldlists">
+        <apex:PageBlockSection id="pbs2" columns="2" rendered="{!AND(activesetting.objectname != null, activesetting.objectname != '')}" >
             <apex:PageBlockSectionItem >
                 <apex:outputLabel value="Fields for Data Entry" />
-                <apex:selectList value="{!savelist}" multiselect="true">
-                        <apex:selectOptions value="{!availableDEFields}" />
+                <apex:selectList value="{!activesetting.entrylist}" multiselect="true" size="10">
+                        <apex:selectOptions value="{!activesetting.availableDEFields}" />
                 </apex:selectList>
             </apex:PageBlockSectionItem>
+            <apex:PageBlockSectionItem >
+                <apex:outputLabel value="Fields for Save List" />
+                <apex:selectList value="{!activesetting.savelist}" multiselect="true" size="10">
+                        <apex:selectOptions value="{!activesetting.availableListFields}" />
+                </apex:selectList>
+            </apex:PageBlockSectionItem>            
             
             <apex:PageBlockSectionItem >
-            
-                <apex:outputLabel value="Fields for Save List" />
-                <apex:selectList value="{!entrylist}" multiselect="true">
-                        <apex:selectOptions value="{!availableListFields}" />
-                </apex:selectList>
-            
+            <apex:commandButton value="Save" />
+            <apex:commandButton value="Cancel" />
             </apex:PageBlockSectionItem>
-            
         </apex:PageBlockSection>
+        </apex:outputPanel>
     
-    
+        
     </apex:form>
     
     
