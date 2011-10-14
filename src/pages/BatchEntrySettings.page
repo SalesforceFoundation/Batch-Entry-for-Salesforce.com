@@ -2,7 +2,7 @@
 <apex:PageBlock >
   
     <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration" />
-    <apex:messages />
+    <apex:Pagemessages />
     
    
     <apex:form >
@@ -29,14 +29,13 @@
                     </apex:column>
               </apex:pageBlockTable>
         </apex:PageBlockSection>
+        <apex:PageBlockSection columns="1">
+            <apex:commandButton value="Create New Setting" action="{!createNew}" disabled="{!settingloaded}" /> 
+        </apex:PageBlockSection>
     </apex:outputPanel>  
-    
-    <apex:PageBlockSection columns="1">
-        <apex:commandButton value="Create New Setting" action="{!createNew}" /> 
-    </apex:PageBlockSection>        
     </apex:form>
     <apex:form >
-        <apex:actionFunction name="updateFieldLists" rerender="fieldlists, pbs1, pbs2" status="myStatus"/>
+        <apex:actionFunction name="updateFieldLists" rerender="existingsettingslist,fieldlists, pbs1, pbs2, buttonblock" status="myStatus"/>
         <apex:PageBlockSection id="pbs1" title="{!if(activesetting.objectname == null, 'Create New Settings', IF(activesetting.SettingsListSize > 1, 'Create ' + activesetting.objectname + ' Settings', 'Edit ' + activesetting.objectname + ' Settings'))}" columns="1" collapsible="false" rendered="{!settingLoaded}" >
             <apex:actionStatus startText="Loading Fields..." id="myStatus" />
             <apex:PageBlockSectionItem >            
@@ -60,14 +59,17 @@
                 <apex:selectList value="{!activesetting.savelist}" multiselect="true" size="10">
                         <apex:selectOptions value="{!activesetting.availableListFields}" />
                 </apex:selectList>
-            </apex:PageBlockSectionItem>            
-            
-            <apex:PageBlockSectionItem >
-            <apex:commandButton value="Save" />
-            <apex:commandButton value="Cancel" />
             </apex:PageBlockSectionItem>
         </apex:PageBlockSection>
+        <apex:PageBlockSection columns="1">
+            <apex:PageBlockSectionItem id="buttonblock" >
+                <apex:commandButton value="Save" action="{!saveSetting}" title="Save the current in-scope setting" rendered="{!AND(activesetting.objectname != null, activesetting.objectname != '')}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}" title="Cancel and reset page" rendered="{!settingloaded}" />
+            </apex:PageBlockSectionItem>
+        </apex:PageBlockSection>
+
         </apex:outputPanel>
+
     
         
     </apex:form>

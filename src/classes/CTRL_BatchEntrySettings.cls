@@ -72,6 +72,39 @@ public with sharing class CTRL_BatchEntrySettings {
     	return null;
     }
     
+    public pageReference saveSetting(){
+    	if (activeSetting != null){
+            boolean isSuccess;
+            
+            isSuccess = activeSetting.upsertBDESetting();                		
+    		
+            if (isSuccess){
+            	ApexPages.PageReference pr = ApexPages.currentPage();        
+            	existingSettingsName.clear();
+            	activeSetting = null;      
+                return pr.setRedirect(true);
+            }
+            else{            	
+            	showMsg('Upsert Failed', ApexPages.Severity.ERROR);
+                return null; 
+            }
+    	}
+    	else{    		
+    		showMsg('No Object Loaded', ApexPages.Severity.ERROR);
+    		return null;
+    	}
+    }
+    
+    public pageReference cancel(){
+    	ApexPages.PageReference pr = ApexPages.currentPage();              
+        return pr.setRedirect(true);
+    }
+    
+    private void showMsg(String arg, ApexPages.Severity severity){
+        ApexPages.Message myMsg = new ApexPages.Message(severity,arg);
+        ApexPages.addMessage(myMsg);
+    }    
+    
     
     
     //handles settings in the list, and working with settings as the object
@@ -99,8 +132,7 @@ public with sharing class CTRL_BatchEntrySettings {
             
                 if (!DescribeHelper.getAllFieldsDescribe(objectName).get(s).isNillable() && 
                     !DescribeHelper.getAllFieldsDescribe(objectName).get(s).isDefaultedOnCreate())
-                        entrylist.add(s);
-                
+                        entrylist.add(s);                
             }
             
             return fieldlist;
@@ -128,7 +160,7 @@ public with sharing class CTRL_BatchEntrySettings {
     	
     	public BatchEntrySetting(BulkDataEntry__c bdeSetting, CTRL_BatchEntrySettings parent){
     		mysetting = bdesetting;
-    		mydad = parent;
+    		mydad = parent; 
     		objectname = bdesetting.Name;
     		
     		//setup the object list when we load a setting
@@ -138,15 +170,20 @@ public with sharing class CTRL_BatchEntrySettings {
     		if (objectname != null && objectname != ''){
     			objectlist.add(new SelectOption(bdesetting.Name, bdesetting.Name));    		
     			
-    			//and we need to add the existing selection to the savelist and entrylist
-    			for (string s : bdesetting.Object_Entry_Field_Set__c.split(',')){
-    				entrylist.add(s);
+    			
+    			if (bdesetting.Object_Entry_Field_Set__c != null){
+    		      	//and we need to add the existing selection to the savelist and entrylist
+                    for (string s : bdesetting.Object_Entry_Field_Set__c.split(',')){
+    				    entrylist.add(s);
+    			    }
     			}
     			
-    			for (string s : bdesetting.Object_List_Field_Set__c.split(',')){
-                    savelist.add(s);
-                }	
-    		}
+    			if (bdesetting.Object_List_Field_Set__c != null){
+    			    for (string s : bdesetting.Object_List_Field_Set__c.split(',')){
+                        savelist.add(s);
+                    }
+    			}
+            }
     		
     		//else, its a new setting
     		//and we need to load the list of possible objects
@@ -171,8 +208,36 @@ public with sharing class CTRL_BatchEntrySettings {
     	}
     	
     	public pageReference deleteItem(){    		
+    		mydad.existingSettingsName.remove(this.objectname);
     		mydad.deleteItem(this);
     		return null;
     	}
+    	
+    	public boolean upsertBDESetting(){
+    		boolean isSuccess;
+    		
+    		//create a new setting if needed and provide the name
+    		if (mysetting == null){
+                mysetting = new BulkDataEntry__c();
+    		}                
+            
+            mysetting.Name = objectname; 
+                		  
+    		
+    		
+    		
+    		
+    		
+    		
+    		try{
+    			upsert mysetting;
+    			isSuccess = true; 
+    		}
+    		catch (Exception e){
+    			isSuccess = false;    			
+    		}
+    		return isSuccess;
+    	}
+    	
     }
 }
