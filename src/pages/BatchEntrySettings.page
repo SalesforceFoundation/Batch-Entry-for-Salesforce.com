@@ -4,7 +4,9 @@
     <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration" />
     <apex:Pagemessages />
     
-   
+    <apex:PageBlockSection columns="1">
+        <apex:outputtext value="{!$Label.Batch_Entry_Help_Text}" />
+    </apex:PageBlockSection>
     <apex:form >
     <apex:outputPanel id="existingSettingsList">  
         <apex:PageBlockSection columns="1" title="Existing Settings" collapsible="false">
@@ -20,11 +22,11 @@
                         {!besetting.mysetting.Name}
                     </apex:column>
                     <apex:column >
-                        <apex:facet name="header">Entry Fields</apex:facet>
+                        <apex:facet name="header">Data Entry Fields</apex:facet>
                         {!besetting.mysetting.Object_Entry_Field_Set__c}
                     </apex:column>
                     <apex:column >
-                        <apex:facet name="header">List Fields</apex:facet>
+                        <apex:facet name="header">Save List Fields</apex:facet>
                         {!besetting.mysetting.Object_List_Field_Set__c}
                     </apex:column>
               </apex:pageBlockTable>
@@ -48,13 +50,13 @@
                     
         <apex:outputPanel id="fieldlists">
         <apex:PageBlockSection id="pbs2" columns="2" rendered="{!AND(activesetting.objectname != null, activesetting.objectname != '')}" >
-            <apex:PageBlockSectionItem >
+            <apex:PageBlockSectionItem helpText="{!$Label.Entry_Field_Help_Text}">
                 <apex:outputLabel value="Fields for Data Entry" />
                 <apex:selectList value="{!activesetting.entrylist}" multiselect="true" size="10">
                         <apex:selectOptions value="{!activesetting.availableDEFields}" />
                 </apex:selectList>
             </apex:PageBlockSectionItem>
-            <apex:PageBlockSectionItem >
+            <apex:PageBlockSectionItem helpText="{!$Label.List_Field_Help_Text}">
                 <apex:outputLabel value="Fields for Save List" />
                 <apex:selectList value="{!activesetting.savelist}" multiselect="true" size="10">
                         <apex:selectOptions value="{!activesetting.availableListFields}" />
@@ -62,7 +64,7 @@
             </apex:PageBlockSectionItem>
         </apex:PageBlockSection>
         <apex:PageBlockSection columns="1">
-            <apex:PageBlockSectionItem id="buttonblock" >
+            <apex:PageBlockSectionItem id="buttonblock">
                 <apex:commandButton value="Save" action="{!saveSetting}" title="Save the current in-scope setting" rendered="{!AND(activesetting.objectname != null, activesetting.objectname != '')}"/>
                 <apex:commandButton value="Cancel" action="{!cancel}" title="Cancel and reset page" rendered="{!settingloaded}" />
             </apex:PageBlockSectionItem>
