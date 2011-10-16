@@ -162,6 +162,8 @@ public with sharing class CTRL_BatchEntrySettings {
     		mysetting = bdesetting;
     		mydad = parent; 
     		objectname = bdesetting.Name;
+    		if (entrylist == null) entrylist = new list<string>();
+    		if (savelist == null) savelist = new list<string>();
     		
     		//setup the object list when we load a setting
     		objectlist= new list<SelectOption>();
@@ -174,12 +176,14 @@ public with sharing class CTRL_BatchEntrySettings {
     			if (bdesetting.Object_Entry_Field_Set__c != null){
     		      	//and we need to add the existing selection to the savelist and entrylist
                     for (string s : bdesetting.Object_Entry_Field_Set__c.split(',')){
+    				    system.debug('Adding: ' + s);
     				    entrylist.add(s);
     			    }
     			}
     			
     			if (bdesetting.Object_List_Field_Set__c != null){
     			    for (string s : bdesetting.Object_List_Field_Set__c.split(',')){
+                        system.debug('Adding: ' + s);
                         savelist.add(s);
                     }
     			}
@@ -215,6 +219,8 @@ public with sharing class CTRL_BatchEntrySettings {
     	
     	public boolean upsertBDESetting(){
     		boolean isSuccess;
+    		string dataentryfields = '';
+    		string savelistfields = '';
     		
     		//create a new setting if needed and provide the name
     		if (mysetting == null){
@@ -223,11 +229,27 @@ public with sharing class CTRL_BatchEntrySettings {
             
             mysetting.Name = objectname; 
                 		  
+    		integer counter = 0;
+    		//save other settings
+    		for (string s : entrylist){
+    			dataentryfields += s;
+    			counter++;
+    			if (counter < entrylist.size()){
+    				dataentryfields += ',';
+    			}    			
+    		}
     		
+    		counter = 0;
+    		for (string s : savelist){
+    			savelistfields += s;
+    			counter ++;
+    			if (counter < savelist.size()){
+    				savelistfields += ',';
+    			}    			
+    		}
     		
-    		
-    		
-    		
+    		mysetting.Object_Entry_Field_Set__c = dataentryfields;
+    		mysetting.Object_List_Field_Set__c = savelistfields;
     		
     		try{
     			upsert mysetting;
@@ -240,4 +262,12 @@ public with sharing class CTRL_BatchEntrySettings {
     	}
     	
     }
+    
+    public static testMethod void testController(){
+    	
+    	
+    }
+    
+    
+    
 }
