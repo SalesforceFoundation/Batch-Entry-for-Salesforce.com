@@ -1,3 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata"/>
-
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Batch_Entry_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Batch Entry Help Text</shortDescription>
+        <value>This is the help text for the batch entry screen.</value>
+    </labels>
+    <labels>
+        <fullName>Entry_Field_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Entry Field Help Text</shortDescription>
+        <value>Hold the ctrl key and click the field name to select multiple fields for the data entry screen.</value>
+    </labels>
+    <labels>
+        <fullName>List_Field_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>List Field Help Text</shortDescription>
+        <value>Hold the ctrl key and click the field name to select multiple fields to be displayed in the list of saved items.</value>
+    </labels>
+</CustomLabels>
