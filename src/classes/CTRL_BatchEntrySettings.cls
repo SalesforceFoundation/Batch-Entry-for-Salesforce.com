@@ -292,6 +292,7 @@ public with sharing class CTRL_BatchEntrySettings {
     		}                
             
             mysetting.Name = objectname; 
+            mysetting.Save_Batch__c = true;
                 		  
     		integer counter = 0;
     		//save other settings
