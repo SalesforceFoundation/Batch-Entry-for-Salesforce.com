@@ -1,7 +1,7 @@
 <apex:page id="BatchEntrySettings" controller="CTRL_BatchEntrySettings" action="{!initPage}">
 <apex:PageBlock >
   
-    <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration" />
+    <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration & Settings" />
     <apex:Pagemessages />
     <apex:PageBlockSection columns="1">
         <apex:outputtext value="{!$Label.Batch_Entry_Help_Text}" style="font-style:italic;" />
@@ -34,9 +34,9 @@
                     </apex:column>
               </apex:pageBlockTable>
         </apex:PageBlockSection>
-        <apex:PageBlockSection columns="1">
+        <apex:outputPanel style="text-align: center; display: block; margin-left:auto; margin-right:auto;">
             <apex:commandButton value="Create New Setting" action="{!createNew}" disabled="{!settingloaded}" /> 
-        </apex:PageBlockSection>
+        </apex:outputPanel>
     </apex:outputPanel>  
     </apex:form>
     <apex:form >
@@ -66,17 +66,11 @@
                 </apex:selectList>
             </apex:PageBlockSectionItem>
         </apex:PageBlockSection>
-        <apex:PageBlockSection columns="1">
-            <apex:PageBlockSectionItem id="buttonblock">
+        <apex:outputPanel style="text-align: center; display: block; margin-left:auto; margin-right:auto;">
                 <apex:commandButton value="Save" action="{!saveSetting}" title="Save the current in-scope setting" rendered="{!AND(activesetting.objectname != null, activesetting.objectname != '')}"/>
                 <apex:commandButton value="Cancel" action="{!cancel}" title="Cancel and reset page" rendered="{!settingloaded}" />
-            </apex:PageBlockSectionItem>
-        </apex:PageBlockSection>
-
         </apex:outputPanel>
-
-    
-        
+        </apex:outputPanel>        
     </apex:form>
     </apex:tab>
     <apex:tab label="Advanced Configuration" name="advancedconfig">
@@ -97,15 +91,13 @@
                 
             </apex:PageBlockSection>        
         </apex:outputpanel>
-    <apex:PageBlockSection columns="1" showheader="false" >
-        <apex:PageBlockSectionItem id="editbuttons" rendered="{!NOT(editingConfig)}">
-            <apex:commandButton value="Edit" action="{!editAdvancedSettings}" />            
-        </apex:PageBlockSectionItem>    
-        <apex:PageBlockSectionItem id="savebuttons" rendered="{!editingConfig}" >
-            <apex:commandButton value="Save" action="{!saveAdvancedSettings}" />
-            <apex:commandButton value="Cancel" action="{!cancelAdvancedSettings}"/>
-        </apex:PageBlockSectionItem>
-    </apex:PageBlockSection>
+    
+        <apex:outputpanel style="text-align: center; display: block; margin-left:auto; margin-right:auto;" >
+            <apex:commandButton value="Edit" action="{!editAdvancedSettings}" rendered="{!NOT(editingConfig)}" />            
+            <apex:commandButton value="Save" action="{!saveAdvancedSettings}" rendered="{!editingConfig}" />
+            <apex:commandButton value="Cancel" action="{!cancelAdvancedSettings}" rendered="{!editingConfig}"/>
+        </apex:outputpanel>
+    
     
     </apex:form>
     </apex:tab>
