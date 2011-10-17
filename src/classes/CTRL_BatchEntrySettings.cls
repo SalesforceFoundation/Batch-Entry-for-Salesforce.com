@@ -39,6 +39,8 @@ public with sharing class CTRL_BatchEntrySettings {
     public boolean settingLoaded {get { return (activeSetting != null) ? true : false;}}
     
     public set<string> existingSettingsName = new set<string>();
+    
+    public Batch_Data_Entry_Config__c beconfig {get; set;}
 
     //constructor
     public CTRL_BatchEntrySettings(){
@@ -51,6 +53,21 @@ public with sharing class CTRL_BatchEntrySettings {
                 bulkEntrySettings.add(new BatchEntrySetting(bde, this));    
                 existingSettingsName.add(bde.Name);                 			
      		}     		
+     	}
+     	     	
+     	//load configuration settings
+     	beconfig = Batch_Data_Entry_Config__c.getOrgDefaults();
+     	//if we don't have any, configure and create them
+     	if (beconfig == null){
+     		beconfig.Setupownerid = UserInfo.getOrganizationId();
+     		
+     		//look for the NPSP
+     		integer npsp_class_count = [select count() from ApexClass where NameSpacePrefix = 'npe01'];
+     		
+     		if (npsp_class_count > 0){
+     			beconfig.Has_NPSP__c = true;
+     		}
+            insert beconfig;
      	}
     }
     
