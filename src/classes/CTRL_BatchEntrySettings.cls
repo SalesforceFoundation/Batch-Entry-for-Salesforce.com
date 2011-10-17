@@ -41,9 +41,15 @@ public with sharing class CTRL_BatchEntrySettings {
     public set<string> existingSettingsName = new set<string>();
     
     public Batch_Data_Entry_Config__c beconfig {get; set;}
+    public boolean editingConfig {get; set;}
 
+    public string activetab {get; set;}
+    
     //constructor
     public CTRL_BatchEntrySettings(){
+    	
+    	editingConfig = false;
+    	activetab = 'fieldmapping';
     	
     	//load existing settings into the list
     	list<BulkDataEntry__c> existingSettings = BulkDataEntry__c.getAll().values();
@@ -54,25 +60,31 @@ public with sharing class CTRL_BatchEntrySettings {
                 existingSettingsName.add(bde.Name);                 			
      		}     		
      	}
-     	     	
-     	//load configuration settings
-     	beconfig = Batch_Data_Entry_Config__c.getOrgDefaults();
-     	//if we don't have any, configure and create them
-     	if (beconfig == null){
-     		beconfig.Setupownerid = UserInfo.getOrganizationId();
-     		
-     		//look for the NPSP
-     		integer npsp_class_count = [select count() from ApexClass where NameSpacePrefix = 'npe01'];
-     		
-     		if (npsp_class_count > 0){
-     			beconfig.Has_NPSP__c = true;
-     		}
+    }
+    
+    public void initPage(){
+    	
+        //load configuration settings
+        beconfig = Batch_Data_Entry_Config__c.getOrgDefaults();
+        //if we don't have any, configure and create them
+        if (beconfig == null){
+            beconfig = new Batch_Data_Entry_Config__c();
+            
+            beconfig.Setupownerid = UserInfo.getOrganizationId();
+            //look for the NPSP
+            integer npsp_class_count = [select count() from ApexClass where NameSpacePrefix = 'npe01'];
+            
+            if (npsp_class_count > 0){
+                beconfig.Has_NPSP__c = true;
+            }
             insert beconfig;
-     	}
+        }
     }
     
     
+    
     public void deleteItem(BatchEntrySetting bes) {
+    	activetab='fieldmapping';
         delete bes.mysetting;
         for (integer i = 0; i < bulkEntrySettings.size(); i++) {
             if (bulkEntrySettings[i].mysetting.Name == bes.mysetting.Name) { 
@@ -83,6 +95,7 @@ public with sharing class CTRL_BatchEntrySettings {
     }
     
     public pageReference createNew(){
+    	activetab='fieldmapping';
     	
     	BatchEntrySetting bes = new BatchEntrySetting(new BulkDataEntry__c(), this);
     	activeSetting = bes;
@@ -90,6 +103,8 @@ public with sharing class CTRL_BatchEntrySettings {
     }
     
     public pageReference saveSetting(){
+    	activetab='fieldmapping';
+    	
     	if (activeSetting != null){
             boolean isSuccess;
             
@@ -112,10 +127,39 @@ public with sharing class CTRL_BatchEntrySettings {
     	}
     }
     
-    public pageReference cancel(){
+    public pageReference cancel(){    	
     	ApexPages.PageReference pr = ApexPages.currentPage();              
         return pr.setRedirect(true);
     }
+    
+    public pageReference editAdvancedSettings(){
+    	activetab = 'advancedconfig';
+    	editingConfig = true;    	
+    	return null;
+    }
+    
+    public pageReference cancelAdvancedSettings(){
+    	activetab = 'advancedconfig';
+    	editingConfig = false;
+    	//reload the original settings
+    	beconfig = Batch_Data_Entry_Config__c.getOrgDefaults();
+    	
+    	return null;
+    }
+    
+    public pageReference saveAdvancedSettings(){
+    	activetab = 'advancedconfig';
+    	try{
+    		update beconfig;
+    		editingConfig = false; 
+    	}
+    	catch(Exception e){    		
+    		showMsg(e.getMessage(), ApexPages.Severity.ERROR);
+    	}
+    	
+    	return null;    	
+    }
+    
     
     private void showMsg(String arg, ApexPages.Severity severity){
         ApexPages.Message myMsg = new ApexPages.Message(severity,arg);
@@ -223,18 +267,21 @@ public with sharing class CTRL_BatchEntrySettings {
     		}
     	}
     	
-    	public pageReference editItem(){    		
+    	public pageReference editItem(){  
+    		mydad.activetab='fieldmapping';  		
     		mydad.activeSetting = this;
     		return null;
     	}
     	
     	public pageReference deleteItem(){    		
+    		mydad.activetab='fieldmapping';
     		mydad.existingSettingsName.remove(this.objectname);
     		mydad.deleteItem(this);
     		return null;
     	}
     	
     	public boolean upsertBDESetting(){
+    		mydad.activetab='fieldmapping';
     		boolean isSuccess;
     		string dataentryfields = '';
     		string savelistfields = '';

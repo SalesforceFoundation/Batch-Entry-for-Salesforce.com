@@ -1,4 +1,4 @@
-<apex:page id="BatchEntrySettings" controller="CTRL_BatchEntrySettings">
+<apex:page id="BatchEntrySettings" controller="CTRL_BatchEntrySettings" action="{!initPage}">
 <apex:PageBlock >
   
     <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration" />
@@ -8,8 +8,8 @@
     </apex:PageBlockSection>
     
     
-    <apex:TabPanel >
-    <apex:tab label="Field Mappings">
+    <apex:TabPanel switchtype="client" value="{!activetab}" >
+    <apex:tab label="Field Mappings" name="fieldmapping">
     <apex:form >
     <apex:outputPanel id="existingSettingsList">  
         <apex:PageBlockSection columns="1" title="Existing Settings" collapsible="false">
@@ -79,27 +79,31 @@
         
     </apex:form>
     </apex:tab>
-    <apex:tab label="Advanced Configuration">
+    <apex:tab label="Advanced Configuration" name="advancedconfig">
     <apex:form >
         <apex:outputpanel id="savedstate">
-            <apex:PageBlockSection >
-            
-            </apex:PageBlockSection>
-        
-        </apex:outputpanel>
+            <apex:PageBlockSection columns="2">
                 
-        <apex:outputpanel id="editstate">
-            <apex:PageBlockSection >
-            
+                <apex:PageBlockSectionItem >
+                    <apex:outputLabel value="Automatically Name Opportunities" />
+                    <apex:inputCheckBox value="{!beconfig.Opportunity_Naming__c}" disabled="{!NOT(editingConfig)}" />
+                
+                </apex:PageBlockSectionItem>
+                
+                <apex:PageBlockSectionItem >
+                    <apex:outputlabel value="Use NPSP Configuration" />
+                    <apex:inputCheckBox value="{!beconfig.Has_NPSP__c}" disabled="{!NOT(editingConfig)}" />
+                </apex:PageBlockSectionItem>
+                
             </apex:PageBlockSection>        
         </apex:outputpanel>
-    <apex:PageBlockSection >
-        <apex:PageBlockSectionItem id="editbuttons">
-            <apex:commandButton value="Edit" />            
+    <apex:PageBlockSection columns="1" showheader="false" >
+        <apex:PageBlockSectionItem id="editbuttons" rendered="{!NOT(editingConfig)}">
+            <apex:commandButton value="Edit" action="{!editAdvancedSettings}" />            
         </apex:PageBlockSectionItem>    
-        <apex:PageBlockSectionItem id="savebuttons">
-            <apex:commandButton value="Save" />
-            <apex:commandButton value="Cancel" />
+        <apex:PageBlockSectionItem id="savebuttons" rendered="{!editingConfig}" >
+            <apex:commandButton value="Save" action="{!saveAdvancedSettings}" />
+            <apex:commandButton value="Cancel" action="{!cancelAdvancedSettings}"/>
         </apex:PageBlockSectionItem>
     </apex:PageBlockSection>
     
