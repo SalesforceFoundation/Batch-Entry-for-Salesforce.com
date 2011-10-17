@@ -229,16 +229,19 @@ public with sharing class CTRL_BatchEntry {
         }
         
         public pageReference editBatchSetting() {
-        	List<BulkDataEntry__c> setting = [Select Id from BulkDataEntry__c where Name=:objName];        	
-        	PageReference pageRef = new PageReference('/' + setting[0].Id);
+        	//List<BulkDataEntry__c> setting = [Select Id from BulkDataEntry__c where Name=:objName];        	
+        	//PageReference pageRef = new PageReference('/' + setting[0].Id);
+        	List<BulkDataEntry__c> setting = [Select Id from BulkDataEntry__c where Name=:objName];
+        	PageReference pageRef = new PageReference('/apex/BatchEntrySettings?' + 'setting=' + setting[0].id );
         	return pageRef;   	
         }
         
         public pageReference createBatchSetting() {
-        	String id = DescribeHelper.getObjectDescribe(String.valueOf(BulkDataEntry__c.sObjectType)).getKeyPrefix();        	
-        	PageReference pageRef = new PageReference('/setup/ui/editCustomSettingsData.apexp');
-        	pageRef.getParameters().put('id', id);
-        	pageRef.getParameters().put('retURL', Page.BatchEntry.getUrl());
+        	//String id = DescribeHelper.getObjectDescribe(String.valueOf(BulkDataEntry__c.sObjectType)).getKeyPrefix();        	
+        	//PageReference pageRef = new PageReference('/setup/ui/editCustomSettingsData.apexp');
+        	PageReference pageRef = new PageReference('/apex/BatchEntrySettings');
+        	//pageRef.getParameters().put('id', id);
+        	//pageRef.getParameters().put('retURL', Page.BatchEntry.getUrl());
         	return pageRef;   	
         }
         
