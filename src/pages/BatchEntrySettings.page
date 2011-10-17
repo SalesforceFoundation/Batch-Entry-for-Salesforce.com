@@ -3,10 +3,13 @@
   
     <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration" />
     <apex:Pagemessages />
-    
     <apex:PageBlockSection columns="1">
-        <apex:outputtext value="{!$Label.Batch_Entry_Help_Text}" />
+        <apex:outputtext value="{!$Label.Batch_Entry_Help_Text}" style="font-style:italic;" />
     </apex:PageBlockSection>
+    
+    
+    <apex:TabPanel >
+    <apex:tab label="Field Mappings">
     <apex:form >
     <apex:outputPanel id="existingSettingsList">  
         <apex:PageBlockSection columns="1" title="Existing Settings" collapsible="false">
@@ -75,7 +78,34 @@
     
         
     </apex:form>
+    </apex:tab>
+    <apex:tab label="Advanced Configuration">
+    <apex:form >
+        <apex:outputpanel id="savedstate">
+            <apex:PageBlockSection >
+            
+            </apex:PageBlockSection>
+        
+        </apex:outputpanel>
+                
+        <apex:outputpanel id="editstate">
+            <apex:PageBlockSection >
+            
+            </apex:PageBlockSection>        
+        </apex:outputpanel>
+    <apex:PageBlockSection >
+        <apex:PageBlockSectionItem id="editbuttons">
+            <apex:commandButton value="Edit" />            
+        </apex:PageBlockSectionItem>    
+        <apex:PageBlockSectionItem id="savebuttons">
+            <apex:commandButton value="Save" />
+            <apex:commandButton value="Cancel" />
+        </apex:PageBlockSectionItem>
+    </apex:PageBlockSection>
     
+    </apex:form>
+    </apex:tab>
+    </apex:TabPanel>
     
 </apex:PageBlock> 
 
