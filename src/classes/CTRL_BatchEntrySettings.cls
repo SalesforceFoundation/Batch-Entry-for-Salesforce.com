@@ -60,6 +60,16 @@ public with sharing class CTRL_BatchEntrySettings {
                 existingSettingsName.add(bde.Name);                 			
      		}     		
      	}
+     	
+     	if (ApexPages.currentPage().getParameters().get('setting') != null){
+            for (BatchEntrySetting bes : bulkEntrySettings){
+                if (bes.mysetting.id == ApexPages.currentPage().getParameters().get('setting')){
+                    activeSetting = bes;                	
+                }           	
+            }           
+        }
+     	
+     	
     }
     
     public void initPage(){
@@ -111,7 +121,8 @@ public with sharing class CTRL_BatchEntrySettings {
             isSuccess = activeSetting.upsertBDESetting();                		
     		
             if (isSuccess){
-            	ApexPages.PageReference pr = ApexPages.currentPage();        
+            	ApexPages.PageReference pr = ApexPages.currentPage();       
+            	pr.getParameters().clear();
             	existingSettingsName.clear();
             	activeSetting = null;      
                 return pr.setRedirect(true);
