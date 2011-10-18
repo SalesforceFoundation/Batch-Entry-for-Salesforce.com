@@ -50,9 +50,13 @@ public with sharing class CTRL_BatchEntry {
         public string pageSubtitle { get; private set; }
         public list<EntryField> entryFieldList { get; private set; }
         public list<string> listFieldList { get; private set; }
-
+        
+        public Batch_Data_Entry_Config__c bdec {get; set;}
+        
         public integer itemCount { get { return (itemList != null) ? itemList.size() : 0; } }
                 
+        map<id, OpportunityContactRole> ocrlookup;
+        
         public CTRL_BatchEntry(ApexPages.StandardController stdController) {
 
                 if (stdController.getId() == null)
@@ -63,6 +67,8 @@ public with sharing class CTRL_BatchEntry {
                 objname = (batch.id != null) ? 
                         batch.object_name__c :
                         ApexPages.currentPage().getParameters().get('obj');            
+        
+                bdec = Batch_Data_Entry_Config__c.getOrgDefaults();
         }
         
         public void initializeBatchEntry(){
@@ -98,7 +104,19 @@ public with sharing class CTRL_BatchEntry {
                         else {
                             string q = bde.getQueryString();
                             q += ' where ' + batchLookupField + ' = \'' + batch.id + '\'';
-                            for (sObject existing : database.query(q)) {
+                          
+                            list<sobject> existingsobjs = database.query(q);
+                            
+                            //if its opps and npsp, query for the ocrs
+                            //so we can properly backfill the objects in the batch items
+                            if (existingsobjs[0].getSobjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
+                                list<OpportunityContactRole> ocrlist = [select id, OpportunityID, ContactID from OpportunityContactRole where OpportunityID IN :existingsobjs and isPrimary = true];
+                                for (OpportunityContactRole ocr : ocrlist){
+                                	ocrlookup.put(ocr.OpportunityID, ocr);
+                                }                                                           	   
+                            }
+                          
+                            for (sObject existing : existingsobjs) {
                                 itemList.add(new BatchItem(this, existing));
                             }       
                         }
@@ -145,17 +163,31 @@ public with sharing class CTRL_BatchEntry {
                 public integer itemNum { get; private set; }
                 public sobject sobj { get; set; }
                 
+                //empty object for using the 
+                //ocr ContactID lookup field for NPSP donations
+                public OpportunityContactRole npspocr {get; set;}
+                                
                 public BatchItem(CTRL_BatchEntry parentClass) {
                         mydad = parentClass;       
                         sobj = DescribeHelper.getPrototypeObject(mydad.objname); //this line needs to be outside the check for displayBatchSection or we get an error on page load for any object where !displayBatchSection          
                         if (mydad.displayBatchSection) {
                             sobj.put(mydad.batchLookupField, parentClass.batch.id);
                         }
+                        
+                        //generate a 'dummy' ocr for npsp donation entry
+                        if (mydad.objname == 'Opportunity' && mydad.bdec.Has_NPSP__c == true){
+                        	npspocr = new OpportunityContactRole();
+                        }                        
                 }
                 
                 public BatchItem(CTRL_BatchEntry parentClass, sobject existingItem) {
                         mydad = parentClass;
                         sobj = existingItem;
+                        
+                        //get the actual primary ocr for this npsp opp
+                        if(sobj.getSObjectType() == Opportunity.Sobjecttype && mydad.bdec.Has_NPSP__c == true){
+                        	npspocr = mydad.ocrlookup.get(sobj.id);
+                        }                                                
                 }
                 
                 public pageReference editItem() {
@@ -186,8 +218,16 @@ public with sharing class CTRL_BatchEntry {
         
         public pageReference save() {
         		if (currentItem.sobj.id != null) {
-                        update currentItem.sobj;
+        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
+                            currentItem.sobj.put('npe01__Contact_ID_for_Role__c', currentItem.npspocr.ContactID);
+        			}
+                    
+                    update currentItem.sobj;
                 } else {         
+                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
+                            currentItem.sobj.put('npe01__Contact_ID_for_Role__c', currentItem.npspocr.ContactID);
+                        }
+                      
                 		if (itemList.isEmpty()) {
                 				itemList.add(currentItem);
                         		saveBatch();
@@ -195,6 +235,7 @@ public with sharing class CTRL_BatchEntry {
                         		//so skip this line when in a test context
                         		if (!test.isRunningTest())
                                     currentItem.sobj.put(batchLookupField, batch.Id);
+                        		
                         		insert currentItem.sobj;                                
                         }
                         else {
