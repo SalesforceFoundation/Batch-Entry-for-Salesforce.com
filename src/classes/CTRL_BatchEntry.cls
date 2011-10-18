@@ -162,6 +162,7 @@ public with sharing class CTRL_BatchEntry {
                 CTRL_BatchEntry mydad;
                 public integer itemNum { get; private set; }
                 public sobject sobj { get; set; }
+                public boolean renderNPSPContact{get; set;} 
                 
                 //empty object for using the 
                 //ocr ContactID lookup field for NPSP donations
@@ -170,6 +171,7 @@ public with sharing class CTRL_BatchEntry {
                 public BatchItem(CTRL_BatchEntry parentClass) {
                         mydad = parentClass;       
                         sobj = DescribeHelper.getPrototypeObject(mydad.objname); //this line needs to be outside the check for displayBatchSection or we get an error on page load for any object where !displayBatchSection          
+                        renderNPSPContact = false;
                         if (mydad.displayBatchSection) {
                             sobj.put(mydad.batchLookupField, parentClass.batch.id);
                         }
@@ -177,16 +179,18 @@ public with sharing class CTRL_BatchEntry {
                         //generate a 'dummy' ocr for npsp donation entry
                         if (mydad.objname == 'Opportunity' && mydad.bdec.Has_NPSP__c == true){
                         	npspocr = new OpportunityContactRole();
+                        	renderNPSPContact = true;
                         }                        
                 }
                 
                 public BatchItem(CTRL_BatchEntry parentClass, sobject existingItem) {
                         mydad = parentClass;
                         sobj = existingItem;
-                        
+                        renderNPSPContact = false;
                         //get the actual primary ocr for this npsp opp
                         if(sobj.getSObjectType() == Opportunity.Sobjecttype && mydad.bdec.Has_NPSP__c == true){
                         	npspocr = mydad.ocrlookup.get(sobj.id);
+                        	renderNPSPContact = true;
                         }                                                
                 }
                 
