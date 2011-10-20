@@ -265,6 +265,11 @@ public with sharing class CTRL_BatchEntry {
         			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
                             currentItem.sobj.put('npe01__Contact_ID_for_Role__c', currentItem.npspocr.ContactID);
         			}
+        			
+        			//update the name in case values have changed
+        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Opportunity_Naming__c == true){
+                            currentItem.sobj.put('Name', currentItem.createName());
+                    }
                     
                     update currentItem.sobj;
                 } else {         
