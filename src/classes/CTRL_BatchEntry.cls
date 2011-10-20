@@ -173,6 +173,8 @@ public with sharing class CTRL_BatchEntry {
                 //empty object for using the 
                 //ocr ContactID lookup field for NPSP donations
                 public OpportunityContactRole npspocr {get; set;}
+              
+                
                                 
                 public BatchItem(CTRL_BatchEntry parentClass) {
                         mydad = parentClass;       
