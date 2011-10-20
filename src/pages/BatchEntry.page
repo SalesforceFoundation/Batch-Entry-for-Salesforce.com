@@ -221,7 +221,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
             <apex:pageMessages />
             <apex:pageBlockButtons location="bottom" >
                 <apex:commandButton value="Save" action="{!save}" styleclass="btnSave" rerender="recInfo,recList,itemCount" oncomplete="resetDefaults();" />
-                <apex:commandButton value="Clear" action="{!clear}" immediate="true" rerender="recInfo" />
+                <apex:commandButton value="Clear" action="{!clear}" immediate="true" rerender="recInfo" oncomplete="getSetUp();" />
             </apex:pageBlockButtons>            
             <apex:pageBlockSection title="Record Information" id="recInfo" columns="2" >
                 <apex:pageblocksectionitem rendered="{!currentItem.renderNPSPContact}">

@@ -228,7 +228,9 @@ public with sharing class CTRL_BatchEntry {
                     }
                     else{
                     	id accid = (id)sobj.get('AccountID');
-                    	namestring += [select Name from Account where id = :accid].Name;
+                    	if (accid != null){
+                    	   namestring += [select Name from Account where id = :accid].Name;
+                    	}
                     }
                     
                     date oppdate = (date)sobj.get('CloseDate');
