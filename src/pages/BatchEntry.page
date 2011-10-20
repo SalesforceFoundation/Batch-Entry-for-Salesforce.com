@@ -256,7 +256,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
         
         <apex:outputPanel id="recList">
         <apex:pageBlock mode="detail" rendered="{!itemCount>0}" >
-            <apex:pageBlockSection columns="1" title="List ({!itemCount} records)">
+            <apex:pageBlockSection columns="1" title="Saved Record List ({!itemCount} records)">
                 <apex:pageBlockTable var="item" value="{!itemList}" width="90%" >                   
                     <apex:column >
                         <apex:facet name="header">Action</apex:facet>
