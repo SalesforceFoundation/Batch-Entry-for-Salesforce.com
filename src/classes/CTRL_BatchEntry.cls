@@ -70,6 +70,14 @@ public with sharing class CTRL_BatchEntry {
         }
         
         public void initializeBatchEntry(){
+        	   
+            bdec = Batch_Data_Entry_Config__c.getOrgDefaults();
+            
+            //no defaults yet loaded, create one
+            if (bdec == null){
+                bdec = new Batch_Data_Entry_Config__c();
+                insert bdec;
+            }     
         	
             BulkDataEntry bde = new BulkDataEntry(objname);                
                 
@@ -140,15 +148,7 @@ public with sharing class CTRL_BatchEntry {
                 displaySettingsSection = false;
                 displayBatchSection = false;
                 displayRecInfoSection = false;
-            }
-            
-            bdec = Batch_Data_Entry_Config__c.getOrgDefaults();
-            
-            //no defaults yet loaded, create one
-            if (bdec == null){
-                bdec = new Batch_Data_Entry_Config__c();
-                insert bdec;
-            }            
+            }                
         }
 
       	public class EntryField {
@@ -190,33 +190,58 @@ public with sharing class CTRL_BatchEntry {
                 }
                 
                 public BatchItem(CTRL_BatchEntry parentClass, sobject existingItem) {
-                        mydad = parentClass;
-                        sobj = existingItem;
-                        renderNPSPContact = false;
-                        //get the actual primary ocr for this npsp opp
-                        if(sobj.getSObjectType() == Opportunity.Sobjecttype && mydad.bdec.Has_NPSP__c == true){
-                        	npspocr = mydad.ocrlookup.get(sobj.id);
-                        	renderNPSPContact = true;
-                        }                                                
+                    mydad = parentClass;
+                    sobj = existingItem;
+                    renderNPSPContact = false;
+                    //get the actual primary ocr for this npsp opp
+                    if(sobj.getSObjectType() == Opportunity.Sobjecttype && mydad.bdec.Has_NPSP__c == true){
+                        npspocr = mydad.ocrlookup.get(sobj.id);
+                        renderNPSPContact = true;
+                    }                                                
                 }
                 
                 public pageReference editItem() {
-                        // load this item into data entry section
-                        myDad.currentItem = this;
-                        return null;
+                    // load this item into data entry section
+                    myDad.currentItem = this;
+                    return null;
                 }
                 
                 public pageReference deleteItem() {
-                        // delete this item from the list
-                        myDad.deleteItem(sobj);
-                        return null;
+                    // delete this item from the list
+                    myDad.deleteItem(sobj);
+                    return null;
+                                    
                 }
                 
                 public pageReference viewItem(){
-                	   ApexPages.Pagereference pr = new ApexPages.Pagereference('/' + sobj.id);
-                	   return pr;
-                	
+                	ApexPages.Pagereference pr = new ApexPages.Pagereference('/' + sobj.id);
+                	return pr;
                 }
+                
+                //automatic donation naming	
+                public string createName(){
+                    string namestring = '';
+                    
+                    //if we have an NPSP Contact, start there, else, use the account name
+                    if (myDad.bdec.Has_NPSP__c && npspocr.ContactID != null){
+                        namestring += [select Name from Contact where id = :npspocr.ContactID].Name;
+                    }
+                    else{
+                    	id accid = (id)sobj.get('AccountID');
+                    	namestring += [select Name from Account where id = :accid].Name;
+                    }
+                    
+                    date oppdate = (date)sobj.get('CloseDate');
+                    namestring += ' ' + oppdate.format();
+                    
+                    if (sobj.get('RecordTypeID') != null){
+                    	id recid = (id)sobj.get('RecordTypeID');
+                    	namestring += ' ' + [select Name from RecordType where id = :recid].Name;
+                    }
+                                                        	
+                	return namestring; 
+                }
+                
                 
         }
         
@@ -245,6 +270,11 @@ public with sharing class CTRL_BatchEntry {
                             currentItem.sobj.put('npe01__Contact_ID_for_Role__c', currentItem.npspocr.ContactID);
                         }
                       
+                        //use automatic opp naming 
+                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Opportunity_Naming__c == true){
+                            currentItem.sobj.put('Name', currentItem.createName());
+                		}
+                		
                 		if (itemList.isEmpty()) {
                 				itemList.add(currentItem);
                         		saveBatch();
