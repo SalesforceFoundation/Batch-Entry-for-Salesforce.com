@@ -66,9 +66,7 @@ public with sharing class CTRL_BatchEntry {
 
                 objname = (batch.id != null) ? 
                         batch.object_name__c :
-                        ApexPages.currentPage().getParameters().get('obj');            
-        
-                bdec = Batch_Data_Entry_Config__c.getOrgDefaults();
+                        ApexPages.currentPage().getParameters().get('obj');        
         }
         
         public void initializeBatchEntry(){
@@ -143,6 +141,14 @@ public with sharing class CTRL_BatchEntry {
                 displayBatchSection = false;
                 displayRecInfoSection = false;
             }
+            
+            bdec = Batch_Data_Entry_Config__c.getOrgDefaults();
+            
+            //no defaults yet loaded, create one
+            if (bdec == null){
+                bdec = new Batch_Data_Entry_Config__c();
+                insert bdec;
+            }            
         }
 
       	public class EntryField {
