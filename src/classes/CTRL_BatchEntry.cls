@@ -205,6 +205,13 @@ public with sharing class CTRL_BatchEntry {
                         myDad.deleteItem(sobj);
                         return null;
                 }
+                
+                public pageReference viewItem(){
+                	   ApexPages.Pagereference pr = new ApexPages.Pagereference('/' + sobj.id);
+                	   return pr;
+                	
+                }
+                
         }
         
         public pageReference saveBatch() {
