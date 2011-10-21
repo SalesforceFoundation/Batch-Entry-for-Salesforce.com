@@ -53,6 +53,7 @@ public with sharing class CTRL_BatchEntry {
         
         //batch list
         public list<Batch__c> batchlist {get; set;}
+        public list<BatchObject> batchobjectlist {get; set;}
         
         public Batch_Data_Entry_Config__c bdec {get; set;}
         
@@ -77,7 +78,15 @@ public with sharing class CTRL_BatchEntry {
                             Number_of_Items__c, Name, LastModifiedDate, 
                             LastModifiedById, IsDeleted, Id, Description__c,
                             CreatedDate, CreatedById, Batch_Status__c 
-                            from Batch__c];                                                        
+                            from Batch__c];         
+                
+                if (batchlist != null){
+                    batchobjectlist = new list<BatchObject>();	
+                                           
+                    for (Batch__c b : batchlist){
+                	   batchobjectlist.add(new BatchObject(this, b));
+                    }                                                                           
+                }
         }
         
         public void initializeBatchEntry(){
@@ -172,6 +181,27 @@ public with sharing class CTRL_BatchEntry {
                     if(fieldName.toUpperCase().endsWith('ID') && fieldLabel.toUpperCase().endsWith('ID'))     
                     	fieldLabel=fieldLabel.substring(0, fieldLabel.length()-2);               
                 }
+        }
+        
+        public class BatchObject{
+        	public Batch__c myBatch{get; set;}
+        	CTRL_BatchEntry mydad;
+        	
+        	public BatchObject(CTRL_BatchEntry parentClass, Batch__c theBatch){
+        		mydad = parentClass;
+        		myBatch = theBatch;
+        	}
+        	
+        	public pageReference loadBatch(){
+        		
+        		mydad.batch = myBatch;
+        		string objname = myBatch.Object_Name__c;
+        		string myid = myBatch.id;
+        		PageReference pageRef = Page.BatchEntry;
+                pageRef.getParameters().put('id', myid);
+                pageRef.setRedirect(true);
+                return pageRef;         
+        	}
         }
                 
         public class BatchItem {

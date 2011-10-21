@@ -29,13 +29,24 @@ Batch Entry Visualforce page
 by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and 
 -->
 <apex:page standardController="Batch__c" extensions="CTRL_BatchEntry" action="{!initializeBatchEntry}">
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.12/jquery-ui.min.js" />
-    <link type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/ui-lightness/jquery-ui.css" rel="Stylesheet" />  
-        
+    <apex:includescript value="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" />
+    <apex:includescript value="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js" />
+    <apex:includeScript value="{!URLFOR($Resource.jqtablesorter)}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.jQTSSkin, '/style.css')}"/>
+    <link media="all" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/ui-lightness/jquery-ui.css" rel="Stylesheet" />  
+
     <script type="text/javascript" >
     
         var j$ = jQuery.noConflict();
+     
+        function sortThis() {
+            j$(".tablesorter").tablesorter(
+            {
+            sortClassAsc: 'headerSortUp',   
+            sortClassDesc: 'headerSortDown',
+            headerClass: 'header'
+             });
+        };    
         
         function getSetUp() {
             var formId = "{!$Component.recInfo}";
@@ -169,7 +180,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
                 theCheckbox.checked = false;
             });
             getSetUp();    
-        }
+        }   
  
  /*       
         //add the lookupvalue to the default values on 
@@ -211,15 +222,15 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
             <apex:commandButton value="Create New Setting" action="{!createBatchSetting}"/><br/>
             
             <apex:pageBlockSection title="Existing Batches" columns="1">
-                <apex:pageBlockTable var="b" value="{!batchlist}" width="90%" >                
+                <apex:pageBlockTable onclick="sortThis()" styleclass="tablesorter" var="b" value="{!batchobjectlist}" width="90%" >                
                     <apex:column > 
                         <apex:facet name="header">Action</apex:facet>
-                        <apex:commandLink value="load"  styleclass="editLink" 
+                        <apex:commandLink value="load"  styleclass="editLink" action="{!b.loadBatch}"
                         immediate="true" />
                     </apex:column>
                     
                     <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.ExistingBatchListview}" var="c">
-                    <apex:column value="{!b[c]}"/>
+                    <apex:column value="{!b.myBatch[c]}"/>
                     </apex:repeat> 
                 </apex:pageBlockTable>
             </apex:pageBlockSection>
