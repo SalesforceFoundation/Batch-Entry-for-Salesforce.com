@@ -171,7 +171,7 @@ public class BulkDataEntry {
 		for(Schema.DescribeFieldResult fr: allFieldsMap.values()) {
 			if(fr.getType() == Schema.Displaytype.Reference) {
 				Schema.sObjectType parent = fr.getReferenceTo()[0];
-				if(parent.getDescribe().getLocalName()==String.valueOf(Batch__c.sObjectType)) {
+				if(parent.getDescribe().getLocalName()==String.valueOf(Batch__c.sObjectType).replace('bde__', '')) {
 					batchLookupFieldName = fr.getLocalName();
 					return true;
 				}
