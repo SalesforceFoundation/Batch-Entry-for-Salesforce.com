@@ -26,9 +26,9 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISE
 OF THE POSSIBILITY OF SUCH DAMAGE.
 
 Batch Entry Visualforce page 
-by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and 
+by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
 -->
-<apex:page standardController="Batch__c" extensions="CTRL_BatchEntry" action="{!initializeBatchEntry}">
+<apex:page standardController="Batch__c" tabstyle="Batch_Entry__tab" extensions="CTRL_BatchEntry" action="{!initializeBatchEntry}">
     <apex:includescript value="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js" />
     <apex:includescript value="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js" />
     <apex:includeScript value="{!URLFOR($Resource.jqtablesorter)}"/>
@@ -38,6 +38,13 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
     <script type="text/javascript" >
     
         var j$ = jQuery.noConflict();
+     
+        window.onunload = unloadpage;
+        
+        function unloadpage(){
+            saveBatch();
+        }            
+     
      
         function sortThis() {
             j$(".tablesorter").tablesorter(
@@ -213,13 +220,13 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
                 <apex:selectOptions value="{!objectSettingsList}"/>
             </apex:selectList>
             &nbsp;
-            <apex:commandButton value="Go" action="{!openBatchEnterPage}"/>   
+            <apex:commandButton value="New Batch" title="Create a new Batch for the selected object" action="{!openBatchEnterPage}"/>   
             &nbsp;
-            <apex:commandButton value="Edit Setting" action="{!editBatchSetting}"/>
+            <apex:commandLink style="font-style:italic;" title="Edit Batch Entry settings for the selected object" value="(Edit Entry Settings)" action="{!editBatchSetting}"/>
             <br/><br/>
-            <apex:outputText value="Can't find the setting for the object you want in the list above?"/>        
+            <apex:outputText style="font-style:italic;" value="If the object you wish to enter is not in the list above, make sure you have a list setting for that object, and the object has a lookup to the Batch__c object."/>        
             &nbsp;
-            <apex:commandButton value="Create New Setting" action="{!createBatchSetting}"/><br/>
+            <apex:commandlink style="font-style:italic;" value="(Create New Setting)" action="{!createBatchSetting}"/><br/>
             
             <apex:pageBlockSection title="Existing Batches" columns="1">
                 <apex:pageBlockTable onclick="sortThis()" styleclass="tablesorter" var="b" value="{!batchobjectlist}" width="90%" >                
@@ -240,11 +247,18 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
          
     <apex:form styleClass="formClass" >     
         <apex:pageBlock mode="edit" rendered="{!displayBatchSection}" >    
-        <apex:actionFunction name="saveBatch" action="{!saveBatch}" />      
+        <apex:actionFunction name="saveBatch" action="{!saveBatch}" />
+        <apex:outputpanel id="batchinfo">    
             <apex:pageBlockSection columns="2" title="Batch Summary" >
-                <apex:inputField value="{!batch.Name}" style="width:200px;" styleClass="batchName" onChange="saveBatch();"/>             
-                <apex:inputField value="{!batch.Batch_Status__c}" styleClass="batchStatus" onChange="saveBatch();"/>
+                <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.BatchDetailView}" var="b">
+                <apex:inputField value="{!batch[b]}" style="width:200px;" onChange="saveBatch();"/>
+                </apex:repeat>      
+                <apex:PageBlockSectionItem id="batchsizefield" rendered="{!itemCount>0}">
+                    <apex:OutputLabel for="itemcountfield" value="Batch Size" />
+                    <apex:OutputText id="itemcountfield" value="{!itemCount}"/>
+                </apex:PageBlockSectionItem>                                       
             </apex:pageBlockSection>
+        </apex:outputpanel>
         </apex:pageBlock>      
     </apex:form>  
         
@@ -252,7 +266,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
         <apex:pageBlock mode="edit" rendered="{!displayRecInfoSection}">
             <apex:pageMessages />
             <apex:pageBlockButtons location="bottom" >
-                <apex:commandButton value="Save" action="{!save}" styleclass="btnSave" rerender="recInfo,recList,itemCount" oncomplete="resetDefaults();" />
+                <apex:commandButton value="Save" action="{!save}" styleclass="btnSave" rerender="recInfo,recList,itemCount,batchinfo" oncomplete="resetDefaults();" />
                 <apex:commandButton value="Clear" action="{!clear}" immediate="true" rerender="recInfo" oncomplete="getSetUp();" />
             </apex:pageBlockButtons>            
             <apex:pageBlockSection title="Record Information" id="recInfo" columns="2" >
@@ -286,7 +300,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
                         <apex:facet name="header">Action</apex:facet>
                         <apex:commandLink value="edit" action="{!item.editItem}" styleclass="editLink" 
                         immediate="true" rerender="recInfo" oncomplete="resetSticky();" />&nbsp;|&nbsp;<apex:commandLink styleclass="delLink" value="del" action="{!item.deleteItem}" 
-                        immediate="true" rerender="recList,itemCount"  oncomplete="resetDefaults();" />&nbsp;|&nbsp;
+                        immediate="true" rerender="recList,itemCount,batchinfo"  oncomplete="resetDefaults();" />&nbsp;|&nbsp;
                         <apex:commandLink value="view" action="{!item.viewItem}" immediate="true" target="_blank" />
                     </apex:column>
                     <apex:repeat var="fieldname" value="{!listFieldList}" > 

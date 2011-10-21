@@ -66,7 +66,11 @@ public with sharing class CTRL_BatchEntry {
                 if (stdController.getId() == null)
                 	batch = new Batch__c();
                 else
-                	batch = [select id, name, object_name__c, batch_status__c, Number_of_Items__c from batch__c where id =: stdController.getId()];
+                	batch = [select SystemModstamp, OwnerId, Object_Name__c, 
+                            Number_of_Items__c, Name, LastModifiedDate, 
+                            LastModifiedById, IsDeleted, Id, Description__c,
+                            CreatedDate, CreatedById, Batch_Status__c  
+                            from batch__c where id =: stdController.getId()];
 
                 objname = (batch.id != null) ? 
                         batch.object_name__c :
@@ -292,7 +296,7 @@ public with sharing class CTRL_BatchEntry {
         
         public pageReference saveBatch() {
 				// if we are using batch, save the batch                
-                if (displayBatchSection && itemList!=null && !itemList.isEmpty()) {
+                if (displayBatchSection && itemList!=null && !itemList.isEmpty() && itemList.size() != batch.number_of_items__c) {
                 	batch.number_of_items__c = itemList.size();
 
                 	if (batch.id == null)
@@ -340,6 +344,8 @@ public with sharing class CTRL_BatchEntry {
                                 itemList.add(0, currentItem);
                         }                        
                 }
+                saveBatch();
+                
                 currentItem = new BatchItem(this);
                 return null;    
         }
@@ -357,6 +363,7 @@ public with sharing class CTRL_BatchEntry {
                                 break;
                         }
                 }
+                saveBatch();
         }
         
         public pageReference openBatchEnterPage() {
