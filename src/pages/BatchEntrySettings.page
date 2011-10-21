@@ -127,11 +127,33 @@ by Salesforce.com Foundation
             <apex:commandButton value="Save" action="{!saveAdvancedSettings}" rendered="{!editingConfig}" />
             <apex:commandButton value="Cancel" action="{!cancelAdvancedSettings}" rendered="{!editingConfig}"/>
         </apex:outputpanel>
+        
+    </apex:form>
+    </apex:tab>
+    <apex:tab label="Delete Batches" name="batchdeletetab">
+    <apex:form >
+    Some sort of warning text 
+    <apex:outputpanel id="deletepanel">
+     <apex:pageBlockSection title="Existing Batches" columns="1" collapsible="false">
+                <apex:pageBlockTable var="b" value="{!batchlist}" width="90%" >                
+                    <apex:column > 
+                        <apex:facet name="header">Action</apex:facet>
+                        <apex:commandLink value="delete"  styleclass="editLink" immediate="true" />
+                    </apex:column>
+                    <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.DeleteBatchListView}" var="c">
+                    <apex:column value="{!b.batch[c]}"/>
+                    </apex:repeat> 
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+    </apex:outputpanel>
     
     
     </apex:form>
     </apex:tab>
+    
     </apex:TabPanel>
+    
+    
     
 </apex:PageBlock> 
 

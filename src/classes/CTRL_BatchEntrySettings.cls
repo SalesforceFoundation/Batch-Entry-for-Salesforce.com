@@ -45,6 +45,11 @@ public with sharing class CTRL_BatchEntrySettings {
 
     public string activetab {get; set;}
     
+    public string deleteID{get; set;}
+    
+    public list<ExistingBatch> batchlist{get; set;}
+    public ExistingBatch selectedbatch {get; set;} 
+    
     //constructor
     public CTRL_BatchEntrySettings(){
     	
@@ -68,8 +73,17 @@ public with sharing class CTRL_BatchEntrySettings {
                 }           	
             }           
         }
-     	
-     	
+        
+        
+        list<Batch__c> blist = [select SystemModstamp, OwnerId, Object_Name__c, 
+                            Number_of_Items__c, Name, LastModifiedDate, 
+                            LastModifiedById, IsDeleted, Id, Description__c,
+                            CreatedDate, CreatedById, Batch_Status__c 
+                            from Batch__c];   
+        batchlist = new list<ExistingBatch>();
+        for (Batch__c b : blist){
+        	batchlist.add(new ExistingBatch(b));
+        }
     }
     
     public void initPage(){
@@ -177,7 +191,14 @@ public with sharing class CTRL_BatchEntrySettings {
         ApexPages.addMessage(myMsg);
     }    
     
-    
+    public class ExistingBatch{
+    	public Batch__c batch {get; set;}
+    	
+    	public ExistingBatch(Batch__c b){
+    		batch = b;
+    	}
+    	
+    }
     
     //handles settings in the list, and working with settings as the object
     public class BatchEntrySetting{
