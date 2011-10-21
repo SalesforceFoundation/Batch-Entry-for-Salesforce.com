@@ -296,7 +296,7 @@ public with sharing class CTRL_BatchEntry {
         
         public pageReference saveBatch() {
 				// if we are using batch, save the batch                
-                if (displayBatchSection && itemList!=null && !itemList.isEmpty() && itemList.size() != batch.number_of_items__c) {
+                if (displayBatchSection && itemList!=null && !itemList.isEmpty()) {
                 	batch.number_of_items__c = itemList.size();
 
                 	if (batch.id == null)
