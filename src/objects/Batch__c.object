@@ -36,21 +36,12 @@
         <type>Visualforce</type>
     </actionOverrides>
     <deploymentStatus>Deployed</deploymentStatus>
+    <description>The holding object for batch entry. Interaction with this object should occur only through the Batch Data Entry tab.</description>
     <enableActivities>false</enableActivities>
     <enableEnhancedLookup>false</enableEnhancedLookup>
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
-    <fields>
-        <fullName>Batch_Name__c</fullName>
-        <externalId>false</externalId>
-        <label>Batch Name</label>
-        <length>100</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
     <fields>
         <fullName>Batch_Status__c</fullName>
         <externalId>false</externalId>
@@ -61,7 +52,7 @@
                 <default>true</default>
             </picklistValues>
             <picklistValues>
-                <fullName>Committed</fullName>
+                <fullName>Complete</fullName>
                 <default>false</default>
             </picklistValues>
             <sorted>false</sorted>
