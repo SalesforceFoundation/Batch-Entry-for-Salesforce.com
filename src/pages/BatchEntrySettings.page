@@ -116,7 +116,7 @@ by Salesforce.com Foundation
                 
                 <apex:PageBlockSectionItem helpText="{!$Label.NPSP_Setting_Help_Text}">
                     <apex:outputlabel value="Use NPSP Configuration" />
-                    <apex:inputCheckBox value="{!beconfig.Has_NPSP__c}" disabled="{!NOT(editingConfig)}" />
+                    <apex:inputCheckBox value="{!beconfig.Has_NPSP__c}" disabled="{!OR(NOT(editingConfig),NOT(npspIsInstalled))}" />
                 </apex:PageBlockSectionItem>
                 
             </apex:PageBlockSection>        

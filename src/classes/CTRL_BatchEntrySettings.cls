@@ -50,6 +50,8 @@ public with sharing class CTRL_BatchEntrySettings {
     public list<ExistingBatch> batchlist{get; set;}
     public ExistingBatch selectedbatch {get; set;} 
     
+    public boolean npspIsInstalled{get; set;}
+    
     //constructor
     public CTRL_BatchEntrySettings(){
     	
@@ -90,19 +92,27 @@ public with sharing class CTRL_BatchEntrySettings {
     	
         //load configuration settings
         beconfig = Batch_Data_Entry_Config__c.getOrgDefaults();
+        
+        //look for the NPSP
+        integer npsp_class_count = [select count() from ApexClass where NameSpacePrefix = 'npe01'];
+        if (npsp_class_count > 0){
+        	npspIsInstalled = true;
+        }
+        else{
+        	npspIsInstalled = false;
+        }
+        
         //if we don't have any, configure and create them
         if (beconfig == null){
             beconfig = new Batch_Data_Entry_Config__c();
             
             beconfig.Setupownerid = UserInfo.getOrganizationId();
-            //look for the NPSP
-            integer npsp_class_count = [select count() from ApexClass where NameSpacePrefix = 'npe01'];
             
             if (npsp_class_count > 0){
                 beconfig.Has_NPSP__c = true;
             }
             insert beconfig;
-        }
+        }        
     }
     
     
