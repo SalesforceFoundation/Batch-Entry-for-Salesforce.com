@@ -224,10 +224,10 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
             &nbsp;
             <apex:commandLink style="font-style:italic;" title="Edit Batch Entry settings for the selected object" value="(Edit Entry Settings)" action="{!editBatchSetting}"/>
             <br/><br/>
-            <apex:outputText style="font-style:italic;" value="If the object you wish to enter is not in the list above, make sure you have a list setting for that object, and the object has a lookup to the Batch__c object."/>        
+            <apex:outputText style="font-style:italic;" value="{!$Label.Load_Setting_Help_Text}"/>        
             &nbsp;
             <apex:commandlink style="font-style:italic;" value="(Create New Setting)" action="{!createBatchSetting}"/><br/>
-            
+            <br/>
             <apex:pageBlockSection title="Existing Batches" columns="1">
                 <apex:pageBlockTable onclick="sortThis()" styleclass="tablesorter" var="b" value="{!batchobjectlist}" width="90%" >                
                     <apex:column > 
