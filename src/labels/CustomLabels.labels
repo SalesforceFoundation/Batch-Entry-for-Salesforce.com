@@ -6,7 +6,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Batch Entry Help Text</shortDescription>
-        <value>This is the help text for the batch entry screen.</value>
+        <value>This page allows you to edit and configure your Batch Entry tool.  The &quot;Field Mappings&quot; tab controls which fields are rendered in the batch entry and saved records areas for each object.  The &quot;Advanced Configuration&quot; tab provides overrides to automatically configured features of the Batch Entry tool.</value>
     </labels>
     <labels>
         <fullName>Entry_Field_Help_Text</fullName>
@@ -23,5 +23,29 @@
         <protected>false</protected>
         <shortDescription>List Field Help Text</shortDescription>
         <value>Hold the ctrl key and click the field name to select multiple fields to be displayed in the list of saved items.</value>
+    </labels>
+    <labels>
+        <fullName>Load_Setting_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Load Setting Help Text</shortDescription>
+        <value>If the object you wish to enter is not in the list above, make sure you have a list setting for that object, and the object has a lookup to the Batch__c object.</value>
+    </labels>
+    <labels>
+        <fullName>NPSP_Setting_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>NPSP Setting Help Text</shortDescription>
+        <value>This value is automatically configured but can be overriden. When set to true, an NPSP-specific Contact lookup field will be displayed when entering Opportunities (Donations). NOTE: You MUST have the Contacts &amp; Organizations package installed to use this setting.</value>
+    </labels>
+    <labels>
+        <fullName>Opportunity_Naming_Setting_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Opportunity Naming Setting Help Text</shortDescription>
+        <value>Opportunities will be named automatically based on Contact/Account lookup, date and recordtype if the &apos;Name&apos; field is not on the Batch Entry screen. You can force automatic Opportunity naming to override user-provided values by checking this box.</value>
     </labels>
 </CustomLabels>
