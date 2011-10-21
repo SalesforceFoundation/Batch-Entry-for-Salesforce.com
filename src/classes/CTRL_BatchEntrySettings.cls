@@ -52,6 +52,7 @@ public with sharing class CTRL_BatchEntrySettings {
     
     public boolean npspIsInstalled{get; set;}
     
+    public id selectedbatchid{get; set;}
     //constructor
     public CTRL_BatchEntrySettings(){
     	
@@ -84,7 +85,7 @@ public with sharing class CTRL_BatchEntrySettings {
                             from Batch__c];   
         batchlist = new list<ExistingBatch>();
         for (Batch__c b : blist){
-        	batchlist.add(new ExistingBatch(b));
+        	batchlist.add(new ExistingBatch(b, this));
         }
     }
     
@@ -115,6 +116,22 @@ public with sharing class CTRL_BatchEntrySettings {
         }        
     }
     
+    public pageReference deleteBatch(){
+            integer i = 0;
+            integer deletenum;
+            for (ExistingBatch be : batchlist){
+            	system.assert(selectedbatchid != null);
+            	if (be.batch.id == selectedbatchid){
+            		delete be.batch;
+            		deletenum = i;            		
+            	}
+            	i++;
+            }
+            batchlist.remove(deletenum);
+                    
+            activeTab='batchdeletetab';
+            return null;
+    } 
     
     
     public void deleteItem(BatchEntrySetting bes) {
@@ -203,11 +220,12 @@ public with sharing class CTRL_BatchEntrySettings {
     
     public class ExistingBatch{
     	public Batch__c batch {get; set;}
+    	public CTRL_BatchEntrySettings mydad{get; set;}
     	
-    	public ExistingBatch(Batch__c b){
+    	public ExistingBatch(Batch__c b, CTRL_BatchEntrySettings bes){
     		batch = b;
+    		mydad = bes;
     	}
-    	
     }
     
     //handles settings in the list, and working with settings as the object

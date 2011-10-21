@@ -29,15 +29,26 @@ Batch Entry Visualforce page
 by Salesforce.com Foundation
 -->
 <apex:page id="BatchEntrySettings" tabstyle="Batch_Entry_Settings__tab" controller="CTRL_BatchEntrySettings" action="{!initPage}">
+
+ <script type="text/javascript">
+ 
+  function deleteBatch()
+    {
+        if(confirm('Entered Javascript'))
+            DeleteBatchRecord() ;
+    }
+ 
+ 
+ </script>
+
+
+
 <apex:PageBlock >
-  
     <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration & Settings" />
     <apex:Pagemessages />
     <apex:PageBlockSection columns="1">
         <apex:outputtext value="{!$Label.Batch_Entry_Help_Text}" style="font-style:italic;" />
     </apex:PageBlockSection>
-    
-    
     <apex:TabPanel switchtype="client" value="{!activetab}" >
     <apex:tab label="Field Mappings" name="fieldmapping">
     <apex:form >
@@ -138,13 +149,17 @@ by Salesforce.com Foundation
                 <apex:pageBlockTable var="b" value="{!batchlist}" width="90%" >                
                     <apex:column > 
                         <apex:facet name="header">Action</apex:facet>
-                        <apex:commandLink value="delete"  styleclass="editLink" immediate="true" />
+                        <a href="javascript:if (window.confirm('WARNING! Deleting the batch will not delete the items saved in the batch.  Are you sure?')) DeleteBatch('{!b.batch.Id}');">delete</a>
+                        <!--<apex:commandLink value="delete" onclick="deleteBatch();" styleclass="editLink" immediate="true" />-->
                     </apex:column>
                     <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.DeleteBatchListView}" var="c">
                     <apex:column value="{!b.batch[c]}"/>
                     </apex:repeat> 
                 </apex:pageBlockTable>
             </apex:pageBlockSection>
+            <apex:actionFunction action="{!DeleteBatch}" name="DeleteBatch" rerender="deletepanel">
+                <apex:param name="batchid" value="" assignTo="{!selectedbatchid}"/>
+            </apex:actionFunction>
     </apex:outputpanel>
     
     
