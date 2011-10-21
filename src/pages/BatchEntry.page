@@ -194,8 +194,9 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
     <apex:sectionHeader title="Batch Data Entry" subtitle="{!pageSubtitle}" />
     <apex:messages />
     
-    <apex:form >
+    
         <apex:pageBlock rendered="{!displaySettingsSection}">
+            <apex:form >
             <apex:outputText value="Select the object that you want to batch enter: "/>         
             <apex:selectList id="objectSelect" value="{!objName}" size="1">
                 <apex:selectOptions value="{!objectSettingsList}"/>
@@ -208,11 +209,23 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and
             <apex:outputText value="Can't find the setting for the object you want in the list above?"/>        
             &nbsp;
             <apex:commandButton value="Create New Setting" action="{!createBatchSetting}"/><br/>
-            <apex:pageBlockSection title="Help & FAQ" columns="1">
-                <apex:outputText value="Help and FAQ goes here"/>
+            
+            <apex:pageBlockSection title="Existing Batches" columns="1">
+                <apex:pageBlockTable var="b" value="{!batchlist}" width="90%" >                
+                    <apex:column > 
+                        <apex:facet name="header">Action</apex:facet>
+                        <apex:commandLink value="load"  styleclass="editLink" 
+                        immediate="true" />
+                    </apex:column>
+                    
+                    <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.ExistingBatchListview}" var="c">
+                    <apex:column value="{!b[c]}"/>
+                    </apex:repeat> 
+                </apex:pageBlockTable>
             </apex:pageBlockSection>
+            </apex:form>
         </apex:pageBlock>
-    </apex:form>
+    
          
     <apex:form styleClass="formClass" >     
         <apex:pageBlock mode="edit" rendered="{!displayBatchSection}" >    

@@ -51,6 +51,9 @@ public with sharing class CTRL_BatchEntry {
         public list<EntryField> entryFieldList { get; private set; }
         public list<string> listFieldList { get; private set; }
         
+        //batch list
+        public list<Batch__c> batchlist {get; set;}
+        
         public Batch_Data_Entry_Config__c bdec {get; set;}
         
         public integer itemCount { get { return (itemList != null) ? itemList.size() : 0; } }
@@ -66,7 +69,15 @@ public with sharing class CTRL_BatchEntry {
 
                 objname = (batch.id != null) ? 
                         batch.object_name__c :
-                        ApexPages.currentPage().getParameters().get('obj');        
+                        ApexPages.currentPage().getParameters().get('obj');
+                        
+                //this is inefficient, but seperates the old batches
+                //from the active batch - can be improved
+                batchlist = [select SystemModstamp, OwnerId, Object_Name__c, 
+                            Number_of_Items__c, Name, LastModifiedDate, 
+                            LastModifiedById, IsDeleted, Id, Description__c,
+                            CreatedDate, CreatedById, Batch_Status__c 
+                            from Batch__c];                                                        
         }
         
         public void initializeBatchEntry(){
