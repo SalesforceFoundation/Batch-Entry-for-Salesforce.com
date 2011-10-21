@@ -108,13 +108,13 @@ by Salesforce.com Foundation
         <apex:outputpanel id="savedstate">
             <apex:PageBlockSection columns="2">
                 
-                <apex:PageBlockSectionItem >
+                <apex:PageBlockSectionItem helpText="{!$Label.Opportunity_Naming_Setting_Help_Text}">
                     <apex:outputLabel value="Automatically Name Opportunities" />
                     <apex:inputCheckBox value="{!beconfig.Opportunity_Naming__c}" disabled="{!NOT(editingConfig)}" />
                 
                 </apex:PageBlockSectionItem>
                 
-                <apex:PageBlockSectionItem >
+                <apex:PageBlockSectionItem helpText="{!$Label.NPSP_Setting_Help_Text}">
                     <apex:outputlabel value="Use NPSP Configuration" />
                     <apex:inputCheckBox value="{!beconfig.Has_NPSP__c}" disabled="{!NOT(editingConfig)}" />
                 </apex:PageBlockSectionItem>
