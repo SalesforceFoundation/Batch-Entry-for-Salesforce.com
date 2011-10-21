@@ -314,7 +314,7 @@ public with sharing class CTRL_BatchEntry {
         			}
         			
         			//update the name in case values have changed
-        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Opportunity_Naming__c == true){
+        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || currentItem.sobj.get('Name') == null)){
                             currentItem.sobj.put('Name', currentItem.createName());
                     }
                     
@@ -325,7 +325,7 @@ public with sharing class CTRL_BatchEntry {
                         }
                       
                         //use automatic opp naming 
-                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Opportunity_Naming__c == true){
+                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || currentItem.sobj.get('Name') == null)){
                             currentItem.sobj.put('Name', currentItem.createName());
                 		}
                 		
