@@ -23,12 +23,11 @@
     </types>
     <types>
         <members>Batch_Entry</members>
-        <members>Batch__c</members>
+        <members>Batch_Entry_Settings</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>TypeAhead</members>
-        <members>jquery_ui_datepicker</members>
+        <members>*</members>
         <name>StaticResource</name>
     </types>
     <version>20.0</version>
