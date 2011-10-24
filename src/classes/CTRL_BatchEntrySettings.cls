@@ -82,7 +82,7 @@ public with sharing class CTRL_BatchEntrySettings {
                             Number_of_Items__c, Name, LastModifiedDate, 
                             LastModifiedById, IsDeleted, Id, Description__c,
                             CreatedDate, CreatedById, Batch_Status__c 
-                            from Batch__c];   
+                            from Batch__c order by LastModifiedDate desc];   
         batchlist = new list<ExistingBatch>();
         for (Batch__c b : blist){
         	batchlist.add(new ExistingBatch(b, this));
