@@ -82,7 +82,7 @@ public with sharing class CTRL_BatchEntry {
                             Number_of_Items__c, Name, LastModifiedDate, 
                             LastModifiedById, IsDeleted, Id, Description__c,
                             CreatedDate, CreatedById, Batch_Status__c 
-                            from Batch__c limit 2000];         
+                            from Batch__c order by LastModifiedDate desc limit 2000];         
                 
                 if (batchlist != null){
                     batchobjectlist = new list<BatchObject>();	
