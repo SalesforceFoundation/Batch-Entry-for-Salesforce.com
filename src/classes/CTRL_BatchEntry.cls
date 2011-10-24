@@ -82,7 +82,7 @@ public with sharing class CTRL_BatchEntry {
                             Number_of_Items__c, Name, LastModifiedDate, 
                             LastModifiedById, IsDeleted, Id, Description__c,
                             CreatedDate, CreatedById, Batch_Status__c 
-                            from Batch__c];         
+                            from Batch__c limit 2000];         
                 
                 if (batchlist != null){
                     batchobjectlist = new list<BatchObject>();	
@@ -136,16 +136,18 @@ public with sharing class CTRL_BatchEntry {
                             q += ' where ' + batchLookupField + ' = \'' + batch.id + '\'';
                           
                             list<sobject> existingsobjs = database.query(q);
-                            
-                            //if its opps and npsp, query for the ocrs
-                            //so we can properly backfill the objects in the batch items
-                            if (existingsobjs[0].getSobjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
-                                list<OpportunityContactRole> ocrlist = [select id, OpportunityID, ContactID from OpportunityContactRole where OpportunityID IN :existingsobjs and isPrimary = true];
-                                for (OpportunityContactRole ocr : ocrlist){
-                                	ocrlookup.put(ocr.OpportunityID, ocr);
-                                }                                                           	   
+                    
+                            if (!existingsobjs.isEmpty()){                                                
+                                //if its opps and npsp, query for the ocrs
+                                //so we can properly backfill the objects in the batch items
+                                if (existingsobjs[0].getSobjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
+                                    list<OpportunityContactRole> ocrlist = [select id, OpportunityID, ContactID from OpportunityContactRole where OpportunityID IN :existingsobjs and isPrimary = true];
+                                    for (OpportunityContactRole ocr : ocrlist){
+                                    	ocrlookup.put(ocr.OpportunityID, ocr);
+                                    }                                                           	   
+                                }
                             }
-                          
+                            
                             for (sObject existing : existingsobjs) {
                                 itemList.add(new BatchItem(this, existing));
                             }       
