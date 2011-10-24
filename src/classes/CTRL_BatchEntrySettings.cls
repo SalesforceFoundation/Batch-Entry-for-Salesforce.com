@@ -389,8 +389,92 @@ public with sharing class CTRL_BatchEntrySettings {
     }
     
     public static testMethod void testController(){
-    	
-    	
+        
+        delete [select id from BulkDataEntry__c];
+        
+        BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'opportunity', Save_Batch__c = true,
+        Object_Entry_Field_Set__c = 'name,accountid,amount,stagename,closedate',
+        Object_List_Field_Set__c = 'name,accountid,amount');
+        insert bde;     
+        
+        //insert a batch
+        Batch__c batch_to_delete = new Batch__c(Name = 'Delete me');
+        insert batch_to_delete;
+        
+        //delete existing be config records
+        delete [select id from Batch_Data_Entry_Config__c];
+            
+        Test.setCurrentPage(Page.BatchEntrySettings); 
+        ApexPages.currentPage().getParameters().put('setting', bde.id);
+        CTRL_BatchEntrySettings ctrl = new CTRL_BatchEntrySettings(); 
+        ctrl.initPage();
+        
+        //we have loaded the existing contact setting
+        system.assert(ctrl.batchlist.size() > 0);
+        
+        //test deletion of a batch
+        ctrl.selectedbatchid = batch_to_delete.id;
+        ctrl.deleteBatch();
+        system.assertEquals(0, [select count() from Batch__c where id = :batch_to_delete.id]); 
+        
+        //run batchentrysetting methods
+        BatchEntrySetting bes = ctrl.bulkEntrySettings[0];
+        ctrl.activeSetting = bes;
+        
+        //test subclass props and methods
+        list<SelectOption> delist = ctrl.activeSetting.getavailableDEFields();
+        list<SelectOption> lelist = ctrl.activeSetting.getavailableListFields();
+        system.assertNotEquals(delist.size(), 0);
+        system.assertNotEquals(lelist.size(), 0);
+        ctrl.activeSetting.entryList = null;
+        ctrl.activeSetting.savelist = null;
+        delist = ctrl.activesetting.getavailabledefields();
+        lelist = ctrl.activesetting.getavailablelistfields();
+        
+        ctrl.activeSetting.editItem();
+        system.assertEquals(ctrl.activeSetting, bes);
+        system.assertNotEquals(ctrl.activeSetting.saveList, null);
+        system.assertNotEquals(ctrl.activeSetting.entryList, null);
+        integer listsize = ctrl.activeSetting.SettingsListSize;
+        BulkDataEntry__c testbde = ctrl.activeSetting.mysetting;
+        system.assertEquals(testbde.id, bde.id);                
+        system.assertEquals(ctrl, ctrl.activeSetting.mydad);
+        
+        //create a new setting through the page
+        ctrl.createNew();
+        //set some values
+        ctrl.activeSetting.objectname = 'contact';
+        ctrl.activeSetting.saveList = new list<string>{'LastName', 'Birthdate', 'FirstName'};
+        ctrl.activeSetting.entryList = new list<string>{'LastName', 'Birthdate', 'FirstName'};
+        ctrl.saveSetting();
+        system.assertNotEquals(0, [select count() from BulkDataEntry__c where Name = 'contact']);
+        ctrl.activeSetting = new BatchEntrySetting([select id, Name, Object_Entry_Field_Set__c, Object_List_Field_Set__c from BulkDataEntry__c where Name = 'contact'], ctrl);
+        ctrl.activeSetting.deleteItem();
+        system.assertEquals(0, [select count() from BulkDataEntry__c where Name = 'contact']);
+        
+        //exercise be config settings
+        ctrl.cancel();
+        ctrl.cancelAdvancedSettings();
+        ctrl.editAdvancedSettings();
+        ctrl.saveAdvancedSettings();
+        
+        //delete our existing setting 
+        ctrl.activesetting = new BatchEntrySetting(bde, ctrl);
+        ctrl.deleteItem(ctrl.activeSetting);
+        system.assertEquals(0, [select count() from BulkDataEntry__c where id = :bde.id]);
+    
+        //test some error scenarios
+        ctrl.activesetting.objectname = null;
+        ctrl.saveSetting();
+        
+        ctrl.activesetting.mysetting = null;
+        ctrl.activesetting.upsertBDESetting();
+        
+        ctrl.activesetting = null;
+        ctrl.saveSetting();
+        
+        ctrl.beconfig = null;
+        ctrl.saveAdvancedSettings();        
     }
     
     
