@@ -30,19 +30,6 @@ by Salesforce.com Foundation
 -->
 <apex:page id="BatchEntrySettings" tabstyle="Batch_Entry_Settings__tab" controller="CTRL_BatchEntrySettings" action="{!initPage}">
 
- <script type="text/javascript">
- 
-  function deleteBatch()
-    {
-        if(confirm('Entered Javascript'))
-            DeleteBatchRecord() ;
-    }
- 
- 
- </script>
-
-
-
 <apex:PageBlock >
     <apex:sectionHeader title="Batch Data Entry" subtitle="Configuration & Settings" />
     <apex:Pagemessages />
