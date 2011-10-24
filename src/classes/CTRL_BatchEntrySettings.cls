@@ -75,8 +75,7 @@ public with sharing class CTRL_BatchEntrySettings {
                     activeSetting = bes;                	
                 }           	
             }           
-        }
-        
+        }        
         
         list<Batch__c> blist = [select SystemModstamp, OwnerId, Object_Name__c, 
                             Number_of_Items__c, Name, LastModifiedDate, 
