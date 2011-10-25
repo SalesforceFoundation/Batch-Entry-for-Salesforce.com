@@ -53,7 +53,9 @@ public with sharing class CTRL_BatchEntry {
         
         //batch list
         public list<Batch__c> batchlist {get; set;}
-        public list<BatchObject> batchobjectlist {get; set;}
+        public list<BatchOBject> batchdisplaylist {get; set;}
+        public boolean isShowingAll{get; set;}
+        list<BatchObject> batchobjectlist;
         
         public Batch_Data_Entry_Config__c bdec {get; set;}
         
@@ -86,10 +88,14 @@ public with sharing class CTRL_BatchEntry {
                 
                 if (batchlist != null){
                     batchobjectlist = new list<BatchObject>();	
+                    batchdisplaylist = new list<BatchObject>();
                                            
                     for (Batch__c b : batchlist){
                 	   batchobjectlist.add(new BatchObject(this, b));
-                    }                                                                           
+                    }       
+                    batchdisplaylist = batchobjectlist.clone();
+                    //default to showing only open batches
+                    showOpenBatches();                                                            
                 }
         }
         
@@ -308,6 +314,24 @@ public with sharing class CTRL_BatchEntry {
                 }
                 return null;
         }
+        
+        public pageReference showOpenBatches(){
+        	integer i;
+        	for (i = 0; i <= batchobjectlist.size() - 1; i++){
+        	   	if (batchobjectlist[i].mybatch.Batch_Status__c == 'Complete'){
+        	   	   batchdisplaylist.remove(i);	
+        	   	}
+        	}
+        	isShowingAll = false;
+        	return null;
+        }
+        
+        public pageReference showAllBatches(){
+        	batchdisplaylist = batchobjectlist.clone();
+        	isShowingAll = true;
+        	return null;
+        }
+        
         
         public pageReference save() {
         		if (currentItem.sobj.id != null) {

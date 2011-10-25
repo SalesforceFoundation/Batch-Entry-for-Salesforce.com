@@ -228,16 +228,19 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
             &nbsp;
             <apex:commandlink style="font-style:italic;" value="(Create New Setting)" action="{!createBatchSetting}"/><br/>
             <br/>
-            <apex:pageBlockSection title="Existing Batches" columns="1">
-                <apex:pageBlockTable onclick="sortThis()" styleclass="tablesorter" var="b" value="{!batchobjectlist}" width="90%" >                
+                <apex:panelgrid columns="1" border="0" frame="none">
+                    <apex:commandLink style="font-size:10px;" title="Show all batches, including those marked 'Complete'" value="Show All" immediate="true" action="{!showallbatches}" rendered="{!NOT(isShowingAll)}"/>
+                    <apex:commandLink style="font-size:10px;" title="Show only open batches, excludes those marked 'Complete'" value="Show Open" immediate="true" action="{!showopenbatches}" rendered="{!isShowingAll}" />
+                </apex:panelgrid>
+            <apex:pageBlockSection title="{!IF(isShowingAll, 'All Batches', 'All Open Batches')}" columns="1">
+                <apex:pageBlockTable frame="none" onclick="sortThis()" styleclass="tablesorter" var="b" value="{!batchdisplaylist}" width="90%" >                
                     <apex:column > 
                         <apex:facet name="header">Action</apex:facet>
                         <apex:commandLink value="load"  styleclass="editLink" action="{!b.loadBatch}"
                         immediate="true" />
                     </apex:column>
-                    
                     <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.ExistingBatchListview}" var="c">
-                    <apex:column value="{!b.myBatch[c]}"/>
+                        <apex:column value="{!b.myBatch[c]}"/>
                     </apex:repeat> 
                 </apex:pageBlockTable>
             </apex:pageBlockSection>
