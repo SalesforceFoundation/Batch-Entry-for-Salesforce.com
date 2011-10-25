@@ -130,7 +130,7 @@ by Salesforce.com Foundation
     </apex:tab>
     <apex:tab label="Delete Batches" name="batchdeletetab">
     <apex:form >
-    Some sort of warning text 
+    <apex:outputText value="{!$Label.Batch_Deletion_Help_Text}" />
     <apex:outputpanel id="deletepanel">
      <apex:pageBlockSection title="Existing Batches" columns="1" collapsible="false">
                 <apex:pageBlockTable var="b" value="{!batchlist}" width="90%" >                
