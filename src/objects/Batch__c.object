@@ -28,7 +28,8 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>Tab</actionName>
-        <type>Default</type>
+        <content>BatchEntrySettings</content>
+        <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>

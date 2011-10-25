@@ -17,8 +17,7 @@
         <name>CustomLabels</name>
     </types>
     <types>
-        <members>Batch__c</members>
-        <members>BulkDataEntry__c</members>
+        <members>*</members>
         <name>CustomObject</name>
     </types>
     <types>
