@@ -9,8 +9,13 @@
     </types>
     <types>
         <members>BatchEntry</members>
+        <members>BatchEntryAbout</members>
         <members>BatchEntrySettings</members>
         <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Batch_Data_Entry</members>
+        <name>CustomApplication</name>
     </types>
     <types>
         <members>*</members>
@@ -21,6 +26,7 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>About_Batch_Data_Entry</members>
         <members>Batch_Entry</members>
         <members>Batch_Entry_Settings</members>
         <name>CustomTab</name>
