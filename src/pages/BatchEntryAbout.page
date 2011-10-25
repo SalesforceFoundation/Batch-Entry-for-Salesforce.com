@@ -32,12 +32,35 @@ by Salesforce.com Foundation
     <apex:pageblock >
         <apex:sectionHeader title="Batch Data Entry" subtitle="About Batch Data Entry" />
         <apex:Pagemessages />
-        <apex:pageBlocksection title="About Batch Data Entry" collapsible="false">
-        
+        <apex:pageBlocksection title="About Batch Data Entry" collapsible="false" columns="2">
+            <apex:pageblocksectionitem >
+            <apex:outputText value="Batch Data Entry is an open source utility for manually entering bulk data into Salesforce.com.  Originally developed
+            as part of the April 2011 Nonprofit Starter Pack developer sprint, the project is now freely available for download via the Appexchange. 
+            The source code can be found through the project's repository on Github.com under the BSD License." style="font-style:italic;" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+            <apex:outputText value="Contributors" style="font-weight:bold;"/>
+            <apex:panelgrid columns="1">
+                <apex:outputtext value="Mike Fullmore"/>
+                <apex:outputtext value="Evan Callahan"/>
+                <apex:outputtext value="Veronica Waters"/>
+                <apex:outputtext value="Derek D'Souza"/>
+                <apex:outputtext value="Bergan Moore"/>
+                <apex:outputtext value="Kevin Bromer"/>
+                <apex:outputtext value="Steve Andersen"/>
+            </apex:panelgrid>
+            </apex:pageblocksectionitem>
+            <apex:panelgrid columns="2" >
+            <apex:outputLink target="_blank" value="https://github.com/SalesforceFoundation/Batch-Entry-for-Salesforce.com" id="thegithubLink">Source on Github</apex:outputLink>
+            <apex:outputLink target="_blank" value="https://www.salesforce.com" id="theappexchangeLink">Appexchange Listing</apex:outputLink>
+            </apex:panelgrid>
         </apex:pageBlocksection>
-        <apex:pageBlockSection title="Help & FAQ" collapsible="true">
+        
+        </apex:pageblock>
+        
+        <apex:pageBlock >
+        <apex:outputtext value="Help & FAQ"/>
+        <apex:pageBlockSection title="Getting Started" collapsible="true">
         </apex:pageBlockSection>
-        
-        
-    </apex:pageblock>
+        </apex:pageBlock>
 </apex:page>
