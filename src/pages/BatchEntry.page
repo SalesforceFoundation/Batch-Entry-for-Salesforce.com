@@ -209,7 +209,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
         .ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
     </style>
     
-    <apex:sectionHeader title="Batch Data Entry" subtitle="{!pageSubtitle}" />
+    <apex:sectionHeader title="Batch Data Entry" subtitle="{!pageSubtitle}" help="apex/BatchEntryAbout"/>
     <apex:messages />
     
     
