@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>Batch_Deletion_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Batch Deletion Help Text</shortDescription>
+        <value>This menu allows you to delete existing batches. It is important to note that this only deletes the batch metadata, and does NOT effect any of the records created as part of the batch.</value>
+    </labels>
+    <labels>
         <fullName>Batch_Entry_Help_Text</fullName>
         <categories>BatchEntry</categories>
         <language>en_US</language>
@@ -38,7 +46,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>NPSP Setting Help Text</shortDescription>
-        <value>This value is automatically configured but can be overriden. When set to true, an NPSP-specific Contact lookup field will be displayed when entering Opportunities (Donations). NOTE: You MUST have the Contacts &amp; Organizations package installed to use this setting.</value>
+        <value>Only available if the Nonprofit Starter Pack Contacts &amp; Organizations package is installed.  This value is automatically configured but can be overriden. When set to true, an NPSP-specific Contact lookup field will be displayed when entering Opportunities (Donations).</value>
     </labels>
     <labels>
         <fullName>Opportunity_Naming_Setting_Help_Text</fullName>
