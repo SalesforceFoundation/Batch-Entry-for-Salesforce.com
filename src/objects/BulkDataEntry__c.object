@@ -6,15 +6,6 @@
     <enableEnhancedLookup>false</enableEnhancedLookup>
     <enableFeeds>false</enableFeeds>
     <fields>
-        <fullName>Object_Default_Field_Set__c</fullName>
-        <externalId>false</externalId>
-        <label>Object Default Field Set</label>
-        <length>255</length>
-        <required>false</required>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
         <fullName>Object_Entry_Field_Set__c</fullName>
         <description>What field set are you using for the data entry section of the page.</description>
         <externalId>false</externalId>
