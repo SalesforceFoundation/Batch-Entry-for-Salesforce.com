@@ -29,6 +29,33 @@ Batch Entry About page
 by Salesforce.com Foundation
 -->
 <apex:page tabstyle="About_Batch_Data_Entry__tab" >
+<script language="javascript">
+
+//adding an onload event to the dom
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {
+    window.onload = function() {
+      if (oldonload) {
+        oldonload();
+      }
+      func();
+    }
+  }
+}
+
+//by default, twist our sections close
+function defaultTwist() {
+ twistSection(document.getElementById('j_id0:j_id47:j_id49').childNodes[0].childNodes[0]);
+ //twistSection(document.getElementById('j_id0:j_id46:j_id48').childNodes[0]);
+ 
+}
+
+addLoadEvent(defaultTwist);
+</script>
+
     <apex:pageblock >
         <apex:sectionHeader title="Batch Data Entry" subtitle="About Batch Data Entry" />
         <apex:Pagemessages />
@@ -57,17 +84,71 @@ by Salesforce.com Foundation
             <apex:outputLink target="_blank" value="https://www.salesforce.com" id="theappexchangeLink">Appexchange Listing</apex:outputLink>
             </apex:panelgrid>
         </apex:pageBlocksection>
-        
-        </apex:pageblock>
-        
-        <apex:pageBlock >
-        
-        <apex:outputtext value="Help & FAQ"/>
-        <apex:pageBlockSection title="Getting Started" collapsible="true">
+    </apex:pageblock>
+            
+    <apex:pageBlock >
+        <div style="font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Help &amp; FAQ</div>
+        <br/>
+        <apex:pageBlockSection title="Getting Started" collapsible="true" columns="2">
+            <apex:pageblocksectionitem >
+                <apex:outputText value="Starting a New Batch"/>
+                <apex:outputText value="You can immediately start entering batch data by clicking on the 'New Batch' button. 
+                A default batch setting for Opportunities is created for you automatically.  If you want to batch enter other
+                custom or standard objects, you'll need to click on 'Create Settings' to create a setting for that object."/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="gettingstarted1" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted1.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:outputText value="Entering & Saving Data"/>
+                <apex:outputText value="Once you've selected the object to work with, you can immediately start entering data. The 'Batch Summary' section
+                contains metadata about the contents of a batch.  The 'Saved Record List' shows all records for this batch that have already been entered 
+                and saved. Entering new data is done in the 'Record Information' section.  Clicking the pushpin button next to a field will make that 
+                field 'sticky', and will take the value in that field, and make it the default value for the next record as well. You can modify already saved
+                records by clicking 'edit' next to the record in the 'Saved Record List'.  Clicking 'view' will take you to the detail page view of the saved
+                record."/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="gettingstarted2" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted2.jpg')}" />
+            </apex:pageblocksectionitem>                
         </apex:pageBlockSection>
         <apex:pageBlockSection title="Entering Data" collapsible="true">
+                <apex:pageblocksectionitem >
+                <apex:outputText value="Batch Metadata"/>
+                <apex:outputText value=" stuff "/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="gettingstarted1" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted1.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:outputText value="Data Entry"/>
+                <apex:outputText value="O"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="gettingstarted2" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted2.jpg')}" />
+            </apex:pageblocksectionitem> 
+            <apex:pageblocksectionitem >
+                <apex:outputText value="Other Considerations"/>
+                <apex:outputText value="Opp Naming; NPSP Specific stuff; "/>
+            </apex:pageblocksectionitem>
         </apex:pageBlockSection>
         <apex:pageBlockSection title="Configuration and Setup" collapsible="true">
+            <apex:pageblocksectionitem >
+                <apex:outputText value="Configuring Entry & Save List Fields"/>
+                <apex:outputText value="Opp Naming; NPSP Specific stuff; "/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:outputText value="Configuring Batch Fields & Lists"/>
+                <apex:outputText value="Opp Naming; NPSP Specific stuff; "/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:outputText value="Advanced Configuration Items"/>
+                <apex:outputText value="Opp Naming; NPSP Specific stuff; "/>
+            </apex:pageblocksectionitem>
+             <apex:pageblocksectionitem >
+                <apex:outputText value="Deleting Batches"/>
+                <apex:outputText value="Opp Naming; NPSP Specific stuff; "/>
+            </apex:pageblocksectionitem>         
         </apex:pageBlockSection>
         </apex:pageBlock>
 </apex:page>
