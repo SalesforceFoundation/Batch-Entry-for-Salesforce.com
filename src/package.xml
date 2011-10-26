@@ -22,10 +22,10 @@
         <name>CustomLabels</name>
     </types>
     <types>
-        <members>Batch__c</members>
-        <members>Batch_Data_Entry_Config__c</members>
-        <members>BulkDataEntry__c</members>
         <members>Account</members>
+        <members>Batch_Data_Entry_Config__c</members>
+        <members>Batch__c</members>
+        <members>BulkDataEntry__c</members>
         <members>Contact</members>
         <members>Lead</members>
         <members>Opportunity</members>
