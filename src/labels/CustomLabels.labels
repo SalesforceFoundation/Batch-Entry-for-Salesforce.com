@@ -1,6 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>About_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Text used in the About tab</shortDescription>
+        <value>Batch Data Entry is an open source utility for manually entering bulk data for any standard or custom object into Salesforce.com.  Originally developed as part of the April 2011 Nonprofit Starter Pack Developer Sprint, the project is now freely available from the Salesforce.com Foundation for download via the Appexchange. The source code can be found through the project&apos;s repository on Github.com under the BSD License.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Advanced_Configuration_Items_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help Text for the Advanced Configuration Items section of the About tab</shortDescription>
+        <value>Selecting the Advanced Configuration tab in the Batch Data Entry Setting tab provides you with access to additional settings. When the &apos;Name&apos; field is removed from the Record Information section when entering Opportunities, the Batch Data Entry tool will automatically name Opportunities for you in the following format: &quot;&lt;Acct/Con Name&gt; &lt;CloseDate&gt; &lt;RecordType&gt;&quot;.  The &apos;Automatically Name Opportunities&apos; box will cause the Batch Data Entry tool to automatically generate a name for Opportunities, even if the &apos;Name&apos; field is on the Record Information section.  This will OVERWRITE user values for this field for newly created records.
+
+The &apos;Use NPSP Configuration&apos; checkbox is only available if you have the Nonprofit Starter Pack installed. When checked, an additional field called &apos;NPSP Contact&apos; will be provided when entering Opportunities. This field will create the proper Opp Contact Role when entering Donations. Unchecking will remove the field from from the Record Information section.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Batch_Metadata_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help text for the Batch Metadata section in the About tab</shortDescription>
+        <value>Information in the Batch Summary section is associated with the batch object.  This object provides metadata information about the status of the batch, and a convenient way to recall all records entered in a single batch.  The Batch Name is your name for the batch, and description provides additional information about the batch.  The status pulldown menu allows you to select your batch status. Batches marked as &apos;Complete&apos; will not be displayed by default in the list of existing batches (clicking &apos;Show All&apos; will make them visible).  Changes to the Batch Summary section are automatically saved.  You can add additional fields to the batch object and add existing fields to this layout.  To display new or existing fields, add the fields to the BatchDetailView fieldset. This can be found by going to Setup-&gt;Create-&gt;Objects-&gt;Batch-&gt;FieldSets-&gt;BatchDetailView.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Configuring_Batch_Fields_and_Lists_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help Text for the Configuring Batch Fields and Lists section of the About tab</shortDescription>
+        <value>Batch fields and lists, which includes the &apos;Open Batches&apos; and &apos;All Batches&apos; lists, the fields displayed in the &apos;Batch Summary&apos; section, and the fields displayed in the &apos;Delete Batches&apos; tab in the settings, are all customizable utilizing Field Sets. To change the fields displayed for any of the above mentioned lists, go to &lt;your name&gt;-&gt;Setup-&gt;Create-&gt;Objects, and click on &apos;Batch&apos;.  Under the Field Sets section, click &apos;Edit&apos; next to the name of the Field Set you wish to edit. Save your results, and refresh the Batch Data Entry tool to see the changes.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Data_Entry_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help text for the Data Entry section in the About tab</shortDescription>
+        <value>Entering data in Batch Data Entry is done using the Record Information section. The fields and order are determined by the object setting in the Batch Data Entry Settings tab.  Clicking the &apos;Save&apos; button after entering data will save the record to the database, and display it in a related list in the &apos;Saved Records&apos; section below.  Records from the related list can be edited by clicking on &apos;edit&apos; next to the record. This will load the record into the Record Information section, and allow you to edit the previously saved vales.  You can adjust the fields in the related list by going to the Batch Data Entry Settings tab.  You can use the &apos;sticky&apos; pushpins to &apos;pin&apos; data to a record, making it a default value for the pinned field.  Once a value is &apos;pinned&apos;, it will automatically carry over to the next record to be entered. You can optionally overwrite the saved value prior to saving the new record.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Deleting_Batches_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help Text for the Deleting Batches section in the About tab</shortDescription>
+        <value>The Delete Batches tab in the Batch Data Entry Setting tab provides an interface for deleting batches.  Simply click &apos;delete&apos; next to the batch you wish to delete. Its important to note, deleting a batch only deletes the associated batch metadata, and does not effect any of the records created as part of the batch.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Entering_and_Saving_Data_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help Text for the Entering and Saving Data section in the About tab</shortDescription>
+        <value>Once you&apos;ve selected the object to work with, you can immediately start entering data. The &apos;Batch Summary&apos; section contains metadata about the contents of a batch.  The &apos;Saved Record List&apos; shows all records for this batch that have already been entered and saved. Entering new data is done in the &apos;Record Information&apos; section.  Clicking the pushpin button next to a field will make that field &apos;sticky&apos;, and will take the value in that field, and make it the default value for the next record as well. You can modify already saved records by clicking &apos;edit&apos; next to the record in the &apos;Saved Record List&apos;.  Clicking &apos;view&apos; will take you to the detail page view of the saved record.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Entry_Save_List_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help text for Configuring Entry and Save Fields section of the About tab</shortDescription>
+        <value>You have full control over the fields displayed in the Record Information (data entry) section, as well as the corresponding list of saved objects (save list).  To edit these fields, go to the Batch Data Entry Settings tab, and then the &apos;Field Mappings&apos; tab.  Each object you want to enter data for needs its own settings (one setting per object), as well as a lookup field to the Batch__c object. Lookup fields have been provided for the Opportunity, Contact, Account and Lead objects. Select the object you wish to create a list for (or click &apos;edit&apos; next to an existing object&apos;s record), and the list of available fields will be loaded for you. Fields that are marked as required are automatically selected in the data entry list. To select (or deselect) additional fields, hold down the &apos;ctrl&apos; key, and click on the items you wish to add to your entry screen and save list.  Click &apos;Save&apos; when complete to save your object setting.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Other_Considerations_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help text for the Other Considerations section in the About tab</shortDescription>
+        <value>When entering Opportunities, the &apos;Name&apos; field is required. However, the Batch Data Entry tool will automatically generate an Opportunity Name for you if the &apos;Name&apos; field is not rendered on the Record Information screen.  If you&apos;re a Nonprofit Starter Pack user, the Batch Data Entry tool automatically configures itself with a NPSP-specific field for attaching Donations to Contacts.  This option is not available if you&apos;re not using the NPSP.</value>
+    </labels>
+    <labels>
+        <fullName>BDE_Starting_New_Batch_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help Text for the Starting a New Batch section in the About tab</shortDescription>
+        <value>You can immediately start entering batch data by clicking on the &apos;New Batch&apos; button. A default batch setting for Opportunities is created for you automatically.  If you want to batch enter other custom or standard objects, you&apos;ll need to click on &apos;Create Settings&apos; to create a setting for that object.</value>
+    </labels>
+    <labels>
         <fullName>Batch_Deletion_Help_Text</fullName>
         <categories>BatchEntry</categories>
         <language>en_US</language>
