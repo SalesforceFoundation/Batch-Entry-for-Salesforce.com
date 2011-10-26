@@ -34,9 +34,11 @@ by Salesforce.com Foundation
         <apex:Pagemessages />
         <apex:pageBlocksection title="" collapsible="false" columns="2">
             <apex:pageblocksectionitem >
-            <apex:outputText value="Batch Data Entry is an open source utility for manually entering bulk data into Salesforce.com.  Originally developed
-            as part of the April 2011 Nonprofit Starter Pack developer sprint, the project is now freely available from the Salesforce.com Foundation
-             for download via the Appexchange. The source code can be found through the project's repository on Github.com under the BSD License." style="font-style:italic;" />
+            <apex:outputText value="Batch Data Entry is an open source utility for manually entering bulk data for any standard or custom object 
+            into Salesforce.com.  Originally developed as part of the April 2011 Nonprofit Starter Pack Developer Sprint, 
+            the project is now freely available from the Salesforce.com Foundation for download via the Appexchange. 
+            The source code can be found through the project's repository on Github.com under the BSD License." 
+            style="font-style:italic;" />
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
             <apex:outputText value="Contributors" style="font-weight:bold;"/>
