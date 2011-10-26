@@ -420,17 +420,17 @@ public with sharing class CTRL_BatchEntry {
         
 	    static testMethod void testBatchWithSave() {
 			// create settings object			
-			BulkDataEntry__c contact_bde = BulkDataEntry__c.getInstance('Contact');
+			BulkDataEntry__c contact_bde = BulkDataEntry__c.getInstance('contact');
 			if (contact_bde == null){
-                BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'Contact');
+                BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'contact', Object_Entry_Field_Set__c = 'lastname');
                 insert bde;
 			}
 			
 			ApexPages.StandardController sc = new ApexPages.standardController( new Batch__c() );
 			Test.setCurrentPage(Page.BatchEntry); 
-			ApexPages.currentPage().getParameters().put('obj', 'Contact');
+			ApexPages.currentPage().getParameters().put('obj', 'contact');
 			CTRL_BatchEntry ext = new CTRL_BatchEntry(sc); 
-            
+            ext.initializeBatchEntry();
             system.assertNotEquals(null, ext.currentItem);
 			
 			// set some fields
@@ -440,11 +440,7 @@ public with sharing class CTRL_BatchEntry {
 			// do it again with the saved record
 			sc = new ApexPages.standardController( ext.batch );
 			Test.setCurrentPage(Page.BatchEntry); 
-			ApexPages.currentPage().getParameters().put('obj', 'Contact');
+			ApexPages.currentPage().getParameters().put('obj', 'contact');
 			ext = new CTRL_BatchEntry(sc); 
-		}
-	
-		static testMethod void testBatchNotSaved() {
-			
-		}        
+		}	      
 }
