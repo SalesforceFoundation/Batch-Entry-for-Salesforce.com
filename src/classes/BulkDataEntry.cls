@@ -48,7 +48,7 @@ public class BulkDataEntry {
 	private final String SUCCESS = 'Success';
 	private final String FAIL = 'Failure: ';
 	private final String CREATED_CUSTOM_SETTING = 'You did not have a default custom setting so we are passing one to you in memory';
-	private final String DEFAULT_NAME = 'Opportunity';
+	private final String DEFAULT_NAME = 'opportunity';
 	private final String DEFAULT_ENTRY_FS = 'AccountID,Name,StageName,Amount,CloseDate';
 	private final String DEFAULT_LIST_FS = 'AccountID,Name,StageName,Amount,CloseDate';	
 	private final Boolean DEFAULT_SAVE_BATCH = true;
