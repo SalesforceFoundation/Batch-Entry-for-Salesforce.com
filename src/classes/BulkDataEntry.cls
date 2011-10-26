@@ -188,7 +188,6 @@ public class BulkDataEntry {
 		bulkDataEntrySetting = new BulkDataEntry__c(Name = 'Contact',
 											 Object_Entry_Field_Set__c = 'Test,Field,Set',
 											 Object_List_Field_Set__c = 'Test,List,Field,Set',
-											 Object_Default_Field_Set__c = 'Test,Default,Field,Set',
 											 Save_Batch__c = true);
 											 
 		delete [select id from BulkDataEntry__c];
