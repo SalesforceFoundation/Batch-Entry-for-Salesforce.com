@@ -422,14 +422,15 @@ public with sharing class CTRL_BatchEntry {
 			// create settings object			
 			BulkDataEntry__c contact_bde = BulkDataEntry__c.getInstance('contact');
 			if (contact_bde == null){
-                BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'contact', Object_Entry_Field_Set__c = 'lastname');
+                BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'contact', Object_Entry_Field_Set__c = 'lastname', Save_Batch__c = true);
                 insert bde;
 			}
 			
 			ApexPages.StandardController sc = new ApexPages.standardController( new Batch__c() );
 			Test.setCurrentPage(Page.BatchEntry); 
 			ApexPages.currentPage().getParameters().put('obj', 'contact');
-			CTRL_BatchEntry ext = new CTRL_BatchEntry(sc); 
+			CTRL_BatchEntry ext = new CTRL_BatchEntry(sc);
+			ext.displayBatchSection = true; 
             ext.initializeBatchEntry();
             system.assertNotEquals(null, ext.currentItem);
 			
@@ -443,4 +444,107 @@ public with sharing class CTRL_BatchEntry {
 			ApexPages.currentPage().getParameters().put('obj', 'contact');
 			ext = new CTRL_BatchEntry(sc); 
 		}	      
+		
+		static testMethod void testNewObjectLoad(){
+			//clear out existing settings
+			delete [select id from BulkDataEntry__c];
+			delete [select id from Batch_Data_Entry_Config__c];
+			ApexPages.StandardController sc = new ApexPages.standardController( new Batch__c() );
+            Test.setCurrentPage(Page.BatchEntry); 
+            CTRL_BatchEntry ext = new CTRL_BatchEntry(sc); 
+            
+            //exercise entry display
+            ext.displayBatchSection = true;
+            ext.initializeBatchEntry();			
+		}
+		
+		static testMethod void testExistingBatchObjects(){
+			
+			Batch__c b1 = new Batch__c(Name='New Batch', Object_Name__c = 'opportunity', Batch_Status__c = 'In Progress');
+			Batch__c b2 = new Batch__c(Name='New Batch', Object_Name__c = 'opportunity', Batch_Status__c = 'Complete');
+			insert b1;
+			insert b2;
+			
+			ApexPages.StandardController sc = new ApexPages.standardController(b1);
+            Test.setCurrentPage(Page.BatchEntry); 
+            CTRL_BatchEntry ext = new CTRL_BatchEntry(sc);   
+            ext.batch = new Batch__c();
+            ext.batchdisplaylist[0].loadBatch();
+            ext.displayBatchSection = true;
+            ext.initializeBatchEntry();
+            
+            //test deletion
+            Account a = new Account(Name='TestAcct');		
+            insert a;
+            ext.itemList = new list<BatchItem>();
+            ext.itemList.add(new BatchItem(ext, a));
+            ext.deleteItem((sobject)a);      
+            ext.showAllBatches();
+            
+            //test opp naming
+            Opportunity o = new Opportunity(CloseDate = system.today(), StageName = 'Closed Won');
+            BatchItem b = new BatchItem(ext, o);
+            ext.itemList.add(b);
+            ext.currentItem = b;
+            o.Name = b.createName();
+            ext.save();
+            ext.currentItem.sobj = (sobject)o;
+            //exercise item methods
+            ext.currentItem.editItem();
+            ext.currentItem.viewItem();
+            ext.currentItem.deleteItem();
+		}
+		
+		static testMethod void testOtherConfig(){
+			delete [select id from BulkDataEntry__c];
+			delete [select id from Batch_Data_Entry_Config__c];
+			BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'opportunity', Object_Entry_Field_Set__c = 'stagename,closedate', Save_Batch__c = true );
+			insert bde;
+			Batch_Data_Entry_Config__c bdec = new Batch_Data_Entry_Config__c(Has_NPSP__c = true);
+			insert bdec;
+			Batch__c b = new Batch__c(Name = 'Opp Batch');
+			insert b;
+			Opportunity oppinbatch = new Opportunity(Name='MyTestOpp', CloseDate=system.today(), StageName='Closed Won', Batch__c = b.id);
+			insert oppinbatch;
+			Contact c = new Contact(Lastname = 'OCRLastName');
+			insert c;
+			OpportunityContactRole ocr = new OpportunityContactRole(OpportunityID = oppinbatch.id, ContactID = c.id);
+			insert ocr;
+			
+			
+			ApexPages.StandardController sc = new ApexPages.standardController(b);
+			Test.setCurrentPage(Page.BatchEntry); 
+            CTRL_BatchEntry ext = new CTRL_BatchEntry(sc);
+            ext.objname = 'opportunity';
+            ext.displayBatchSection = true;
+            ext.ocrlookup = new Map<id, OpportunityContactRole>();
+            ext.ocrlookup.put(ocr.id, ocr);
+            
+            ext.initializeBatchEntry();
+            
+            Opportunity o = new Opportunity(Name = 'Test', CloseDate = system.today(), StageName = 'Closed Won');
+            insert o;
+            BatchItem b1 = new BatchItem(ext, (sobject)o);   
+            
+            //turn on opp naming, turn off npsp
+            bdec.Opportunity_Naming__c = true;
+            bdec.Has_NPSP__c = false;
+            update bdec;
+            //initialize new batch entry, set object name, give it anew batch
+            sc = new ApexPages.standardController(new Batch__c());
+            CTRL_BatchEntry ext2 = new CTRL_BatchEntry(sc);
+            ext2.objname = 'opportunity';
+            ext2.displayBatchSection = true;
+            ext.ocrlookup = new Map<id, OpportunityContactRole>();
+            ext.ocrlookup.put(ocr.id, ocr);
+            ext2.initializeBatchEntry();
+            BatchItem b2 = new BatchItem(ext2, (sobject)o);
+            ext2.currentItem = b2;
+            ext2.save();
+            ext2.clear();
+            ext2.createBatchSetting();
+            ext2.editBatchSetting();
+            
+		}
+		
 }
