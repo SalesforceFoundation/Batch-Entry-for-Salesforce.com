@@ -256,7 +256,7 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
                 <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.BatchDetailView}" var="b">
                 <apex:inputField value="{!batch[b]}" style="width:200px;" onChange="saveBatch();"/>
                 </apex:repeat>      
-                <apex:PageBlockSectionItem id="batchsizefield" rendered="{!itemCount>0}">
+                <apex:PageBlockSectionItem id="batchsizefield">
                     <apex:OutputLabel for="itemcountfield" value="Batch Size" />
                     <apex:OutputText id="itemcountfield" value="{!itemCount}"/>
                 </apex:PageBlockSectionItem>                                       
