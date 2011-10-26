@@ -74,7 +74,7 @@ addLoadEvent(defaultTwist);
                 <apex:outputtext value="Evan Callahan"/>
                 <apex:outputtext value="Veronica Waters"/>
                 <apex:outputtext value="Derek D'Souza"/>
-                <apex:outputtext value="Bergan Moore"/>
+                <apex:outputtext value="Bergen Moore"/>
                 <apex:outputtext value="Kevin Bromer"/>
                 <apex:outputtext value="Steve Andersen"/>
             </apex:panelgrid>
