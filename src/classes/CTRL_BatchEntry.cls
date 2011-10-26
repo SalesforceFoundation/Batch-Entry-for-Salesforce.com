@@ -238,7 +238,7 @@ public with sharing class CTRL_BatchEntry {
                         }
                         
                         //generate a 'dummy' ocr for npsp donation entry
-                        if (mydad.objname == 'Opportunity' && mydad.bdec.Has_NPSP__c == true){
+                        if (mydad.objname == 'opportunity' && mydad.bdec.Has_NPSP__c == true){
                         	npspocr = new OpportunityContactRole();
                         	renderNPSPContact = true;
                         }                        
