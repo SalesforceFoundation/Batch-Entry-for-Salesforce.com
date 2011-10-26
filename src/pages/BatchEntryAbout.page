@@ -32,7 +32,7 @@ by Salesforce.com Foundation
     <apex:pageblock >
         <apex:sectionHeader title="Batch Data Entry" subtitle="About Batch Data Entry" />
         <apex:Pagemessages />
-        <apex:pageBlocksection title="About Batch Data Entry" collapsible="false" columns="2">
+        <apex:pageBlocksection title="" collapsible="false" columns="2">
             <apex:pageblocksectionitem >
             <apex:outputText value="Batch Data Entry is an open source utility for manually entering bulk data into Salesforce.com.  Originally developed
             as part of the April 2011 Nonprofit Starter Pack developer sprint, the project is now freely available for download via the Appexchange. 
@@ -59,8 +59,13 @@ by Salesforce.com Foundation
         </apex:pageblock>
         
         <apex:pageBlock >
+        
         <apex:outputtext value="Help & FAQ"/>
         <apex:pageBlockSection title="Getting Started" collapsible="true">
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Entering Data" collapsible="true">
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Configuration and Setup" collapsible="true">
         </apex:pageBlockSection>
         </apex:pageBlock>
 </apex:page>
