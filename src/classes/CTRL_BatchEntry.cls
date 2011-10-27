@@ -143,10 +143,12 @@ public with sharing class CTRL_BatchEntry {
                           
                             list<sobject> existingsobjs = database.query(q);
                     
-                            if (!existingsobjs.isEmpty()){                                                
+                            if (!existingsobjs.isEmpty()){
+                            	                                                
                                 //if its opps and npsp, query for the ocrs
                                 //so we can properly backfill the objects in the batch items
                                 if (existingsobjs[0].getSobjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
+                                    ocrlookup = new map<id, OpportunityContactRole>();
                                     list<OpportunityContactRole> ocrlist = [select id, OpportunityID, ContactID from OpportunityContactRole where OpportunityID IN :existingsobjs and isPrimary = true];
                                     for (OpportunityContactRole ocr : ocrlist){
                                     	ocrlookup.put(ocr.OpportunityID, ocr);
