@@ -187,6 +187,12 @@ addLoadEvent(defaultTwist);
                 Second, you'll need to add a lookup field to the Batch on the object you wish to enter. If your object is a standard Saleforce object, this can be done by going to Setup->Customize-><ObjectName>->Fields.  If its a 
                 custom object, you can go to Setup->Create->Object-><ObjectName> and then 'New' under the Custom Fields & Relationships section."/>
          </apex:pageblocksectionitem>
+                 <apex:pageblocksectionitem >
+                <apex:outputText value="Can I reorder the fields on the entry page layout?"/>
+                <apex:outputText value="Yes, the order of the fields is determined by the order of the field names in the setting for that object. 
+                To change the ordering, you'll need to access the setting directly. Setup->Create->Develop->Custom Settings Then click 'Manage' next to 'BulkDataEntry'. Click 'Edit' next to the name of the object you wish to edit.
+                You can then rearrange the order of the fields, seperating the field name by a comma. Be sure to not leave any addition spaces between the names or at the end of the row.  The ordering goes left-to-right, two fields per row."/>
+         </apex:pageblocksectionitem>
          </apex:pageBlockSection>
         </apex:pageBlock>
 </apex:page>
