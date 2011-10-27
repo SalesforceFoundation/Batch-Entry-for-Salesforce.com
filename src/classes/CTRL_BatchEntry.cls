@@ -421,12 +421,13 @@ public with sharing class CTRL_BatchEntry {
         /* Tests */
         
 	    static testMethod void testBatchWithSave() {
-			// create settings object			
-			BulkDataEntry__c contact_bde = BulkDataEntry__c.getInstance('contact');
-			if (contact_bde == null){
-                BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'contact', Object_Entry_Field_Set__c = 'lastname', Save_Batch__c = true);
-                insert bde;
-			}
+			// create settings object	
+			delete [select id from BulkDataEntry__c];
+			delete [select id from Batch_Data_Entry_Config__c];
+			Batch_Data_Entry_Config__c bdec = new Batch_Data_Entry_Config__c(Has_NPSP__c = false);		
+			BulkDataEntry__c bde = new BulkDataEntry__c(Name = 'contact', Object_Entry_Field_Set__c = 'lastname', Save_Batch__c = true);
+            insert bde;
+			insert bdec;
 			
 			ApexPages.StandardController sc = new ApexPages.standardController( new Batch__c() );
 			Test.setCurrentPage(Page.BatchEntry); 
@@ -461,6 +462,8 @@ public with sharing class CTRL_BatchEntry {
 		}
 		
 		static testMethod void testExistingBatchObjects(){
+			delete [select id from Batch_Data_Entry_Config__c];
+			Batch_Data_Entry_Config__c bdec = new Batch_Data_Entry_Config__c(Has_NPSP__c = false);
 			
 			Batch__c b1 = new Batch__c(Name='New Batch', Object_Name__c = 'opportunity', Batch_Status__c = 'In Progress');
 			Batch__c b2 = new Batch__c(Name='New Batch', Object_Name__c = 'opportunity', Batch_Status__c = 'Complete');
@@ -547,6 +550,5 @@ public with sharing class CTRL_BatchEntry {
             ext2.createBatchSetting();
             ext2.editBatchSetting();
             
-		}
-		
+		}	
 }
