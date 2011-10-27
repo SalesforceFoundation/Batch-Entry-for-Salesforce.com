@@ -106,6 +106,16 @@ public with sharing class CTRL_BatchEntry {
             //no defaults yet loaded, create one
             if (bdec == null){
                 bdec = new Batch_Data_Entry_Config__c();
+                integer npsp_class_count = 0;                                                    
+                //look for the NPSP
+                npsp_class_count = [select count() from ApexClass where NameSpacePrefix = 'npe01'];
+                if (npsp_class_count > 0){
+                    bdec.Has_NPSP__c = true;
+                }
+                else{
+                    bdec.Has_NPSP__c = false;                                        	           
+                }
+                
                 insert bdec;
             }     
         	
