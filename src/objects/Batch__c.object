@@ -15,6 +15,7 @@
     <actionOverrides>
         <actionName>Edit</actionName>
         <content>BatchEntry</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
@@ -24,16 +25,19 @@
     <actionOverrides>
         <actionName>New</actionName>
         <content>BatchEntry</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>Tab</actionName>
         <content>BatchEntrySettings</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
         <content>BatchEntry</content>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>
     <deploymentStatus>Deployed</deploymentStatus>
@@ -43,6 +47,161 @@
     <enableFeeds>false</enableFeeds>
     <enableHistory>true</enableHistory>
     <enableReports>true</enableReports>
+    <fieldSets>
+        <fullName>BatchDetailView</fullName>
+        <availableFields>
+            <field>CreatedDate</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>OwnerId</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>LastModifiedDate</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Number_of_Items__c</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Object_Name__c</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>CreatedById</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>SystemModstamp</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Id</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>LastModifiedById</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <description>The batch information fields to be displayed above the data entry panel.</description>
+        <displayedFields>
+            <field>Name</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Batch_Status__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Description__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>BatchDetailView</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>DeleteBatchListView</fullName>
+        <availableFields>
+            <field>CreatedById</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>LastModifiedById</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Id</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>SystemModstamp</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Description__c</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <description>Used in the batch settings and configuration &apos;Delete Batches&apos; tab.</description>
+        <displayedFields>
+            <field>Name</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Batch_Status__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>LastModifiedDate</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Number_of_Items__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>CreatedDate</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Object_Name__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>OwnerId</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>DeleteBatchListView</label>
+    </fieldSets>
+    <fieldSets>
+        <fullName>ExistingBatchListview</fullName>
+        <availableFields>
+            <field>CreatedDate</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>OwnerId</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>LastModifiedById</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>SystemModstamp</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>CreatedById</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <availableFields>
+            <field>Description__c</field>
+            <isRequired>false</isRequired>
+        </availableFields>
+        <description>This fieldset is used to generate the list of existing batches on the initial batch entry screen.</description>
+        <displayedFields>
+            <field>Name</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Batch_Status__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Object_Name__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Number_of_Items__c</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>LastModifiedDate</field>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>ExistingBatchListview</label>
+    </fieldSets>
     <fields>
         <fullName>Batch_Status__c</fullName>
         <externalId>false</externalId>
