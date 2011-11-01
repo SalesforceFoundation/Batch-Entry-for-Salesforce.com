@@ -255,7 +255,7 @@ public with sharing class CTRL_BatchEntrySettings {
                         entrylist.add(s);                
             }
             
-            return fieldlist;
+            return mydad.sortOptionList(fieldlist);
         }
         public list<SelectOption> availablelistfields;    
         public list<SelectOption> getavailableListFields(){
@@ -271,7 +271,8 @@ public with sharing class CTRL_BatchEntrySettings {
                     fieldlist.add(new SelectOption(s, DescribeHelper.getAllFieldsDescribe(objectName).get(s).getLabel() + ' (' + s + ')') );
             
             }        
-            return fieldlist;
+            
+            return mydad.sortOptionList(fieldlist);
         }
     	
     	
@@ -307,12 +308,13 @@ public with sharing class CTRL_BatchEntrySettings {
                         savelist.add(s);
                     }
     			}
+                			
             }
     		
     		//else, its a new setting
     		//and we need to load the list of possible objects
     		else{
-    			objectlist.add(new SelectOption('', '- None -'));
+    			
     			map<string, Schema.Sobjecttype> objectmap = Schema.getGlobalDescribe();
     			for (string s : objectmap.keySet()){
     				Schema.DescribeSObjectResult dsr = objectmap.get(s).getDescribe();
@@ -323,7 +325,13 @@ public with sharing class CTRL_BatchEntrySettings {
     				    objectlist.add(new SelectOption(s, objectmap.get(s).getDescribe().getLabel()));
     				}
     			}     			
+                
+                //sort our object list before exiting constructor
+                objectlist = mydad.sortOptionList(objectlist);    		      
+                objectlist.add(0, new SelectOption('', '- None -'));
     		}
+    		
+    		
     	}
     	
     	public pageReference editItem(){  
@@ -384,7 +392,34 @@ public with sharing class CTRL_BatchEntrySettings {
     		}
     		return isSuccess;
     	}
-    	
+    }	
+    
+    
+    //http://improveit360.blogspot.com/2010/09/implementing-quicksort-to-sort-list-of.html
+    public list<SelectOption> sortOptionList(list<SelectOption> ListToSort)
+    {
+        if(ListToSort == null || ListToSort.size() <= 1)
+            return ListToSort;
+            
+        List<SelectOption> Less = new List<SelectOption>();
+        List<SelectOption> Greater = new List<SelectOption>();
+        integer pivot = ListToSort.size() / 2;
+          
+        // save the pivot and remove it from the list
+        SelectOption pivotValue = ListToSort[pivot];
+        ListToSort.remove(pivot);
+        
+        for(SelectOption x : ListToSort)
+        {
+            if(x.getLabel() <= pivotValue.getLabel())
+                Less.add(x);
+            else if(x.getLabel() > pivotValue.getLabel()) Greater.add(x);   
+        }
+        List<SelectOption> returnList = new List<SelectOption> ();
+        returnList.addAll(SortOptionList(Less));
+        returnList.add(pivotValue);
+        returnList.addAll(SortOptionList(Greater));
+        return returnList; 
     }
     
     public static testMethod void testController(){
