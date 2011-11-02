@@ -281,10 +281,10 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
                         immediate="true" rerender="recList,itemCount,batchinfo"  oncomplete="resetDefaults();" />&nbsp;|&nbsp;
                         <apex:commandLink value="view" action="{!item.viewItem}" immediate="true" target="_blank" />
                     </apex:column>
-                    <apex:column value="{!item.npspocr.Contactid}" rendered="{!item.renderNPSPContact}"/>
                     <apex:repeat var="fieldname" value="{!listFieldList}" > 
                         <apex:column value="{!item.sobj[fieldname]}" styleClass="{!fieldname}" />
                     </apex:repeat>
+                    <apex:column value="{!item.npspocr.Contactid}" rendered="{!item.renderNPSPContact}"/> 
                 </apex:pageBlockTable> 
             </apex:pageBlockSection>
         </apex:pageBlock>
