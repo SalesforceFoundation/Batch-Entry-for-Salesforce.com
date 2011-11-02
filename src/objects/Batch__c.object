@@ -30,9 +30,7 @@
     </actionOverrides>
     <actionOverrides>
         <actionName>Tab</actionName>
-        <content>BatchEntrySettings</content>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
-        <type>Visualforce</type>
+        <type>Default</type>
     </actionOverrides>
     <actionOverrides>
         <actionName>View</actionName>
@@ -246,12 +244,28 @@
         <inlineHelpText>API Name of the object of which this is a batch.</inlineHelpText>
         <label>Object Name</label>
         <length>100</length>
-        <required>false</required>
+        <required>true</required>
         <trackHistory>false</trackHistory>
         <type>Text</type>
         <unique>false</unique>
     </fields>
     <label>Batch</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Completed_Only</fullName>
+        <columns>NAME</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Batch_Status__c</field>
+            <operation>equals</operation>
+            <value>Complete</value>
+        </filters>
+        <label>Completed Only</label>
+    </listViews>
     <nameField>
         <label>Batch Name</label>
         <trackHistory>false</trackHistory>
