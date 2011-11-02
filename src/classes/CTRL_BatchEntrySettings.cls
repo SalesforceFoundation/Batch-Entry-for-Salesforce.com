@@ -246,8 +246,8 @@ public with sharing class CTRL_BatchEntrySettings {
                 entrylist = new list<string>();
             
             for (string s : DescribeHelper.getAllFieldsDescribe(objectName).keySet()){
-                if (DescribeHelper.getAllFieldsDescribe(objectName).get(s).isUpdateable() &&
-                DescribeHelper.getAllFieldsDescribe(objectName).get(s).isAccessible())
+                if ((DescribeHelper.getAllFieldsDescribe(objectName).get(s).isUpdateable() &&
+                DescribeHelper.getAllFieldsDescribe(objectName).get(s).isAccessible())   || (DescribeHelper.getAllFieldsDescribe(objectName).get(s).isCreateable()))
                         fieldlist.add(new SelectOption(s, DescribeHelper.getAllFieldsDescribe(objectName).get(s).getLabel() + ' (' + s + ')') );
             
                 if (!DescribeHelper.getAllFieldsDescribe(objectName).get(s).isNillable() && 
@@ -266,10 +266,7 @@ public with sharing class CTRL_BatchEntrySettings {
                 savelist = new list<string>();
             
             for (string s : DescribeHelper.getAllFieldsDescribe(objectName).keySet()){
-                if (DescribeHelper.getAllFieldsDescribe(objectName).get(s).isUpdateable() &&
-                DescribeHelper.getAllFieldsDescribe(objectName).get(s).isAccessible())
-                    fieldlist.add(new SelectOption(s, DescribeHelper.getAllFieldsDescribe(objectName).get(s).getLabel() + ' (' + s + ')') );
-            
+                fieldlist.add(new SelectOption(s, DescribeHelper.getAllFieldsDescribe(objectName).get(s).getLabel() + ' (' + s + ')') );
             }        
             
             return mydad.sortOptionList(fieldlist);
