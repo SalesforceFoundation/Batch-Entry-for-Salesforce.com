@@ -432,7 +432,7 @@ public with sharing class CTRL_BatchEntrySettings {
         insert bde;     
         
         //insert a batch
-        Batch__c batch_to_delete = new Batch__c(Name = 'Delete me');
+        Batch__c batch_to_delete = new Batch__c(Name = 'Delete me', Object_name__c = 'opportunity');
         insert batch_to_delete;
         
         //delete existing be config records
