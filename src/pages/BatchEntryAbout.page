@@ -166,7 +166,8 @@ addLoadEvent(defaultTwist);
          <apex:pageblocksectionitem >
                 <apex:outputText value="How do I change the fields on the various lists?"/>
                 <apex:outputText value="Changing the available fields for the Record Information and Saved Records list can be done through the Batch Data Entry Settings tab.  
-                Changing values for the Batch Summary, Open/All Batches, and Batch Deletion lists can be done using Field Sets. See the section above for more information."/>
+                Changing values for the Batch Summary, and Batch Deletion lists can be done using Field Sets.  Changing fields on the list view is done using standard listview filters. 
+                See the section above for more information on altering fields."/>
          </apex:pageblocksectionitem>
          <apex:pageblocksectionitem >
                 <apex:outputText value="How are sharing rules, profile permissions and roles treated?"/>
