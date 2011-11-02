@@ -135,6 +135,12 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
         
         j$(document).ready(function(){
             getSetUp();
+            //get rid of the action buttons and headers on the listview
+            j$('.listButtons').remove();
+            j$('.listHeader').remove();
+            j$('.rolodex').remove();
+            j$('.actionColumn').remove();
+            j$(".actionLink").remove();
         });
         
         var defaultValues = new Object;
@@ -189,21 +195,6 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
             getSetUp();    
         }   
  
- /*       
-        //add the lookupvalue to the default values on 
-        //input exit to make sure we grab the value
-        var test = '';
-        function storeLookupValue(elid){
-                var elclassname = '.sticky-' + elid;
-                var par = j$(elclassname).parent().attr('class');
-                if (par == 'lookupInput'){
-                    test = 'whatever';
-                }
-                else{
-                    test = 'NOTWHATEVER';
-                }                
-        }       
-*/    
     </script>
     <style>
         .ui-autocomplete-loading { background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; }
@@ -211,15 +202,13 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
     
     <apex:sectionHeader title="Batch Data Entry" subtitle="{!pageSubtitle}" help="apex/BatchEntryAbout"/>
     <apex:messages />
-    
-    
         <apex:pageBlock rendered="{!displaySettingsSection}">
             <apex:form >
             <apex:outputText value="Select the object that you want to batch enter: "/>         
             <apex:selectList id="objectSelect" value="{!objName}" size="1">
                 <apex:selectOptions value="{!objectSettingsList}"/>
             </apex:selectList>
-            &nbsp;
+            &nbsp; 
             <apex:commandButton value="New Batch" title="Create a new Batch for the selected object" action="{!openBatchEnterPage}"/>   
             &nbsp;
             <apex:commandLink style="font-style:italic;" title="Edit Batch Entry settings for the selected object" value="(Edit Entry Settings)" action="{!editBatchSetting}"/>
@@ -228,27 +217,13 @@ by Veronica Waters, Evan Callahan, Derek Dsouza, Mike Fullmore, and Kevin Bromer
             &nbsp;
             <apex:commandlink style="font-style:italic;" value="(Create New Setting)" action="{!createBatchSetting}"/><br/>
             <br/>
-                <apex:panelgrid columns="1" border="0" frame="none">
-                    <apex:commandLink style="font-size:10px;" title="Show all batches, including those marked 'Complete'" value="Show All" immediate="true" action="{!showallbatches}" rendered="{!NOT(isShowingAll)}"/>
-                    <apex:commandLink style="font-size:10px;" title="Show only open batches, excludes those marked 'Complete'" value="Show Open" immediate="true" action="{!showopenbatches}" rendered="{!isShowingAll}" />
-                </apex:panelgrid>
-            <apex:pageBlockSection title="{!IF(isShowingAll, 'All Batches', 'All Open Batches')}" columns="1">
-                <apex:pageBlockTable frame="none" onclick="sortThis()" styleclass="tablesorter" var="b" value="{!batchdisplaylist}" width="90%" >                
-                    <apex:column > 
-                        <apex:facet name="header">Action</apex:facet>
-                        <apex:commandLink value="load"  styleclass="editLink" action="{!b.loadBatch}"
-                        immediate="true" />
-                    </apex:column>
-                    <apex:repeat value="{!$ObjectType.Batch__c.FieldSets.ExistingBatchListview}" var="c">
-                        <apex:column value="{!b.myBatch[c]}"/>
-                    </apex:repeat> 
-                </apex:pageBlockTable>
-            </apex:pageBlockSection>
             </apex:form>
+            <apex:pageblocksection title="Existing Batches" columns="1">
+                <apex:listViews type="Batch__c" />
+            </apex:pageblocksection>
         </apex:pageBlock>
-    
          
-    <apex:form styleClass="formClass" >     
+    <apex:form styleClass="formClass" >
         <apex:pageBlock mode="edit" rendered="{!displayBatchSection}" >    
         <apex:actionFunction name="saveBatch" action="{!saveBatch}" />
         <apex:outputpanel id="batchinfo">    
