@@ -120,7 +120,7 @@ public class BulkDataEntry {
 				this.saveBatch = this.bulkCustomSetting.Save_Batch__c;
 				
 				if(this.saveBatch && !checkLookupExists()) { 
-					this.statusMessage = this.FAIL + this.objectName + ' does not have a lookup field to the ' + String.valueOf(Batch__c.sObjectType) + ' object. Please create one from Setup first.';
+					this.statusMessage = this.FAIL + this.objectName + ' does not have a lookup field to the ' + String.valueOf(Batch__c.sObjectType) + ' object. If this is a standard object, you can go to Setup->Customize-><objectname>->Fields to create a lookup field to the Batch. For custom object, please go to Setup->Create->Objects-><objectname> and click \'New\' under the Fields section.';
 				} else {
 					this.entryFieldList = buildFieldList(this.bulkCustomSetting.Object_Entry_Field_Set__c);
 					this.listFieldList = buildFieldList(this.bulkCustomSetting.Object_List_Field_Set__c);					
