@@ -69,6 +69,7 @@ by Salesforce.com Foundation
     </apex:form>
     
     <apex:form >
+    
         <apex:actionFunction name="updateFieldLists" rerender="existingsettingslist,fieldlists, pbs1, pbs2, buttonblock" status="myStatus"/>
         <apex:PageBlockSection id="pbs1" title="{!if(activesetting.objectname == null, 'Create New Settings', IF(activesetting.SettingsListSize > 1, 'Create ' + activesetting.objectname + ' Settings', 'Edit ' + activesetting.objectname + ' Settings'))}" columns="1" collapsible="false" rendered="{!settingLoaded}" >
             <apex:actionStatus startText="Loading Fields..." id="myStatus" />

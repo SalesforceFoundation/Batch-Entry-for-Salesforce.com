@@ -51,12 +51,6 @@ public with sharing class CTRL_BatchEntry {
         public list<EntryField> entryFieldList { get; private set; }
         public list<string> listFieldList { get; private set; }
         
-        //batch list
-        public list<Batch__c> batchlist {get; set;}
-        public list<BatchOBject> batchdisplaylist {get; set;}
-        public boolean isShowingAll{get; set;}
-        list<BatchObject> batchobjectlist;
-        
         public Batch_Data_Entry_Config__c bdec {get; set;}
         
         public integer itemCount { get { return (itemList != null) ? itemList.size() : 0; } }
@@ -64,7 +58,7 @@ public with sharing class CTRL_BatchEntry {
         map<id, OpportunityContactRole> ocrlookup;
         
         public CTRL_BatchEntry(ApexPages.StandardController stdController) {
-
+                
                 if (stdController.getId() == null)
                 	batch = new Batch__c();
                 else
@@ -77,26 +71,6 @@ public with sharing class CTRL_BatchEntry {
                 objname = (batch.id != null) ? 
                         batch.object_name__c :
                         ApexPages.currentPage().getParameters().get('obj');
-                        
-                //this is inefficient, but seperates the old batches
-                //from the active batch - can be improved
-                batchlist = [select SystemModstamp, OwnerId, Object_Name__c, 
-                            Number_of_Items__c, Name, LastModifiedDate, 
-                            LastModifiedById, IsDeleted, Id, Description__c,
-                            CreatedDate, CreatedById, Batch_Status__c 
-                            from Batch__c order by LastModifiedDate desc limit 2000];         
-                
-                if (batchlist != null){
-                    batchobjectlist = new list<BatchObject>();	
-                    batchdisplaylist = new list<BatchObject>();
-                                           
-                    for (Batch__c b : batchlist){
-                	   batchobjectlist.add(new BatchObject(this, b));
-                    }       
-                    batchdisplaylist = batchobjectlist.clone();
-                    //default to showing only open batches
-                    showOpenBatches();                                                            
-                }
         }
         
         public void initializeBatchEntry(){
@@ -194,7 +168,9 @@ public with sharing class CTRL_BatchEntry {
                 displayRecInfoSection = false;
             }                
         }
-
+        
+        /********** CLASSES ****************/
+        
       	public class EntryField {
         	    public string fieldName { get; private set; }
             	public string fieldLabel { get; private set; }
@@ -206,7 +182,7 @@ public with sharing class CTRL_BatchEntry {
                     	fieldLabel=fieldLabel.substring(0, fieldLabel.length()-2);               
                 }
         }
-        
+        /*
         public class BatchObject{
         	public Batch__c myBatch{get; set;}
         	CTRL_BatchEntry mydad;
@@ -226,7 +202,7 @@ public with sharing class CTRL_BatchEntry {
                 pageRef.setRedirect(true);
                 return pageRef;         
         	}
-        }
+        } */
                 
         public class BatchItem {
                 
@@ -310,9 +286,9 @@ public with sharing class CTRL_BatchEntry {
                                                         	
                 	return namestring; 
                 }
-                
-                
         }
+        
+        /***** OTHER CONTROLLER METHODS ******/
         
         public pageReference saveBatch() {
 				// if we are using batch, save the batch                
@@ -326,24 +302,6 @@ public with sharing class CTRL_BatchEntry {
                 }
                 return null;
         }
-        
-        public pageReference showOpenBatches(){
-        	integer i;
-        	for (i = 0; i <= batchobjectlist.size() - 1; i++){
-        	   	if (batchobjectlist[i].mybatch.Batch_Status__c == 'Complete'){
-        	   	   batchdisplaylist.remove(i);	
-        	   	}
-        	}
-        	isShowingAll = false;
-        	return null;
-        }
-        
-        public pageReference showAllBatches(){
-        	batchdisplaylist = batchobjectlist.clone();
-        	isShowingAll = true;
-        	return null;
-        }
-        
         
         public pageReference save() {
         		if (currentItem.sobj.id != null) {
@@ -484,7 +442,6 @@ public with sharing class CTRL_BatchEntry {
             Test.setCurrentPage(Page.BatchEntry); 
             CTRL_BatchEntry ext = new CTRL_BatchEntry(sc);   
             ext.batch = new Batch__c();
-            ext.batchdisplaylist[0].loadBatch();
             ext.displayBatchSection = true;
             ext.initializeBatchEntry();
             
@@ -493,8 +450,9 @@ public with sharing class CTRL_BatchEntry {
             insert a;
             ext.itemList = new list<BatchItem>();
             ext.itemList.add(new BatchItem(ext, a));
-            ext.deleteItem((sobject)a);      
-            ext.showAllBatches();
+            ext.deleteItem((sobject)a);    
+            ext.openBatchEnterPage();  
+            
             
             //test opp naming
             Opportunity o = new Opportunity(CloseDate = system.today(), StageName = 'Closed Won');
@@ -517,7 +475,7 @@ public with sharing class CTRL_BatchEntry {
 			insert bde;
 			Batch_Data_Entry_Config__c bdec = new Batch_Data_Entry_Config__c(Has_NPSP__c = true);
 			insert bdec;
-			Batch__c b = new Batch__c(Name = 'Opp Batch');
+			Batch__c b = new Batch__c(Name = 'Opp Batch', Object_Name__c = 'opportunity');
 			insert b;
 			Opportunity oppinbatch = new Opportunity(Name='MyTestOpp', CloseDate=system.today(), StageName='Closed Won', Batch__c = b.id);
 			insert oppinbatch;
@@ -558,7 +516,6 @@ public with sharing class CTRL_BatchEntry {
             ext2.save();
             ext2.clear();
             ext2.createBatchSetting();
-            ext2.editBatchSetting();
-            
+            ext2.editBatchSetting();            
 		}	
 }
