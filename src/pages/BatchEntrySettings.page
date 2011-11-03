@@ -38,6 +38,7 @@ by Salesforce.com Foundation
     </apex:PageBlockSection>
     <apex:TabPanel switchtype="client" value="{!activetab}" >
     <apex:tab label="Field Mappings" name="fieldmapping">
+    <apex:outputText value="{!$Label.Create_Setting_Help_Text}" />
     <apex:form >
     <apex:outputPanel id="existingSettingsList">  
         <apex:PageBlockSection columns="1" title="Existing Settings" collapsible="false">
