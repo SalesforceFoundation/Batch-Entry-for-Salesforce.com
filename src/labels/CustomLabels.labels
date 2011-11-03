@@ -32,7 +32,7 @@ The &apos;Use NPSP Configuration&apos; checkbox is only available if you have th
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Help Text for the Configuring Batch Fields and Lists section of the About tab</shortDescription>
-        <value>Batch fields and lists, which includes the &apos;Open Batches&apos; and &apos;All Batches&apos; lists, the fields displayed in the &apos;Batch Summary&apos; section, and the fields displayed in the &apos;Delete Batches&apos; tab in the settings, are all customizable utilizing Field Sets. To change the fields displayed for any of the above mentioned lists, go to &lt;your name&gt;-&gt;Setup-&gt;Create-&gt;Objects, and click on &apos;Batch&apos;.  Under the Field Sets section, click &apos;Edit&apos; next to the name of the Field Set you wish to edit. Save your results, and refresh the Batch Data Entry tool to see the changes.</value>
+        <value>The fields displayed in the &apos;Existing Batches&apos; menu are configurable using the list view filters via the dropdown menu.  The fields displayed in the &apos;Batch Summary&apos; section, and the fields displayed in the &apos;Delete Batches&apos; tab in the settings, are all customizable utilizing Field Sets. To change the fields displayed for the &apos;Delete Batches&apos; section or the &apos;Batch Summary&apos; section for data entry, go to: &lt;your name&gt;-&gt;Setup-&gt;Create-&gt;Objects, and click on &apos;Batch&apos;.  Under the Field Sets section, click &apos;Edit&apos; next to the name of the Field Set you wish to edit. Save your results, and refresh the Batch Data Entry tool to see the changes.</value>
     </labels>
     <labels>
         <fullName>BDE_Data_Entry_Help_Text</fullName>
