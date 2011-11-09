@@ -99,6 +99,14 @@ The &apos;Use NPSP Configuration&apos; checkbox is only available if you have th
         <value>This page allows you to edit and configure your Batch Entry tool.  The &quot;Field Mappings&quot; tab controls which fields are rendered in the batch entry and saved records areas for each object.  The &quot;Advanced Configuration&quot; tab provides overrides to automatically configured features of the Batch Entry tool.</value>
     </labels>
     <labels>
+        <fullName>Create_Setting_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Create_Setting_Help_Text</shortDescription>
+        <value>You can create new or edit existing settings using this tab.  Required fields will be automatically selected for you.  Holding the &apos;ctrl&apos; key while clicking on the fields you wish to add or remove from the setting will allow you to select multiple fields in addition to the already selected items.</value>
+    </labels>
+    <labels>
         <fullName>Entry_Field_Help_Text</fullName>
         <categories>BatchEntry</categories>
         <language>en_US</language>
