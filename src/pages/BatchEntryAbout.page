@@ -49,9 +49,9 @@ function addLoadEvent(func) {
 //by default, twist our sections close
 function defaultTwist() {
  twistSection(document.getElementById('j_id0:j_id49:j_id51').childNodes[0].childNodes[0]);
- twistSection(document.getElementById('j_id0:j_id49:j_id60').childNodes[0].childNodes[0]);
- twistSection(document.getElementById('j_id0:j_id49:j_id72').childNodes[0].childNodes[0]);
- twistSection(document.getElementById('j_id0:j_id49:j_id89').childNodes[0].childNodes[0]);
+ twistSection(document.getElementById('j_id0:j_id49:j_id64').childNodes[0].childNodes[0]);
+ twistSection(document.getElementById('j_id0:j_id49:j_id82').childNodes[0].childNodes[0]);
+ twistSection(document.getElementById('j_id0:j_id49:j_id107').childNodes[0].childNodes[0]);
  //twistSection(document.getElementById('j_id0:j_id46:j_id48').childNodes[0]);
  
 }
@@ -91,71 +91,123 @@ addLoadEvent(defaultTwist);
     <apex:pageBlock >
         <div style="font-size:20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Help &amp; FAQ</div>
         <br/>
-        <apex:pageBlockSection title="Getting Started" collapsible="true" columns="2">
+        <apex:pageBlockSection title="Getting Started" collapsible="true" columns="1">
             <apex:pageblocksectionitem >
-                <apex:outputText value="Starting a New Batch"/>
+         		<apex:outputText style="font-size:20px" value="Starting a New Batch"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >   
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="gettingstarted1" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted1.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
                 <apex:outputText value="{!$Label.BDE_Starting_New_Batch_Help_Text}"/>
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="gettingstarted1" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted1.jpg')}" />
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:outputText value="Entering & Saving Data"/>
-                <apex:outputText value="{!$Label.BDE_Entering_and_Saving_Data_Help_Text}"/>
+                <apex:outputText style="font-size:20px" value="Entering & Saving Data"/>
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="gettingstarted2" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted2.jpg')}" />
-            </apex:pageblocksectionitem>                
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="gettingstarted2" url="{!URLFOR($Resource.BDEHelpImages,'GettingStarted2.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+            	<apex:outputText value="{!$Label.BDE_Entering_and_Saving_Data_Help_Text}"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+            </apex:pageblocksectionitem>              
         </apex:pageBlockSection>
-        <apex:pageBlockSection title="Entering Data" collapsible="true" columns="2">
+        <apex:pageBlockSection title="Entering Data" collapsible="true" columns="1">
             <apex:pageblocksectionitem >
-                <apex:outputText value="Batch Metadata"/>
-                <apex:outputText value="{!$Label.BDE_Batch_Metadata_Help_Text}"/>
+                <apex:outputText style="font-size:20px" value="Batch Metadata"/>
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="enteringdata1" url="{!URLFOR($Resource.BDEHelpImages,'EnteringData1.jpg')}" />
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="enteringdata1" url="{!URLFOR($Resource.BDEHelpImages,'EnteringData1.jpg')}" />
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:outputText value="Data Entry"/>
+            	<apex:outputText value="{!$Label.BDE_Batch_Metadata_Help_Text}"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:outputText style="font-size:20px" value="Data Entry"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="enteringdata2" url="{!URLFOR($Resource.BDEHelpImages,'EnteringData2.jpg')}" />
+            </apex:pageblocksectionitem> 
+            <apex:pageblocksectionitem >
                 <apex:outputText value="{!$Label.BDE_Data_Entry_Help_Text}"/>
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="enteringdata2" url="{!URLFOR($Resource.BDEHelpImages,'EnteringData2.jpg')}" />
-            </apex:pageblocksectionitem> 
+            </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:outputText value="Other Considerations"/>
+                <apex:outputText style="font-size:20px" value="Other Considerations"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
                 <apex:outputText value="{!$Label.BDE_Other_Considerations_Help_Text}"/>
             </apex:pageblocksectionitem>
-        </apex:pageBlockSection>
-        <apex:pageBlockSection title="Configuration and Setup" collapsible="true">
             <apex:pageblocksectionitem >
-                <apex:outputText value="Configuring Entry & Save List Fields"/>
+            </apex:pageblocksectionitem>
+        </apex:pageBlockSection>
+        <apex:pageBlockSection title="Configuration and Setup" collapsible="true" columns="1">
+            <apex:pageblocksectionitem >
+                <apex:outputText style="font-size:20px" value="Configuring Entry & Save List Fields"/>
+            </apex:pageblocksectionitem>
+             <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="configandsetup1" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup1.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
                 <apex:outputText value="{!$Label.BDE_Entry_Save_List_Help_Text}"/>
             </apex:pageblocksectionitem>
-             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="configandsetup1" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup1.jpg')}" />
+            <apex:pageblocksectionitem >
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:outputText value="Configuring Batch Fields & Lists"/>
+                <apex:outputText style="font-size:20px" value="Configuring Batch Fields & Lists"/>
+            </apex:pageblocksectionitem>
+             <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="configandsetup2" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup2.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
                 <apex:outputText value="{!$Label.BDE_Configuring_Batch_Fields_and_Lists_Help_Text}"/>
             </apex:pageblocksectionitem>
-             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="configandsetup2" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup2.jpg')}" />
+            <apex:pageblocksectionitem >
             </apex:pageblocksectionitem>
             <apex:pageblocksectionitem >
-                <apex:outputText value="Advanced Configuration Items"/>
+                <apex:outputText style="font-size:20px" value="Advanced Configuration Items"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="configandsetup3" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup3.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
                 <apex:outputText value="{!$Label.BDE_Advanced_Configuration_Items_Help_Text}"/>
             </apex:pageblocksectionitem>
-             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="configandsetup3" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup3.jpg')}" />
+            <apex:pageblocksectionitem >
             </apex:pageblocksectionitem>
-             <apex:pageblocksectionitem >
-                <apex:outputText value="Deleting Batches"/>
+            <apex:pageblocksectionitem >
+                <apex:outputText style="font-size:20px" value="Deleting Batches"/>
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
+                <apex:image style="display:block;margin-left:auto;margin-right:auto;
+                	padding:8px;border:solid;border-color:#aaaaaa;border-width:3px;
+                	background-color:white;" id="configandsetup4" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup4.jpg')}" />
+            </apex:pageblocksectionitem>
+            <apex:pageblocksectionitem >
                 <apex:outputText value="{!$Label.BDE_Deleting_Batches_Help_Text}"/>
             </apex:pageblocksectionitem>
-             <apex:pageblocksectionitem >
-                <apex:image style="display:block;margin-left:auto;margin-right:auto;" id="configandsetup4" url="{!URLFOR($Resource.BDEHelpImages,'ConfigandSetup4.jpg')}" />
-            </apex:pageblocksectionitem>         
+            <apex:pageblocksectionitem >
+            </apex:pageblocksectionitem>        
          </apex:pageBlockSection>
          <apex:pageBlockSection title="FAQ" collapsible="true" columns="1">
          <apex:pageblocksectionitem >
