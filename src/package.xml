@@ -1,34 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>BulkDataEntry</members>
-        <members>CTRL_BatchEntry</members>
-        <members>CTRL_BatchEntrySettings</members>
-        <members>DescribeHelper</members>
+        <members>*</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>BatchEntry</members>
-        <members>BatchEntryAbout</members>
-        <members>BatchEntrySettings</members>
+        <members>*</members>
+        <name>ApexComponent</name>
+    </types>
+    <types>
+        <members>*</members>
         <name>ApexPage</name>
+    </types>
+    <types>
+        <members>*</members>
+        <name>ApexTrigger</name>
+    </types>
+    <types>
+        <members>Opportunity.Standard</members>
+        <name>BusinessProcess</name>
     </types>
     <types>
         <members>Batch_Data_Entry</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Account.Batch__c</members>
+        <members>Account.Industry</members>
+        <members>Account.Ownership</members>
+        <members>Account.Rating</members>
+        <members>Account.Type</members>
+        <members>Contact.Batch__c</members>
+        <members>Contact.LeadSource</members>
+        <members>Lead.Batch__c</members>
+        <members>Lead.Industry</members>
+        <members>Lead.LeadSource</members>
+        <members>Lead.Rating</members>
+        <members>Lead.Status</members>
+        <members>Opportunity.Batch__c</members>
+        <members>Opportunity.LeadSource</members>
+        <members>Opportunity.StageName</members>
+        <members>Opportunity.Type</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>CustomLabels</members>
         <name>CustomLabels</name>
     </types>
     <types>
-        <members>Account</members>
         <members>Batch_Data_Entry_Config__c</members>
         <members>Batch__c</members>
         <members>BulkDataEntry__c</members>
-        <members>Contact</members>
-        <members>Lead</members>
-        <members>Opportunity</members>
         <name>CustomObject</name>
     </types>
     <types>
@@ -38,8 +60,44 @@
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Account.AllAccounts</members>
+        <members>Account.MyAccounts</members>
+        <members>Account.NewLastWeek</members>
+        <members>Account.NewThisWeek</members>
+        <members>Account.PlatinumandGoldSLACustomers</members>
+        <members>Contact.AllContacts</members>
+        <members>Contact.BirthdaysThisMonth</members>
+        <members>Contact.MyContacts</members>
+        <members>Contact.NewLastWeek</members>
+        <members>Contact.NewThisWeek</members>
+        <members>Lead.AllOpenLeads</members>
+        <members>Lead.MyUnreadLeads</members>
+        <members>Lead.TodaysLeads</members>
+        <members>Lead.ViewCustom1</members>
+        <members>Lead.ViewCustom2</members>
+        <members>Opportunity.AllOpportunities</members>
+        <members>Opportunity.ClosingNextMonth</members>
+        <members>Opportunity.ClosingThisMonth</members>
+        <members>Opportunity.MyOpportunities</members>
+        <members>Opportunity.NewLastWeek</members>
+        <members>Opportunity.NewThisWeek</members>
+        <members>Opportunity.Private</members>
+        <members>Opportunity.Won</members>
+        <name>ListView</name>
+    </types>
+    <types>
+        <members>Opportunity.Donation</members>
+        <members>Opportunity.Membership</members>
+        <name>RecordType</name>
+    </types>
+    <types>
         <members>*</members>
         <name>StaticResource</name>
+    </types>
+    <types>
+        <members>Account.Billing</members>
+        <members>Opportunity.DeliveryStatus</members>
+        <name>WebLink</name>
     </types>
     <version>23.0</version>
 </Package>
