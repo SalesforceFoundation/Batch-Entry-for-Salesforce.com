@@ -44,7 +44,6 @@
             <default>false</default>
         </values>
     </businessProcesses>
-    <enableFeeds>true</enableFeeds>
     <fields>
         <fullName>Batch__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
@@ -279,7 +278,6 @@
         </filters>
         <label>Won</label>
     </listViews>
-    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
     <recordTypes>
         <fullName>Donation</fullName>
         <active>true</active>

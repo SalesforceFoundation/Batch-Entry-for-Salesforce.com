@@ -169,6 +169,17 @@ public with sharing class CTRL_BatchEntry {
             }                
         }
         
+        private void requeryItem(BatchItem item)  {
+        	BulkDataEntry bde = new BulkDataEntry(objname);                        	
+            string q = bde.getQueryString();
+            q += ' where Id=' +  '\'' + item.sobj.id + '\'';
+          
+            list<sobject> existingsobjs = database.query(q);
+    		if (existingsobjs.size() > 0) {
+    			item.sobj = existingsobjs[0];
+    		}
+        }
+        
         /********** CLASSES ****************/
         
       	public class EntryField {
@@ -310,7 +321,7 @@ public with sharing class CTRL_BatchEntry {
         			}
         			
         			//update the name in case values have changed
-        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || currentItem.sobj.get('Name') == null)){
+        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || (bdec.Allow_Blank_Opportunity_Names__c == false && currentItem.sobj.get('Name') == null))){
                             currentItem.sobj.put('Name', currentItem.createName());
                     }
                     
@@ -321,7 +332,7 @@ public with sharing class CTRL_BatchEntry {
                         }
                       
                         //use automatic opp naming 
-                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || currentItem.sobj.get('Name') == null)){
+                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || (bdec.Allow_Blank_Opportunity_Names__c == false && currentItem.sobj.get('Name') == null))){
                             currentItem.sobj.put('Name', currentItem.createName());
                 		}
                 		
@@ -341,6 +352,10 @@ public with sharing class CTRL_BatchEntry {
                         }                        
                 }
                 saveBatch();
+                
+                // update the current item, in case any triggers modified values we will display.
+                // e.g., Opportunity Name
+                requeryItem(currentItem);
                 
                 currentItem = new BatchItem(this);
                 return null;    
