@@ -37,3 +37,13 @@ Many thanks to our awesome contributors:
 * Steve Andersen <steve.andersen@salesforce.com>
 
 Released under the [BSD license](http://www.opensource.org/licenses/BSD-3-Clause).
+
+Release Notes 
+-------------
+* 1.1 (4/9/12)
+- Setting to override Opportunity naming behavior
+- Refresh save list to display formula/trigger modified fields
+- Updates to 'About Batch Entry' tab
+- Dynamically query Batch__c field so custom fields can be added to fieldset
+
+
