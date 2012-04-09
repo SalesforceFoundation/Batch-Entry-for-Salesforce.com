@@ -61,13 +61,29 @@ public with sharing class CTRL_BatchEntry {
                 
                 if (stdController.getId() == null)
                 	batch = new Batch__c();
-                else
-                	batch = [select SystemModstamp, OwnerId, Object_Name__c, 
+                
+                //query dynamically to retrieve any custom fields from the field set
+                else{
+                /*	batch = [select SystemModstamp, OwnerId, Object_Name__c, 
                             Number_of_Items__c, Name, LastModifiedDate, 
                             LastModifiedById, IsDeleted, Id, Description__c,
                             CreatedDate, CreatedById, Batch_Status__c  
-                            from batch__c where id =: stdController.getId()];
+                            from batch__c where id =: stdController.getId()]; */
+                    
+                    String q = 'select ';
+                    Map<String, Schema.SObjectField> batchObjMap = schema.SObjectType.Batch__c.fields.getMap();
+                    List<Schema.SObjectField> batchFldList = batchObjMap.values();
+                                                
+                    for(Schema.SObjectField s : batchFldList){
+                        q += s.getDescribe().getName() + ', ';   
+                    }
 
+                    q = q.subString(0, q.length() - 2);
+                    system.debug('Q IS: ' + q);
+                    q += ' from Batch__c where id = \'' + stdController.getId() + '\' limit 1';
+                    batch = Database.query(q);        
+                }
+                                    
                 objname = (batch.id != null) ? 
                         batch.object_name__c :
                         ApexPages.currentPage().getParameters().get('obj');
