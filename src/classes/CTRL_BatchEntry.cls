@@ -169,6 +169,17 @@ public with sharing class CTRL_BatchEntry {
             }                
         }
         
+        private void requeryItem(BatchItem item)  {
+        
+            BulkDataEntry bde = new BulkDataEntry(objname);                          
+            string q = bde.getQueryString();
+            q += ' where Id=' +  '\'' + item.sobj.id + '\'';
+            list<sobject> existingsobjs = database.query(q);
+            if (existingsobjs.size() > 0) {
+                item.sobj = existingsobjs[0];
+            } 
+        } 
+        
         /********** CLASSES ****************/
         
       	public class EntryField {
