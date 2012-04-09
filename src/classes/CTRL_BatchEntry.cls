@@ -321,7 +321,7 @@ public with sharing class CTRL_BatchEntry {
         			}
         			
         			//update the name in case values have changed
-        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || currentItem.sobj.get('Name') == null)){
+        			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || (bdec.Allow_Blank_Opportunity_Names__c == false && currentItem.sobj.get('Name') == null))){        				
                             currentItem.sobj.put('Name', currentItem.createName());
                     }
                     
@@ -332,7 +332,7 @@ public with sharing class CTRL_BatchEntry {
                         }
                       
                         //use automatic opp naming 
-                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || currentItem.sobj.get('Name') == null)){
+                		if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && (bdec.Opportunity_Naming__c == true || (bdec.Allow_Blank_Opportunity_Names__c == false && currentItem.sobj.get('Name') == null))){
                             currentItem.sobj.put('Name', currentItem.createName());
                 		}
                 		
@@ -347,12 +347,14 @@ public with sharing class CTRL_BatchEntry {
                         		insert currentItem.sobj;                                
                         }
                         else {
-                        		insert currentItem.sobj;
+                        		insert currentItem.sobj; 
                                 itemList.add(0, currentItem);
                         }                        
                 }
                 saveBatch();
                 
+                // update the current item, in case any triggers modified values we will display.
+                requeryItem(currentItem);
                 currentItem = new BatchItem(this);
                 return null;    
         }
