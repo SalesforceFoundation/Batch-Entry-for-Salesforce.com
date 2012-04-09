@@ -9,6 +9,14 @@
         <value>Batch Data Entry is an open source utility for manually entering bulk data for any standard or custom object into Salesforce.com.  Originally developed as part of the April 2011 Nonprofit Starter Pack Developer Sprint, the project is now freely available from the Salesforce.com Foundation for download via the Appexchange. The source code can be found through the project&apos;s repository on Github.com under the BSD License.</value>
     </labels>
     <labels>
+        <fullName>Allow_Blank_Opportunity_Names_Setting_Help_Text</fullName>
+        <categories>BatchEntry</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Help text for the Allow Blank Opp Names checkbox setting</shortDescription>
+        <value>Prevents Batch Entry from overriding the Opportunity Name value. Checking this will allow any user-defined process (trigger, WF) to take over the naming</value>
+    </labels>
+    <labels>
         <fullName>BDE_Advanced_Configuration_Items_Help_Text</fullName>
         <categories>BatchEntry</categories>
         <language>en_US</language>
