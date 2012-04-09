@@ -115,6 +115,10 @@ by Salesforce.com Foundation
                     <apex:outputlabel value="Use NPSP Configuration" />
                     <apex:inputCheckBox value="{!beconfig.Has_NPSP__c}" disabled="{!OR(NOT(editingConfig),NOT(npspIsInstalled))}" />
                 </apex:PageBlockSectionItem>
+                <apex:PageBlockSectionItem helpText="{!$Label.Allow_Blank_Opportunity_Names_Setting_Help_Text}"> 
+                    <apex:outputLabel value="Allow Blank Opportunity Names" />
+                    <apex:inputCheckBox value="{!beconfig.Allow_Blank_Opportunity_Names__c}" disabled="{!NOT(editingConfig)}" />
+                </apex:PageBlockSectionItem>
             </apex:PageBlockSection>        
         </apex:outputpanel>
         <apex:outputpanel style="text-align: center; display: block; margin-left:auto; margin-right:auto;" >
