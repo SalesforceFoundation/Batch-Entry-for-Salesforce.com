@@ -190,6 +190,7 @@ public with sharing class CTRL_BatchEntry {
             BulkDataEntry bde = new BulkDataEntry(objname);                          
             string q = bde.getQueryString();
             q += ' where Id=' +  '\'' + item.sobj.id + '\'';
+            System.debug('q: ' + q);
             list<sobject> existingsobjs = database.query(q);
             if (existingsobjs.size() > 0) {
                 item.sobj = existingsobjs[0];
@@ -331,6 +332,7 @@ public with sharing class CTRL_BatchEntry {
         }
         
         public pageReference save() {
+            try {
         		if (currentItem.sobj.id != null) {
         			if(currentItem.sobj.getSObjectType() == Opportunity.Sobjecttype && bdec.Has_NPSP__c == true){
                             currentItem.sobj.put('npe01__Contact_ID_for_Role__c', currentItem.npspocr.ContactID);
@@ -353,17 +355,17 @@ public with sharing class CTRL_BatchEntry {
                 		}
                 		
                 		if (itemList.isEmpty()) {
-                				itemList.add(currentItem);
                         		saveBatch();
                         		//we can't guarantee a lookup field when running tests
                         		//so skip this line when in a test context
                         		if (!test.isRunningTest())
                                     currentItem.sobj.put(batchLookupField, batch.Id);
                         		
-                        		insert currentItem.sobj;                                
+                                insert currentItem.sobj;
+                                itemList.add(currentItem);
                         }
                         else {
-                        		insert currentItem.sobj; 
+                                insert currentItem.sobj; 
                                 itemList.add(0, currentItem);
                         }                        
                 }
@@ -372,6 +374,10 @@ public with sharing class CTRL_BatchEntry {
                 // update the current item, in case any triggers modified values we will display.
                 requeryItem(currentItem);
                 currentItem = new BatchItem(this);
+            }   // try
+            catch (System.Exception caught) {
+                ApexPages.addMessages(caught);
+            }	// catch System.Exception
                 return null;    
         }
 
