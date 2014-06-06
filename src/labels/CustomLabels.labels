@@ -56,7 +56,7 @@ The &apos;Use NPSP Configuration&apos; checkbox is only available if you have th
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Help Text for the Deleting Batches section in the About tab</shortDescription>
-        <value>The Delete Batches tab in the Batch Data Entry Setting tab provides an interface for deleting batches.  Simply click &apos;delete&apos; next to the batch you wish to delete. Its important to note, deleting a batch only deletes the associated batch metadata, and does not effect any of the records created as part of the batch.</value>
+        <value>The Delete Batches tab in the Batch Data Entry Setting tab provides an interface for deleting batches.  Simply click &apos;delete&apos; next to the batch you wish to delete. Its important to note, deleting a batch only deletes the associated batch metadata, and does not affect any of the records created as part of the batch.</value>
     </labels>
     <labels>
         <fullName>BDE_Entering_and_Saving_Data_Help_Text</fullName>
@@ -96,7 +96,7 @@ The &apos;Use NPSP Configuration&apos; checkbox is only available if you have th
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Batch Deletion Help Text</shortDescription>
-        <value>This menu allows you to delete existing batches. It is important to note that this only deletes the batch metadata, and does NOT effect any of the records created as part of the batch.</value>
+        <value>This menu allows you to delete existing batches. It is important to note that this only deletes the batch metadata, and does NOT affect any of the records created as part of the batch.</value>
     </labels>
     <labels>
         <fullName>Batch_Entry_Help_Text</fullName>
