@@ -190,7 +190,6 @@ public with sharing class CTRL_BatchEntry {
             BulkDataEntry bde = new BulkDataEntry(objname);                          
             string q = bde.getQueryString();
             q += ' where Id=' +  '\'' + item.sobj.id + '\'';
-            System.debug('q: ' + q);
             list<sobject> existingsobjs = database.query(q);
             if (existingsobjs.size() > 0) {
                 item.sobj = existingsobjs[0];
